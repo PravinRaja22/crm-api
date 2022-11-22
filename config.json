@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "farmutate-dev",
+      "script": "./build/main.js"   
+    }
+  ]
+}
+ 

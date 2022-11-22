@@ -1,0 +1,6 @@
+build
+.env
+yarn.lock
+.vscode/sftp.json
+.vscode/ftp-sync.json
+src/test.ts
