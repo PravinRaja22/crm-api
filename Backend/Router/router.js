@@ -6,8 +6,9 @@ fastify.get('/',(request,reply)=>{
 reply.send(items)
 })
 
-fastify.post('/',(request,reply)=>{
-    reply.send("inside post method")
+fastify.post('/api/accountInsert',(request,reply)=>{
+    console.log("request "+JSON.stringify(request.body))
+    reply.send(items)
 })
 
     done();

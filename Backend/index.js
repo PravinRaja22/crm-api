@@ -1,8 +1,10 @@
 const fastify = require('fastify')({ logger: true })
-fastify.register(require('./Router/router2'))
+fastify.register(require('./Router/router'))
+fastify.register(require('@fastify/cors'))
+
 const start = async () => {
     try {
-        await fastify.listen('3000', () => {
+        await fastify.listen('4000', () => {
             console.log("connected to port successfully")
         })
     }
