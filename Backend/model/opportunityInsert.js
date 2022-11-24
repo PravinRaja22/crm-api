@@ -2,6 +2,9 @@
 const {MongoClient } = require('mongodb')
 async function opportunitydata(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+  //    const url = process.env.MONGODB_URL;
+//    console.log("process data "+ process.env.MONGODB_URL);
+  
     const client = new MongoClient(url);
     try {
         //Connecting to DB
