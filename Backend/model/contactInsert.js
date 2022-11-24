@@ -7,17 +7,17 @@ async function Contactdata(request) {
         //Connecting to DB
         await client.connect();
         await createContact(client, {
-                        accountName:'',
-                        salutation:'',
-                        firstName:'',
-                        lastName:'',
-                        dop:'',
-                        phone:'',
-                        department:'',
-                        leadSource:'',
-                        email:'',
-                        mailingAddress:'',
-                        description:'',
+                        accountName:request.accountName,
+                        salutation:request.salutation,
+                        firstName:request.firstName,
+                        lastName:request.lastName,
+                        dop:request.dop,
+                        phone:request.phone,
+                        department:request.department,
+                        leadSource:request.leadSource,
+                        email:request.email,
+                        mailingAddress:request.mailingAddress,
+                        description:request.description,
         })
 
     } catch (e) {
