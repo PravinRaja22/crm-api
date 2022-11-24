@@ -17,7 +17,7 @@ fastify.get('/',(request,reply)=>{
 
 fastify.post('/api/accountInsert',(request,reply)=>{
     Accountdata(request.body)
-    reply.send(main)
+    reply.send("successfully inserted Account")
 })
 
 fastify.post('/api/contactInsert',(request,reply)=>{
