@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-async function getInventoryManagement() {
+async function getProperty() {
+    console.log("inside get Account")
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     try {
@@ -12,7 +13,7 @@ async function getInventoryManagement() {
         await client.close();
     }
 }
-getInventoryManagement().catch(console.error);
+getProperty().catch(console.error);
 async function getDatas(client) {
     const cursor = await client.db("CRM").collection("Inventory Management").find({})
     const results = await cursor.toArray();
@@ -25,5 +26,6 @@ async function getDatas(client) {
     }
 }
 module.exports = { 
-    getInventoryManagement
+    getProperty
  }
+

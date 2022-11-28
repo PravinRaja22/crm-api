@@ -1,14 +1,14 @@
+const {MongoClient } = require('mongodb')
+async function propertydata(request) {
+const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
 
-const { MongoClient } = require('mongodb')
-async function inventoryManagmentData(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
-    //    const url = process.env.MONGODB_URL;
-    //    console.log("process data "+ process.env.MONGODB_URL);
-    const client = new MongoClient(url);
+   
+   const client = new MongoClient(url);
     try {
+        console.log('Inside insert Account')
         //Connecting to DB
         await client.connect();
-        await createInventoryManagement(client, {
+        await createProperty(client, {
             projectName:request.projectName,
             propertyName:request.propertyName,
             propertyUnitNumber:request.propertyUnitNumber,
@@ -29,10 +29,10 @@ async function inventoryManagmentData(request) {
         await client.close();
     }
 }
-inventoryManagmentData().catch(console.error);
+propertydata().catch(console.error);
 
-async function createInventoryManagement(client, newInventoryMangement) {
-    const result = await client.db("CRM").collection("Inventory Management").insertOne(newInventoryMangement);
-    console.log(`New Inventory  created with the following id : ${result.insertedId}`);
+async function createProperty(client,newproperty){
+    const result = await client.db("CRM").collection("Inventory Management").insertOne(newproperty);
+    console.log(`New Property created with the following id : ${result.insertedId}`);
 }
-module.exports = { inventoryManagmentData }
+module.exports = {propertydata}
