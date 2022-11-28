@@ -22,7 +22,7 @@ deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
     console.log("inside data deleteing "+deletecontactdata)
-const results = await client.db("CRM").collection("contact").deleteOne({_id:ObjectId(deletecontactdata)})
+const results = await client.db("CRM").collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
 console.log("results "+JSON.stringify(results))
     if(results){
        console.log(results);

@@ -21,8 +21,8 @@ async function deleteOpportunity(dataid) {
 deleteOpportunity().catch(console.error);
 async function deleteDatas(client,deleteOpportunitydata)
 {
-    console.log("inside data deleteing "+deleteOpportunitydata)
-const results = await client.db("CRM").collection("Opportunity").deleteOne({_id:ObjectId(deleteOpportunitydata)})
+    console.log("inside opportunity deleteing "+deleteOpportunitydata)
+    const results = await client.db("CRM").collection("Opportunity").deleteOne({ _id: ObjectId(deleteOpportunitydata) })
 console.log("results "+JSON.stringify(results))
     if(results){
        console.log(results);

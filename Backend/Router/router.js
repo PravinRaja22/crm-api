@@ -16,9 +16,9 @@ const{getProperty}=require('../model/Inventory Management/getInventoryManagement
 const{getUser}=require('../model/User/getUser')
 
 const{deleteAccount} = require('../model/Account/deleteAccount')
-const{delteContact}=require('../model/Contact/deleteContact')
-const{delteLead}=require('../model/Lead/deleteLead')
-const{delteOpportunity}=require('../model/Opportunity/deleteOpportunity')
+const{deleteContact}=require('../model/Contact/deleteContact')
+const{deleteLead}=require('../model/Lead/deleteLead')
+const{deleteOpportunity}=require('../model/Opportunity/deleteOpportunity')
 const{deleteProperty}=require('../model/Inventory Management/inventoryMangementDelete')
 const{deleteUser}=require('../model/User/delelteUser')
 
@@ -116,19 +116,19 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/deleteContact', async (request, reply) => {
         console.log("inside Contact delete");
         console.log("Query "+JSON.stringify(request.query.code))
-        let result = await delteContact(request.query.code);
+        let result = await deleteContact(request.query.code);
         reply.send("Contact Deleted Successfully")
     })
     fastify.post('/api/deleteOpportunity', async (request, reply) => {
         console.log("inside opportunity delete");
         console.log("Query "+JSON.stringify(request.query.code))
-        let result = await delteLead(request.query.code);
+        let result = await deleteOpportunity(request.query.code);
         reply.send("Opportunity deleted successfully")
     })
     fastify.post('/api/deleteLead', async (request, reply) => {
         console.log("inside lead delete");
         console.log("Query "+JSON.stringify(request.query.code))
-        let result = await delteOpportunity(request.query.code);
+        let result = await deleteLead(request.query.code);
         reply.send("Lead Deleted Successfully")
     })
     fastify.post('/api/deleteInventory', async (request, reply) => {
