@@ -1,11 +1,11 @@
 const {MongoClient } = require('mongodb')
 async function Accountdata(request) {
 const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
-//    const url = process.env.MONGODB_URL;
-//    console.log("process data "+ process.env.MONGODB_URL);
+
    
    const client = new MongoClient(url);
     try {
+        console.log('Inside insert Account')
         //Connecting to DB
         await client.connect();
         await createAccount(client, {
@@ -16,16 +16,12 @@ const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retry
             type: request.type,
             phone: request.phone,
             industry:request.industry,
-            noofEmployees: request.noofEmployees,
-            fax:request.fax,
             billingAddress:request.billingAddress,
             billingCountry:request.billingCountry,
             billingCity:request.billingCity,
             billingCities:request.billingCities,
             shippingAddress:request.shippingAddress,
-            website:request.website,
             description:request.description,
-            accountOwnerId:request.accountOwnerId,
             createdbyId:request.createdbyId,
             createdDate:request.createdDate,
         })

@@ -18,6 +18,8 @@ async function opportunitydata(request) {
             closeDate:request.closeDate,
             stage:request.stage,
             description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
         })
 
     } catch (e) {

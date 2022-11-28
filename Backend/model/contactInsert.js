@@ -22,6 +22,8 @@ async function Contactdata(request) {
                         email:request.email,
                         mailingAddress:request.mailingAddress,
                         description:request.description,
+                        createdbyId: request.createdbyId,
+                        createdDate: request.createdDate,
         })
 
     } catch (e) {
