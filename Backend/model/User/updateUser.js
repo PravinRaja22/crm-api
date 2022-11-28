@@ -32,7 +32,7 @@ async function updatesiglerecord(client,id,updatedatas){
     //update single record
     console.log("inside update account "+id)
     console.log("inventory management "+ObjectId(id))
-    const result = await client.db("CRM").collection("Account").updateOne({"_id":ObjectId(id)},{$set:updatedatas});
+    const result = await client.db("CRM").collection("User").updateOne({"_id":ObjectId(id)},{$set:updatedatas});
     console.log("after set "+JSON.stringify(updatedatas));
     console.log("rsults inside update "+JSON.stringify(result))
     console.log(`${result.matchedCount} document(s) matched query criteria`);
