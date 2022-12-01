@@ -6,22 +6,19 @@ const { Leaddata } = require('../model/Lead/LeadInsert')
 const { opportunitydata } = require('../model/Opportunity/opportunityInsert')
 const { propertydata } = require('../model/Inventory Management/inventoryManganagementInsert')
 const { Userdata } = require('../model/User/userInsert')
-const{getAccountName} =require('../model/Account/accountname')
-
+const { getAccountName} =require('../model/Account/accountname')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
 const { getUser } = require('../model/User/getUser')
-
 const { deleteAccount } = require('../model/Account/deleteAccount')
 const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
-
 const { updateAccount } = require('../model/Account/updateAccount')
 const { updateContact } = require('../model/Contact/updateContact')
 const { updateLead } = require('../model/Lead/updateLead')
@@ -33,21 +30,14 @@ const { updateUser } = require('../model/User/updateUser')
 
 
 function getdatafromreact(fastify, options, done) {
-
-
-
-
     fastify.post('/api/accountInsert', (request, reply) => {
         console.log("accountInsert Route called")
         Accountdata(request.body)
-
         reply.send("Account inserted successfully")
     })
 
     fastify.post('/api/contactInsert', options, (request, reply) => {
         console.log("contact data " + JSON.stringify(request.body));
-
-
         //console.log("contact raw file  data  " + JSON.stringify(request.body.raw.file));
         Contactdata(request)
         reply.send("contact inserted succesfully")
@@ -65,6 +55,7 @@ function getdatafromreact(fastify, options, done) {
         Leaddata(request.body)
         reply.send("Lead created successfully")
     })
+
     fastify.post('/api/inventoryInsert', (request, reply) => {
         console.log("inventory request " + request.body)
         console.log("Above inverntory management")
@@ -83,8 +74,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/accounts', async (request, reply) => {
         console.log("test inside show accounts")
         let result = await getAccount();
-
-
         reply.send(result)
     })
 
@@ -92,14 +81,11 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/accountsname', async (request, reply) => {
         console.log("test inside show accounts")
         let result = await getAccountName();
-
-
         reply.send(result)
     })
 
     fastify.post('/api/contacts', async (request, reply) => {
         let result = await getContact();
-
         reply.send(result)
     })
 

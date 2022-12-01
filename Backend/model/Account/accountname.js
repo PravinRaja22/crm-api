@@ -21,8 +21,11 @@ async function getDatas(client) {
     if (results.length > 0) {
         results.forEach(element => {
             console.log(element.accountName);
-             accname.push(element.accountName)
-           
+            let accountname={
+                accountName:element.accountName,
+                id:element._id
+            }
+           accname.push(accountname)
       
        });
        console.log("acc name "+accname);
