@@ -1,7 +1,8 @@
 const fastify = require('fastify')({ logger: true })
+
+
 fastify.register(require('./Router/router'))
 fastify.register(require('@fastify/cors'))
-
 
 const start = async () => {
     try {
