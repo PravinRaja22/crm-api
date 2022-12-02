@@ -8,7 +8,7 @@ const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retry
         console.log('Inside insert Account')
         //Connecting to DB
         await client.connect();
-        await createAccount(client, {
+        let data = await createAccount(client, {
             accountName:request.accountName,
             accountNumber: request.accountNumber,
             annualRevenue:request.annualRevenue,
@@ -25,9 +25,10 @@ const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retry
             createdbyId:request.createdbyId,
             createdDate:request.createdDate,
         })
-
+        return data
     } catch (e) {
         console.error(e);
+        return e 
     } finally {
         await client.close();
     }
@@ -37,5 +38,6 @@ Accountdata().catch(console.error);
 async function createAccount(client,newAccount){
     const result = await client.db("CRM").collection("Account").insertOne(newAccount);
     console.log(`New Account created with the following id : ${result.insertedId}`);
+    return result.insertedId
 }
 module.exports = {Accountdata}

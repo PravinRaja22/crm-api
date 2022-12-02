@@ -6,7 +6,7 @@ const { Leaddata } = require('../model/Lead/LeadInsert')
 const { opportunitydata } = require('../model/Opportunity/opportunityInsert')
 const { propertydata } = require('../model/Inventory Management/inventoryManganagementInsert')
 const { Userdata } = require('../model/User/userInsert')
-const { getAccountName} =require('../model/Account/accountname')
+const { getAccountName } = require('../model/Account/accountname')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
@@ -27,16 +27,59 @@ const { updateProperty } = require('../model/Inventory Management/updateinventor
 const { updateUser } = require('../model/User/updateUser')
 
 
+const opts = {
+    schema: {
+        body: {
+            type: 'object',
+            required: ['annualRevenue','type'],
+            properties: {
+                accountName:{ type: 'number' },
+                accountNumber:{ type: 'number' },
+                annualRevenue:{ type: 'number' },
+                rating: { type: 'string' },
+                type: { type: 'string' },
+                phone:{ type: 'number' },
+                industry:{ type: 'string' },
+                billingAddress:{ type: 'string' },
+                billingCountry:{ type: 'string' },
+                billingCity:{ type: 'string' },
+                billingCities:{ type: 'string' },
+                shippingAddress:{ type: 'string' },
+                description:{ type: 'string' },
+                createdbyId:{ type: 'string' },
+                createdDate:{ type: 'string' },
+            }
+        },
+      
+    }
+}
+
+
+
 
 
 function getdatafromreact(fastify, options, done) {
-    fastify.post('/api/accountInsert', (request, reply) => {
-        console.log("accountInsert Route called")
-        Accountdata(request.body)
-        reply.send("Account inserted successfully")
+
+    fastify.post('/post', opts, (request, reply) => {
+        console.log(request.body);
+        const data = request.body
+        console.log("account Number",data);
+      reply.send(data)
+
+
     })
 
-    fastify.post('/api/contactInsert', options, (request, reply) => {
+
+
+
+    fastify.post('/api/accountInsert',opts,async (request, reply) => {
+        console.log("accountInsert Route called")
+        let result= await Accountdata(request.body)
+        console.log("result length "+result);
+        reply.send("New account with id: " + result +  " inserted successfully")
+    })
+
+    fastify.post('/api/contactInsert', (request, reply) => {
         console.log("contact data " + JSON.stringify(request.body));
         //console.log("contact raw file  data  " + JSON.stringify(request.body.raw.file));
         Contactdata(request)
@@ -77,7 +120,7 @@ function getdatafromreact(fastify, options, done) {
         reply.send(result)
     })
 
-    
+
     fastify.post('/api/accountsname', async (request, reply) => {
         console.log("test inside show accounts")
         let result = await getAccountName();
