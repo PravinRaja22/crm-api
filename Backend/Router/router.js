@@ -25,45 +25,11 @@ const { updateLead } = require('../model/Lead/updateLead')
 const { updateOpportunity } = require('../model/Opportunity/updateOpportunity')
 const { updateProperty } = require('../model/Inventory Management/updateinventoryMangement')
 const { updateUser } = require('../model/User/updateUser')
-const {accountSchema} = require('../model/schema/Account.schema')
-
-const accountinsertschema = {
-    schema: {
-        body: {
-            type: 'object',
-            required: ['annualRevenue','type'],
-            properties: {
-                accountName:{ type: 'string' },
-                accountNumber:{ type: 'number' },
-                annualRevenue:{ type: 'number' },
-                rating: { type: 'string' },
-                type: { type: 'string' },
-               
-            }
-        },
-      
-    }
-}
-
-
-
-
+const { Accouninsertschema } = require('../model/schema/accountSchema')
 
 function getdatafromreact(fastify, options, done) {
 
-    fastify.post('/post',(request, reply) => {
-        console.log(request.body);
-        const data = request.body
-        console.log("account Number",data);
-      reply.send(data)
-
-
-    })
-
-
-
-
-    fastify.post('/api/accountInsert',accountinsertschema,async (request, reply) => {
+    fastify.post('/api/accountInsert',Accouninsertschema,async (request, reply) => {
         console.log("accountInsert Route called")
         let result= await Accountdata(request.body)
         console.log("result length "+result);

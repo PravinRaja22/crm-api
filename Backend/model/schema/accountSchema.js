@@ -1,6 +1,4 @@
-
-
- const accouninsertschema = {
+const Accouninsertschema = {
     schema: {
         body: {
             type: 'object',
@@ -16,4 +14,4 @@
     }
 }
 
-module.exports = accouninsertschema;
+module.exports = {Accouninsertschema}
