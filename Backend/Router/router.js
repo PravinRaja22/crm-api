@@ -25,29 +25,20 @@ const { updateLead } = require('../model/Lead/updateLead')
 const { updateOpportunity } = require('../model/Opportunity/updateOpportunity')
 const { updateProperty } = require('../model/Inventory Management/updateinventoryMangement')
 const { updateUser } = require('../model/User/updateUser')
+const {accountSchema} = require('../model/schema/Account.schema')
 
-
-const opts = {
+const accountinsertschema = {
     schema: {
         body: {
             type: 'object',
             required: ['annualRevenue','type'],
             properties: {
-                accountName:{ type: 'number' },
+                accountName:{ type: 'string' },
                 accountNumber:{ type: 'number' },
                 annualRevenue:{ type: 'number' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
-                phone:{ type: 'number' },
-                industry:{ type: 'string' },
-                billingAddress:{ type: 'string' },
-                billingCountry:{ type: 'string' },
-                billingCity:{ type: 'string' },
-                billingCities:{ type: 'string' },
-                shippingAddress:{ type: 'string' },
-                description:{ type: 'string' },
-                createdbyId:{ type: 'string' },
-                createdDate:{ type: 'string' },
+               
             }
         },
       
@@ -60,7 +51,7 @@ const opts = {
 
 function getdatafromreact(fastify, options, done) {
 
-    fastify.post('/post', opts, (request, reply) => {
+    fastify.post('/post',(request, reply) => {
         console.log(request.body);
         const data = request.body
         console.log("account Number",data);
@@ -72,7 +63,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/accountInsert',opts,async (request, reply) => {
+    fastify.post('/api/accountInsert',accountinsertschema,async (request, reply) => {
         console.log("accountInsert Route called")
         let result= await Accountdata(request.body)
         console.log("result length "+result);
