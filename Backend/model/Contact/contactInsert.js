@@ -10,7 +10,7 @@ async function Contactdata(request) {
     try {
         //Connecting to DB
         await client.connect();
-        await createContact(client, {
+        let data =  await createContact(client, {
             accountName:body.accountName,
             salutation:body.salutation,
             firstName:body.firstName,
@@ -27,7 +27,7 @@ async function Contactdata(request) {
             createdbyId: body.createdbyId,
             createdDate: body.createdDate,
         })
-
+return data
     } catch (e) {
         console.error(e);
     } finally {
@@ -40,5 +40,6 @@ async function createContact(client,newContact){
     const result = await client.db("CRM").collection("Contact").insertOne(newContact);
     console.log("create contact "+result);
     console.log(`New contact created with the following id : ${result.insertedId}`);
+    return result.insertedId;
 }
 module.exports = {Contactdata}

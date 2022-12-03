@@ -9,7 +9,7 @@ async function opportunitydata(request) {
     try {
         //Connecting to DB
         await client.connect();
-        await createOpportunity(client, {
+      let data =  await createOpportunity(client, {
             accountName:request.accountName,
             opportunityName:request.opportunityName,
             type:request.type,
@@ -21,6 +21,7 @@ async function opportunitydata(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         })
+        return data
 
     } catch (e) {
         console.error(e);
@@ -33,5 +34,6 @@ opportunitydata().catch(console.error);
 async function createOpportunity(client,newOpportunity){
     const result = await client.db("CRM").collection("Opportunity").insertOne(newOpportunity);
     console.log(`New opportunity  created with the following id : ${result.insertedId}`);
+    return result.insertedId;
 }
 module.exports = {opportunitydata}

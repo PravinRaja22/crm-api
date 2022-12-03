@@ -2,11 +2,11 @@ const Accouninsertschema = {
     schema: {
         body: {
             type: 'object',
-            required: ['annualRevenue','type'],
+            required: ['type'],
             properties: {
                 accountName:{ type: 'string' },
                 accountNumber:{ type: 'number' },
-                annualRevenue:{ type: 'number' },
+               // annualRevenue:{ type: 'currency' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
             }

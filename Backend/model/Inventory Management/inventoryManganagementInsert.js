@@ -8,7 +8,7 @@ const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retry
         console.log('Inside insert Account')
         //Connecting to DB
         await client.connect();
-        await createProperty(client, {
+      let data =   await createProperty(client, {
             projectName:request.projectName,
             propertyName:request.propertyName,
             propertyUnitNumber:request.propertyUnitNumber,
@@ -22,6 +22,7 @@ const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retry
             createdbyId:request.createdbyId,
             createdDate:request.createdDate,
         })
+        return data
 
     } catch (e) {
         console.error(e);
@@ -34,5 +35,6 @@ propertydata().catch(console.error);
 async function createProperty(client,newproperty){
     const result = await client.db("CRM").collection("Inventory Management").insertOne(newproperty);
     console.log(`New Property created with the following id : ${result.insertedId}`);
+    return result.insertedId;
 }
 module.exports = {propertydata}

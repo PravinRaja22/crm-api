@@ -8,7 +8,7 @@ async function Leaddata(request) {
     try {
         //Connecting to DB
         await client.connect();
-        await createLead(client, {
+       let data =  await createLead(client, {
             salutation: request.salutation,
             firstName: request.firstName,
             lastName: request.lastName,
@@ -23,6 +23,7 @@ async function Leaddata(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         })
+        return data
 
     } catch (e) {
         console.error(e);
@@ -35,5 +36,6 @@ Leaddata().catch(console.error);
 async function createLead(client, newLead) {
     const result = await client.db("CRM").collection("Lead").insertOne(newLead);
     console.log(`New Lead  created with the following id : ${result.insertedId}`);
+    return result.insertedId;
 }
 module.exports = { Leaddata }
