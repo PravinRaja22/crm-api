@@ -41,9 +41,10 @@ export module FarmController{
             filterObj = _.omit(filterObj,['search_key']);
             filterObj = {where : {...filterObj, ...{[Op.or] : search_columns.map(c=>(Sequelize.where(Sequelize.fn('lower', Sequelize.col(c)), {
                 [Op.like]: `%${_.toLower(req.body.search_key)}%`
-              })))}}};
+            })))}}};
             console.log(filterObj);
         }
+        
         let result = await FarmService.searchFarms(filterObj);
         res.send(result);
     }
