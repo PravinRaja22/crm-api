@@ -1,6 +1,4 @@
-const fastify = require('fastify')({ logger: true })
-
-
+const fastify = require('fastify')({ logger: false })
 fastify.register(require('./Router/router'))
 fastify.register(require('@fastify/cors'))
 

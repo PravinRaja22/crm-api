@@ -358,7 +358,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
     fastify.post('/api/deleteInventory', async (request, reply) => {
-        console.log("indie inventory delete");
+        console.log("inside inventory delete");
         try {
             let result = await deleteProperty(request.query.code);
             if(result){
@@ -377,7 +377,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.post('/api/delete', async (request, reply) => {
-        console.log("indie user delete");
+        console.log("inside user delete");
         try {
             let result = await deleteUser(request.query.code);
             if(result){

@@ -22,7 +22,8 @@ async function upsertLead(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        await updatesiglerecord(client,request._id,updatedatas)
+    let data =  await updatesiglerecord(client,request._id,updatedatas)
+    return data
     } 
     catch (e) {
         console.error(e);
