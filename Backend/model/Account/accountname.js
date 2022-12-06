@@ -28,7 +28,6 @@ async function getDatas(client) {
            accname.push(accountname)
       
        });
-       console.log("acc name "+accname);
        return JSON.stringify(accname)
       // return JSON.stringify(results)
        
