@@ -25,7 +25,8 @@ async function upsertAccount(request) {
            
         }
         console.log("upasert datas object datas " + JSON.stringify(upsertdatas))
-            await upsertSingleRecord(client,request._id, upsertdatas)
+          let data =  await upsertSingleRecord(client,request._id, upsertdatas)
+          return data
     
     }
     catch (e) {

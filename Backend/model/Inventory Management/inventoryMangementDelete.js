@@ -25,7 +25,7 @@ async function deleteDatas(client, deletepropertydata) {
     console.log("results " + JSON.stringify(results))
     if (results) {
         console.log(results);
-        console.log(`${result.deletedCount} documents deleted in the Database`);
+        console.log(`${results.deletedCount} documents deleted in the Database`);
         return JSON.stringify(results)
     }
     else {

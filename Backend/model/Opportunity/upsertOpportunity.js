@@ -20,7 +20,8 @@ async function upsertOpportunity(request) {
             createdDate: request.createdDate,
         }
         console.log("update object datas "+JSON.stringify(updatedatas))
-        await updatesiglerecord(client,request._id,updatedatas)
+        let data = await updatesiglerecord(client,request._id,updatedatas)
+        return data
     } 
     catch (e) {
         console.error(e);
