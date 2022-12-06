@@ -1,20 +1,8 @@
-const items = require('../item')
-
-const { Accountdata } = require('../model/Account/AccountInsert.js')
-const { Contactdata } = require('../model/Contact/contactInsert.js')
-const { Leaddata } = require('../model/Lead/LeadInsert')
-const { opportunitydata } = require('../model/Opportunity/opportunityInsert')
-const { propertydata } = require('../model/Inventory Management/inventoryManganagementInsert')
-const { Userdata } = require('../model/User/userInsert')
 const { upsertAccount } = require('../model/Account/upsertAccount')
 const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } =require('../model/User/upsertUser')
-
-
-
-
 const { getAccountName } = require('../model/Account/accountname')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
@@ -28,12 +16,6 @@ const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
-const { updateAccount } = require('../model/Account/updateAccount')
-const { updateContact } = require('../model/Contact/updateContact')
-const { updateLead } = require('../model/Lead/updateLead')
-const { updateOpportunity } = require('../model/Opportunity/updateOpportunity')
-const { updateProperty } = require('../model/Inventory Management/updateinventoryMangement')
-const { updateUser } = require('../model/User/updateUser')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 const { result } = require('lodash')
 
@@ -45,20 +27,19 @@ function getdatafromreact(fastify, options, done) {
         try {
             console.log("upsert account try ");
             let result = await upsertAccount(request.body)
-            console.log("result length " + result);
             if (result) {
                 reply.send(result)
             }
 
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
 
 
         }
         catch (e) {
             console.log("inside Account Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -76,14 +57,14 @@ function getdatafromreact(fastify, options, done) {
             }
 
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
 
 
         }
         catch (e) {
             console.log("inside Contact Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -98,14 +79,14 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)            }
 
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
 
 
         }
         catch (e) {
             console.log("inside Inventory Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -122,14 +103,14 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)            }
 
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
 
 
         }
         catch (e) {
             console.log("inside Lead Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -144,14 +125,14 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)            }
 
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
 
 
         }
         catch (e) {
             console.log("inside Opportunity  Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -165,12 +146,12 @@ function getdatafromreact(fastify, options, done) {
             if (result) {
                 reply.send(result)            }
             else {
-                reply.send("No Data Inserted or updated")
+                reply.status(404).send("No Data Inserted or updated")
             }
         }
         catch (e) {
             console.log("inside Opportunity  Catch block ",e.message);
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -184,11 +165,11 @@ function getdatafromreact(fastify, options, done) {
             reply.send(result)
             }
             else{
-                reply.send("No Records found")
+                reply.status(404).send("No Records found")
             }
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -202,13 +183,13 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else{
-                reply.send("No data Found")
+                reply.status(404).send("No Records found")
             }
            
 
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -220,11 +201,11 @@ function getdatafromreact(fastify, options, done) {
             reply.send(result)
         }
         else{
-            reply.send("No Records Found")
+            reply.status(404).send("No Records found")
         }
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -237,12 +218,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else{
-                reply.send("No Records Found")
+                reply.status(404).send("No Records found")
             }
            
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -255,12 +236,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else {
-                reply.send("No Records Found")
+                reply.status(404).send("No Records found")
             }
            
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -273,12 +254,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else{
-                reply.send("No Records Found")
+                reply.status(404).send("No Records found")
             }
             
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
     })
 
@@ -294,11 +275,11 @@ function getdatafromreact(fastify, options, done) {
                 
             }
             else{
-                reply.send("No Datas Found")
+                reply.status(404).send("No Records found")
             }
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -313,11 +294,11 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Account Deleted Successfully")
             }
             else {
-                reply.send("No data deleted")
+                reply.status(404).send("No data deleted")
             }
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -331,12 +312,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Contact Deleted Successfully")
             }
             else{
-                reply.send("No Records Deleted")
+                reply.status(404).send("No data deleted")
             }
            
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -349,12 +330,11 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Opportunity deleted successfully")
             }
             else{
-                reply.send("No Records Deleted")
-            }
+                reply.status(404).send("No data deleted")            }
          
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -368,12 +348,12 @@ function getdatafromreact(fastify, options, done) {
             }
             else{
 
-                reply.send("No Records Deleted")
+                reply.status(404).send("No data deleted")   
             }
            
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -386,12 +366,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Property Deleted Successfully")
             }
             else{
-                reply.send("No Records Deleted")
+                reply.status(404).send("No data deleted")   
             }
           
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })
@@ -404,12 +384,12 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("User Deleted Successfully")
             }
             else{
-                reply.send("No Records Deleted")
+                reply.status(404).send("No data deleted")   
             }
           
         }
         catch (e) {
-            reply.send(e.message)
+            reply.send("Error "+e.message)
         }
 
     })

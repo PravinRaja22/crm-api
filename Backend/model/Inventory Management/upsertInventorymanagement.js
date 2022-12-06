@@ -7,7 +7,6 @@ async function upsertProperty(request) {
     try {
         await client.connect();
         console.log("inside upsert  inventory " + request)
-        console.log("update id is " + request._id);
         var updatedatas = {
             projectName: request.projectName,
             propertyName: request.propertyName,
@@ -23,8 +22,8 @@ async function upsertProperty(request) {
             createdDate: request.createdDate,
         }
         console.log("update inventory  datas " + JSON.stringify(updatedatas))
-       let data =  await updatesiglerecord(client, request._id, updatedatas)
-       return data
+        let data =  await updatesiglerecord(client, request._id, updatedatas)
+        return data
     }
     catch (e) {
         console.error(e);
@@ -35,13 +34,11 @@ async function upsertProperty(request) {
 }
 upsertProperty().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
-    //update single record
     console.log("inside update inventory  " + id)
-    console.log("inventory management " + ObjectId(id))
     const result = await client.db("CRM").collection("Inventory Management").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
-       return `one document was inserted with the id ${result.upsertedId}`
+        return `Record inserted with the id ${result.upsertedId}`
     }
     else {
         console.log(`${result.modifiedCount} document(s) was were updated`);

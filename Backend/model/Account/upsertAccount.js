@@ -5,7 +5,7 @@ async function upsertAccount(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("upsert Route " + request)
+        console.log("upsert Account " + request)
         var upsertdatas = {
             accountName: request.accountName,
             accountNumber: request.accountNumber,
@@ -24,7 +24,6 @@ async function upsertAccount(request) {
             createdDate: request.createdDate,
            
         }
-        console.log("upasert datas object datas " + JSON.stringify(upsertdatas))
           let data =  await upsertSingleRecord(client,request._id, upsertdatas)
           return data
     
@@ -44,7 +43,7 @@ async function upsertSingleRecord(client, id, upsertdatas) {
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
-        return `one document was inserted with the id ${result.upsertedId}`
+        return `Record inserted with the id ${result.upsertedId}`
     }
     else {
         console.log(`${result.modifiedCount} document(s) was were updated`);

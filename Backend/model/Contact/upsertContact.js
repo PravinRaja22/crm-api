@@ -5,8 +5,7 @@ async function upsertContact(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside update contact Route "+request)
-        console.log("update id contact route  "+request._id);
+        console.log("inside upsert contact  "+request)
       var updatedatas={
             accountName:request.accountName,
             salutation:request.salutation,
@@ -22,7 +21,6 @@ async function upsertContact(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        console.log("update object datas "+JSON.stringify(updatedatas))
         let data = await updatesiglerecord(client,request._id,updatedatas)
         return data;
     } 
@@ -35,13 +33,10 @@ async function upsertContact(request) {
 }
 upsertContact().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
-    //update single record
-    console.log("inside upsert  contact "+id)
-    console.log("inside upsert contact "+ObjectId(id))
     const result = await client.db("CRM").collection("Contact").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
-        return `one record inserted with the id ${result.upsertedId}`
+        return `Record inserted with the id ${result.upsertedId}`
     }
     else {
         console.log(`${result.modifiedCount} document(s) was were updated`);

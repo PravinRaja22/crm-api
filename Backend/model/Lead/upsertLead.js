@@ -5,7 +5,7 @@ async function upsertLead(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside update route "+request)
+        console.log("inside upsert Lead"+request)
         console.log("update id is "+request._id);
         var updatedatas={
             salutation: request.salutation,
@@ -22,7 +22,6 @@ async function upsertLead(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        console.log("update object datas "+JSON.stringify(updatedatas))
         await updatesiglerecord(client,request._id,updatedatas)
     } 
     catch (e) {
@@ -35,19 +34,14 @@ async function upsertLead(request) {
 upsertLead().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     //update single record
-    console.log("inside update account "+id)
-    console.log("inventory management "+ObjectId(id))
     const result = await client.db("CRM").collection("Lead").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
-        return `one document was inserted with the id ${result.upsertedId}`
+        return `Record inserted with the id ${result.upsertedId}`
     }
     else {
         console.log(`${result.modifiedCount} document(s) was were updated`);
         return `Lead  Updated Succesfully`
-
     }
 }
-
-
 module.exports={upsertLead}

@@ -5,8 +5,7 @@ async function upsertOpportunity(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside update opportunity route "+request)
-        console.log("update id is "+request._id);
+        console.log("inside upsert opportunity route "+request)
         var updatedatas={
             accountName:request.accountName,
             opportunityName:request.opportunityName,
@@ -19,7 +18,6 @@ async function upsertOpportunity(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        console.log("update object datas "+JSON.stringify(updatedatas))
         let data = await updatesiglerecord(client,request._id,updatedatas)
         return data
     } 
@@ -32,13 +30,10 @@ async function upsertOpportunity(request) {
 }
 upsertOpportunity().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
-    //update single record
-    console.log("inside update opportunity "+id)
-    console.log("opportunity  "+ObjectId(id))
     const result = await client.db("CRM").collection("Opportunity").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
-        return `one document was inserted with the id ${result.upsertedId}`
+        return `Record inserted with the id ${result.upsertedId}`
 
     }
     else {
