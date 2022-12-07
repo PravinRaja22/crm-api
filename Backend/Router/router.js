@@ -182,7 +182,7 @@ function getdatafromreact(fastify, options, done) {
 
     
         try {
-            let result = await getAccountName(request.body);
+            let result = await getAccountName(request.query.searchKey);
             if(result){
                 reply.send(result)
             }
