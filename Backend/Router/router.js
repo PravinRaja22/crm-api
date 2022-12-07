@@ -3,6 +3,7 @@ const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } =require('../model/User/upsertUser')
+const{upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
@@ -73,7 +74,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert status code "+reply.statuscode);
         try {
             console.log("upsert Inventory try ");
-            let result = await upsertContact(request.body)
+            let result = await upsertProperty(request.body)
             console.log("result length " + result);
             if (result) {
                 reply.send(result)            }
