@@ -28,4 +28,3 @@ async function getDatas(client) {
 module.exports = { 
     getAccount
  }
-

@@ -1,13 +1,10 @@
 const { MongoClient } = require('mongodb');
-async function getAccountName(request) {
-    console.log("inside get AccountName lookup " + request)
-    console.log(request);
-    let accountName = request
+async function getFiveAccountName() {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     try {
         await client.connect();
-        let data = await getDatas(client, accountName)
+        let data = await getDatas(client)
         return data;
     } catch (e) {
         console.error(e);
@@ -15,9 +12,9 @@ async function getAccountName(request) {
         await client.close();
     }
 }
-getAccountName().catch(console.error);
-async function getDatas(client, accNames) {
-    const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^' + accNames) })
+getFiveAccountName().catch(console.error);
+async function getDatas(client) {
+    const cursor = await client.db("CRM").collection("Account").find()
     console.log("cursor " + JSON.stringify(cursor));
     const results = await cursor.toArray();
     console.log("result data " + results);
@@ -32,7 +29,7 @@ async function getDatas(client, accNames) {
             accname.push(accountname)
         });
         return JSON.stringify(accname)
-        // return JSON.stringify(results)
+       
     }
     else {
         console.log("no data found");
@@ -41,6 +38,6 @@ async function getDatas(client, accNames) {
 
 
 module.exports = {
-    getAccountName
+    getFiveAccountName
 }
 
