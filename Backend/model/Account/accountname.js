@@ -17,9 +17,7 @@ async function getAccountName(request) {
 }
 getAccountName().catch(console.error);
 async function getDatas(client,accNames) {
-    let query = { accountName: /accNames/ };
-    console.log("query ",query);
-const cursor = await client.db("CRM").collection("Account").find({accountName : new RegExp(accNames)})
+const cursor = await client.db("CRM").collection("Account").find({accountName : new RegExp('^'+accNames)})
 console.log("cursor "+JSON.stringify(cursor));
     const results = await cursor.toArray();
     console.log("result data "+results);

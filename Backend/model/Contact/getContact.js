@@ -8,8 +8,8 @@ async function getContact() {
         console.log("inside client");
         await client.connect();
         console.log("connected to client");
-    let data =     await getDatas(client)
-    return data;
+        let data = await getDatas(client)
+        return data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -17,15 +17,28 @@ async function getContact() {
     }
 }
 getContact().catch(console.error);
-async function getDatas(client)
-{
-const cursor = await client.db("CRM").collection("Contact").find({})
-const results = await cursor.toArray();  
-    if(results.length >0){
-    return JSON.stringify(results)
-}  
-else{
-    console.log("no data found");
-}                                                                                                    
+async function getDatas(client) {
+    let queryObject = ([
+        {
+            $unwind: "$accountName"
+        },
+        {
+            $lookup:
+            {
+                from: "Account",
+                localField: "accountName",
+                foreignField: "accountName",
+                as: "Account"
+            }
+        }
+    ])
+    const cursor = await client.db("CRM").collection("Contact").aggregate(queryObject)
+    const results = await cursor.toArray();
+    if (results.length > 0) {
+        return JSON.stringify(results)
+    }
+    else {
+        console.log("no data found");
+    }
 }
-module.exports= {getContact}
+module.exports = { getContact }
