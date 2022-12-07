@@ -177,9 +177,12 @@ function getdatafromreact(fastify, options, done) {
 
 
     fastify.post('/api/accountsname', async (request, reply) => {
-        console.log("test inside show accounts")
+        console.log(" inside show accountsname look up "+JSON.stringify(request.body))
+        console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+
+    
         try {
-            let result = await getAccountName();
+            let result = await getAccountName(request.query.searchKey);
             if(result){
                 reply.send(result)
             }
