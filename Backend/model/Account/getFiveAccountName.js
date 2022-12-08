@@ -14,7 +14,7 @@ async function getFiveAccountName() {
 }
 getFiveAccountName().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Account").find()
+    const cursor = await client.db("CRM").collection("Account").find().limit(5)
     console.log("cursor " + JSON.stringify(cursor));
     const results = await cursor.toArray();
     console.log("result data " + results);
