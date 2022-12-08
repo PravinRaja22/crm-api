@@ -27,5 +27,5 @@ async function getDatas(client) {
 }
 module.exports = { 
     getProperty
- }
+}
 

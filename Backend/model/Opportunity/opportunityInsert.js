@@ -10,6 +10,7 @@ async function opportunitydata(request) {
         //Connecting to DB
         await client.connect();
       let data =  await createOpportunity(client, {
+        
             accountName:request.accountName,
             opportunityName:request.opportunityName,
             type:request.type,
