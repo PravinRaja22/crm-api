@@ -18,24 +18,54 @@ async function getContact() {
 }
 getContact().catch(console.error);
 async function getDatas(client) {
-    let queryObject = ([
+
+    let queryObjects = ([
+
         {
-            $unwind: "$accountName"
-        },
-        {
-            $lookup:
-            {
-                from: "Account",
-                localField: "_id",
-                foreignField: "Account",
-                as: "Lookup Account"
-            }
+            $lookup: {
+                //searching collection name
+                from: 'Account',
+                //setting variable [searchId] where your string converted to ObjectId
+                'let': {"searchId": {$toObjectId: "$AccountId"}}, 
+                //search query with our [searchId] value
+                pipeline:[
+                  //searching [searchId] value equals your field [_id]
+                  {$match: {$expr:[ {"_id": "$$searchId"}]}},
+                  //projecting only fields you reaaly need, otherwise you will store all - huge data loads
+                  //{"$project":{"_id": 1}}
+
+                ],
+
+                as: 'Account'
+
+              }
         }
     ])
-    const cursor = await client.db("CRM").collection("Contact").aggregate(queryObject)
+
+
+let queryobj = ([
+    {
+        $lookup:
+           {
+              from:'Account',
+              let: {"searchId": {$toObjectId: "$AccountId"}}, 
+              pipeline:[
+               // {$match: {   $expr : { $eq: [ "$$z", "$_id"] } }},
+                {$match: { $expr : { $eq: [ "$_id", "$$searchId"] } }},
+              ],
+              as: 'Account data'
+           }
+     }
+])
+
+
+
+
+
+    const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-       // console.log("contact data "+JSON.stringify(results))
+        // console.log("contact data "+JSON.stringify(results))
         return JSON.stringify(results)
     }
     else {
