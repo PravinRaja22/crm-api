@@ -5,7 +5,7 @@ async function getfivepropertyName() {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        let data = await getDatas(client,propname)
+        let data = await getDatas(client)
         return data;
     } catch (e) {
         console.error(e);
@@ -14,7 +14,7 @@ async function getfivepropertyName() {
     }
 }
 getfivepropertyName().catch(console.error);
-async function getDatas(client,propname) {
+async function getDatas(client) {
     const cursor = await client.db("CRM").collection("Inventory Management").find().limit(5)
     const results = await cursor.toArray();
     let propName=[]
