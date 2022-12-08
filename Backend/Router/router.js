@@ -3,7 +3,7 @@ const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } =require('../model/User/upsertUser')
-const{upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
+const {upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
 const {getFiveAccountName} = require('../model/Account/getFiveAccountName')
 const { getAccount } = require('../model/Account/getAccount')
@@ -19,13 +19,12 @@ const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
-const { result } = require('lodash')
-
 function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code "+reply.statuscode);
+        console.log("request body "+request.body)
         try {
             console.log("upsert account try ");
             let result = await upsertAccount(request.body)
@@ -50,6 +49,8 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/UpsertContact',async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code "+reply.statuscode);
+        console.log("request body "+JSON.stringify(request.body))
+        console.log("request query "+JSON.stringify(request.query))
         try {
             console.log("upsert contact try ");
             let result = await upsertContact(request.body)
@@ -156,9 +157,6 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error "+e.message)
         }
     })
-
-
-
     fastify.post('/api/accounts', async (request, reply) => {
         console.log("test inside show accounts")
         try {
@@ -175,10 +173,9 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.post('/api/accountsRecentName', async (request, reply) => {
-      
 
-   try {
+    fastify.post('/api/accountsRecentName', async (request, reply) => {
+try {
             let result = await getFiveAccountName();
             if(result){
                 reply.send(result)
@@ -235,13 +232,11 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await getLead();
             if(result){
-              
                 reply.send(result)
             }
             else{
                 reply.status(404).send("No Records found")
             }
-           
         }
         catch (e) {
             reply.send("Error "+e.message)
@@ -253,13 +248,11 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await getOpportunity();
             if(result){
-               
                 reply.send(result)
             }
             else {
                 reply.status(404).send("No Records found")
             }
-           
         }
         catch (e) {
             reply.send("Error "+e.message)
@@ -271,7 +264,6 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await getProperty();
             if(result){
-               
                 reply.send(result)
             }
             else{

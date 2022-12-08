@@ -26,15 +26,16 @@ async function getDatas(client) {
             $lookup:
             {
                 from: "Account",
-                localField: "accountName",
-                foreignField: "accountName",
-                as: "Account"
+                localField: "_id",
+                foreignField: "Account",
+                as: "Lookup Account"
             }
         }
     ])
     const cursor = await client.db("CRM").collection("Contact").aggregate(queryObject)
     const results = await cursor.toArray();
     if (results.length > 0) {
+       // console.log("contact data "+JSON.stringify(results))
         return JSON.stringify(results)
     }
     else {

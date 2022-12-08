@@ -17,7 +17,7 @@ async function getAccountName(request) {
 }
 getAccountName().catch(console.error);
 async function getDatas(client, accNames) {
-    const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^' + accNames) })
+    const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^'+accNames)})
     console.log("cursor " + JSON.stringify(cursor));
     const results = await cursor.toArray();
     console.log("result data " + results);
@@ -32,10 +32,9 @@ async function getDatas(client, accNames) {
             accname.push(accountname)
         });
         return JSON.stringify(accname)
-        // return JSON.stringify(results)
     }
     else {
-        console.log("no data found");
+        return 'No data Found'
     }
 }
 

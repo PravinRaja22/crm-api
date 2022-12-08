@@ -7,15 +7,12 @@ async function upsertContact(request) {
         await client.connect();
         console.log("inside upsert contact  "+request)
         var updatedatas={
-            accountName:request.accountName,
+            Account:request.Account,
             salutation:request.salutation,
             firstName:request.firstName,
             lastName:request.lastName,
             date:request.date,
             phone:request.phone,
-
-
-            
             department:request.department,
             leadSource:request.leadSource,
             email:request.email,
