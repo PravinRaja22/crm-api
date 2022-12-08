@@ -33,13 +33,9 @@ function getdatafromreact(fastify, options, done) {
             if (result) {
                 reply.send(result)
             }
-            
-
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
-
-
         }
         catch (e) {
             console.log("inside Account Catch block ",e.message);
@@ -61,12 +57,9 @@ function getdatafromreact(fastify, options, done) {
             if (result) {
                 reply.send(result)
             }
-
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
-
-
         }
         catch (e) {
             console.log("inside Contact Catch block ",e.message);
@@ -83,12 +76,9 @@ function getdatafromreact(fastify, options, done) {
             console.log("result length " + result);
             if (result) {
                 reply.send(result)            }
-
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
-
-
         }
         catch (e) {
             console.log("inside Inventory Catch block ",e.message);
@@ -107,12 +97,9 @@ function getdatafromreact(fastify, options, done) {
             console.log("result length " + result);
             if (result) {
                 reply.send(result)            }
-
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
-
-
         }
         catch (e) {
             console.log("inside Lead Catch block ",e.message);
@@ -129,12 +116,9 @@ function getdatafromreact(fastify, options, done) {
             console.log("result length " + result);
             if (result) {
                 reply.send(result)            }
-
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
-
-
         }
         catch (e) {
             console.log("inside Opportunity  Catch block ",e.message);
@@ -174,7 +158,6 @@ function getdatafromreact(fastify, options, done) {
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
 
     fastify.post('/api/accountsRecentName', async (request, reply) => {
@@ -190,7 +173,6 @@ try {
         catch (e) {
             reply.send("Error "+e.message)
         }
-    
 })
 
 fastify.post('/api/propertyRecentName', async (request, reply) => {
@@ -205,14 +187,12 @@ fastify.post('/api/propertyRecentName', async (request, reply) => {
             }
             catch (e) {
                 reply.send("Error "+e.message)
-            }
-        
+            }  
     })
 
 
     fastify.post('/api/accountsname', async (request, reply) => {
         console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
-
     if(request.query.searchKey)
     {
         try {
@@ -237,7 +217,6 @@ fastify.post('/api/propertyRecentName', async (request, reply) => {
 
 fastify.post('/api/InventoryName', async (request, reply) => {
     console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
-
 if(request.query.searchKey)
 {
     try {
@@ -257,7 +236,6 @@ else{
     reply.send("No Records found")
 }
 })
-
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
@@ -271,7 +249,6 @@ else{
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
 
     fastify.post('/api/leads', async (request, reply) => {
@@ -287,9 +264,7 @@ else{
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
-
     fastify.post('/api/opportunities', async (request, reply) => {
         try {
             let result = await getOpportunity();
@@ -303,7 +278,6 @@ else{
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
@@ -321,17 +295,12 @@ else{
             reply.send("Error "+e.message)
         }
     })
-
-
-
     fastify.post('/api/Users', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             let result = await getUser();
             if(result){
-              
-                reply.send(result)
-                
+                reply.send(result)  
             }
             else{
                 reply.status(404).send("No Records found")
@@ -340,7 +309,6 @@ else{
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
 
 
@@ -349,7 +317,6 @@ else{
         try {
             let result = await deleteAccount(request.query.code);
             if (result) {
-               
                 reply.send("Account Deleted Successfully")
             }
             else {
@@ -367,49 +334,40 @@ else{
         try {
             let result = await deleteContact(request.query.code);
             if(result){
-              
                 reply.send("Contact Deleted Successfully")
             }
             else{
                 reply.status(404).send("No data deleted")
             }
-           
         }
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
     fastify.post('/api/deleteOpportunity', async (request, reply) => {
         console.log("inside opportunity delete");
         try {
             let result = await deleteOpportunity(request.query.code);
             if(result){
-              
                 reply.send("Opportunity deleted successfully")
             }
             else{
                 reply.status(404).send("No data deleted")            }
-         
         }
         catch (e) {
             reply.send("Error "+e.message)
         }
-
     })
     fastify.post('/api/deleteLead', async (request, reply) => {
         console.log("inside lead delete");
         try {
             let result = await deleteLead(request.query.code);
             if(result){
-              
                 reply.send("Lead Deleted Successfully")
             }
             else{
-
                 reply.status(404).send("No data deleted")   
             }
-           
         }
         catch (e) {
             reply.send("Error "+e.message)
