@@ -3,9 +3,11 @@ const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } =require('../model/User/upsertUser')
-const {upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
+const { upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
-const {getFiveAccountName} = require('../model/Account/getFiveAccountName')
+const { propertyName} = require('../model/Inventory Management/inventroyname');
+const { getFiveAccountName} = require('../model/Account/getFiveAccountName')
+const { getfivepropertyName} = require('../model/Inventory Management/getfiveInventoryName')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
@@ -31,6 +33,7 @@ function getdatafromreact(fastify, options, done) {
             if (result) {
                 reply.send(result)
             }
+            
 
             else {
                 reply.status(404).send("No Data Inserted or updated")
@@ -190,6 +193,21 @@ try {
     
 })
 
+fastify.post('/api/propertyRecentName', async (request, reply) => {
+    try {
+                let result = await getfivepropertyName();
+                if(result){
+                    reply.send(result)
+                }
+                else{
+                    reply.send("No Records found")
+                }
+            }
+            catch (e) {
+                reply.send("Error "+e.message)
+            }
+        
+    })
 
 
     fastify.post('/api/accountsname', async (request, reply) => {
@@ -210,6 +228,34 @@ try {
             reply.send("Error "+e.message)
         }
     }
+    else{
+        reply.send("No Records found")
+    }
+})
+
+
+
+fastify.post('/api/InventoryName', async (request, reply) => {
+    console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+
+if(request.query.searchKey)
+{
+    try {
+        let result = await propertyName(request.query.searchKey);
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }
+}
+else{
+    reply.send("No Records found")
+}
 })
 
     fastify.post('/api/contacts', async (request, reply) => {

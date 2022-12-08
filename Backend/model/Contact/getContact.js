@@ -19,44 +19,19 @@ async function getContact() {
 getContact().catch(console.error);
 async function getDatas(client) {
 
-    let queryObjects = ([
-
+    let queryobj = ([
         {
-            $lookup: {
-                //searching collection name
+            $lookup:
+            {
                 from: 'Account',
-                //setting variable [searchId] where your string converted to ObjectId
-                'let': {"searchId": {$toObjectId: "$AccountId"}}, 
-                //search query with our [searchId] value
-                pipeline:[
-                  //searching [searchId] value equals your field [_id]
-                  {$match: {$expr:[ {"_id": "$$searchId"}]}},
-                  //projecting only fields you reaaly need, otherwise you will store all - huge data loads
-                  //{"$project":{"_id": 1}}
-
+                let: { "searchId": { $toObjectId: "$AccountId" } },
+                pipeline: [
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
-
                 as: 'Account'
-
-              }
+            }
         }
     ])
-
-
-let queryobj = ([
-    {
-        $lookup:
-           {
-              from:'Account',
-              let: {"searchId": {$toObjectId: "$AccountId"}}, 
-              pipeline:[
-               // {$match: {   $expr : { $eq: [ "$$z", "$_id"] } }},
-                {$match: { $expr : { $eq: [ "$_id", "$$searchId"] } }},
-              ],
-              as: 'Account'
-           }
-     }
-])
 
 
 

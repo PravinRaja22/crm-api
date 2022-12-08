@@ -7,7 +7,7 @@ async function upsertOpportunity(request) {
         await client.connect();
         console.log("inside upsert opportunity route "+request)
         var updatedatas={
-            accountName:request.accountName,
+            propertyId:request.property,
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,
