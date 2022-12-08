@@ -8,18 +8,18 @@ async function upsertContact(request) {
         console.log("inside upsert contact  "+request)
         var updatedatas={
             AccountId:request.Account,
-            Salutation:request.salutation,
-            FirstName:request.firstName,
-            LastName:request.lastName,
-            Date:request.date,
-            Phone:request.phone,
-            Department:request.department,
-            LeadSource:request.leadSource,
-            Email:request.email,
-            MailingAddress:request.mailingAddress,
-            Description:request.description,
-            CreatedbyId: request.createdbyId,
-            CreatedDate: request.createdDate,
+            salutation:request.salutation,
+            firstName:request.firstName,
+            lastName:request.lastName,
+            date:request.date,
+            phone:request.phone,
+            department:request.department,
+            leadSource:request.leadSource,
+            email:request.email,
+            mailingAddress:request.mailingAddress,
+            description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
         }
         let data = await updatesiglerecord(client,request._id,updatedatas)
         return data;

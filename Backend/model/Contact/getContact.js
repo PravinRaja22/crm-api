@@ -18,7 +18,7 @@ async function getContact() {
 }
 getContact().catch(console.error);
 async function getDatas(client) {
-
+console.log("inside client contact get")
     let queryobj = ([
         {
             $lookup:
