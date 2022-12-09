@@ -24,12 +24,12 @@ async function getDatas(client)
         {
             $lookup:
             {
-                from: 'Inventory Management',
-                let: { "searchId": { $toObjectId: "$PropertyId" } },
+                from: 'Opportunity',
+                let: { "searchId": { $toObjectId: "$propertyId" } },
                 pipeline: [
                     { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
-                as: 'Property'
+                as: 'Propertydetails'
             }
         }
     ])
