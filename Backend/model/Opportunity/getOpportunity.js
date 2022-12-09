@@ -19,15 +19,16 @@ async function getOpportunity() {
 getOpportunity().catch(console.error);
 async function getDatas(client)
 {
+    console.log("inside client opportunity get")
 
     let queryobj = ([
         {
             $lookup:
             {
                 from: 'Opportunity',
-                let: { "searchId": { $toObjectId: "$propertyId" } },
+                let: { "searchId": {$toObjectId:"$PropertyId"} },
                 pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                  //  { $match: { $expr: { $eq: ["_id", "searchId"] } } },
                 ],
                 as: 'Propertydetails'
             }
