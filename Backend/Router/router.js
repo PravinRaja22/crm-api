@@ -23,7 +23,6 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
-        console.log("upsert status code "+reply.statuscode);
         console.log("request body "+request.body)
         try {
             console.log("upsert account try ");
@@ -46,23 +45,30 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/UpsertContact',async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code "+reply.statuscode);
-        console.log("request body "+JSON.stringify(request.body))
+        console.log("request body "+JSON.stringify(request.body.Account))
         console.log("request query "+JSON.stringify(request.query))
-        try {
-            console.log("upsert contact try ");
-            let result = await upsertContact(request.body)
-            console.log("result length " + result);
-            if (result) {
-                reply.send(result)
+        if(request.body.Account)
+        {
+            try {
+                console.log("upsert contact try ");
+                let result = await upsertContact(request.body)
+                console.log("result length " + result);
+                if (result) {
+                    reply.send(result)
+                }
+                else {
+                    reply.status(404).send("No Data Inserted or updated")
+                }
             }
-            else {
-                reply.status(404).send("No Data Inserted or updated")
+            catch (e) {
+                console.log("inside Contact Catch block ",e.message);
+                reply.send("Error "+e.message)
             }
         }
-        catch (e) {
-            console.log("inside Contact Catch block ",e.message);
-            reply.send("Error "+e.message)
+        else{
+            
         }
+       
     })
 
     fastify.post('/api/UpsertInventory', async (request, reply) => {

@@ -32,19 +32,20 @@ console.log("inside client contact get")
             }
         }
     ])
-
-
-
-
-
-    const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
-    const results = await cursor.toArray();
-    if (results.length > 0) {
-        // console.log("contact data "+JSON.stringify(results))
-        return JSON.stringify(results)
+    try{
+        const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
+        const results = await cursor.toArray();
+        if (results.length > 0) {
+            // console.log("contact data "+JSON.stringify(results))
+            return JSON.stringify(results)
+        }
+        else {
+            console.log("no data found");
+        }
     }
-    else {
-        console.log("no data found");
+    catch(e){
+        return e.message
     }
+  
 }
 module.exports = { getContact }
