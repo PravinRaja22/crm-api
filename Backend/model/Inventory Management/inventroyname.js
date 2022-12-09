@@ -29,6 +29,7 @@ async function getDatas(client, propname) {
             })
             return JSON.stringify(propName)
         }
+        
         else {
             return 'No Records Found'
         }

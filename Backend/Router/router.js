@@ -32,6 +32,7 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else {
+
                 reply.status(404).send("No Data Inserted or updated")
             }
         }
@@ -48,8 +49,6 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert status code "+reply.statuscode);
         console.log("request body "+JSON.stringify(request.body.Account))
         console.log("request query "+JSON.stringify(request.query))
-        if(request.body.Account)
-        {
             try {
                 console.log("upsert contact try ");
                 let result = await upsertContact(request.body)
@@ -65,11 +64,6 @@ function getdatafromreact(fastify, options, done) {
                 console.log("inside Contact Catch block ",e.message);
                 reply.send("Error "+e.message)
             }
-        }
-        else{
-            
-        }
-       
     })
 
     fastify.post('/api/UpsertInventory', async (request, reply) => {

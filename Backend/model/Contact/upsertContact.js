@@ -12,7 +12,6 @@ async function upsertContact(request) {
             firstName:request.firstName,
             lastName:request.lastName,
             date:request.date,
-            
             phone:request.phone,
             department:request.department,
             leadSource:request.leadSource,
@@ -22,7 +21,29 @@ async function upsertContact(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        let data = await updatesiglerecord(client,request._id,updatedatas)
+
+        var updatedataswithoutaccount={
+            salutation:request.salutation,
+            firstName:request.firstName,
+            lastName:request.lastName,
+            date:request.date,
+            phone:request.phone,
+            department:request.department,
+            leadSource:request.leadSource,
+            email:request.email,
+            mailingAddress:request.mailingAddress,
+            description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+        }
+        if(request.Account)
+        {
+            let data = await updatesiglerecord(client,request._id,updatedatas)
+
+        }
+        else{
+            let data = await updatesiglerecord(client,request._id,updatedataswithoutaccount)
+        }
         return data;
     } 
     catch (e) {
