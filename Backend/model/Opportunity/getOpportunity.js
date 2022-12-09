@@ -32,9 +32,7 @@ async function getDatas(client)
                 ],
                 as: 'Propertydetails'
             }
-        }
-    ])
-    let leadobj = ([
+        },
         {
             $lookup:
             {
@@ -47,7 +45,8 @@ async function getDatas(client)
             }
         }
     ])
-const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj,leadobj)
+   
+const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
 const results = await cursor.toArray();  
     if(results.length >0){
       // console.log(results);
