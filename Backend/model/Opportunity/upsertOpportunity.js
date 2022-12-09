@@ -5,7 +5,7 @@ async function upsertOpportunity(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside upsert opportunity route "+JSON.stringify(request))
+        console.log("inside upsert opportunity route "+JSON.stringify(request.Inventory))
         var updatedatas={
             propertyId:request.Inventory,
             opportunityName:request.opportunityName,
@@ -18,6 +18,7 @@ async function upsertOpportunity(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
+        console.log("object inside upsert opportunity "+JSON.stringify(updatedatas))
         let data = await updatesiglerecord(client,request._id,updatedatas)
         return data
     } 

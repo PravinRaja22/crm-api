@@ -15,7 +15,22 @@ async function getProperty() {
 }
 getProperty().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Inventory Management").find({})
+
+    let queryobj = ([
+        {
+            $lookup:
+            {
+                from: 'Opportunity',
+                let: { "searchId": { $toObjectId: "$propertyId" } },
+                pipeline: [
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Propertydetails'
+            }
+        }
+    ])
+
+    const cursor = await client.db("CRM").collection("Inventory Management").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
