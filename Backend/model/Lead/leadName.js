@@ -18,16 +18,16 @@ async function getDatas(client, leadname) {
     if (leadname) {
         const cursor = await client.db("CRM").collection("Lead").find({ firstName: new RegExp('^' + leadname) })
         const results = await cursor.toArray();
-        let propName = []
+        let ledName = []
         if (results.length > 0) {
             results.forEach(element => {
-                let propertyName = {
-                    propertyName: element.firstName,
+                let leadName = {
+                    leadName: element.firstName,
                     id: element._id
                 }
-                propName.push(propertyName)
+                ledName.push(leadName)
             })
-            return JSON.stringify(propName)
+            return JSON.stringify(ledName)
         }
         else {
             return 'No Records Found'
@@ -38,16 +38,16 @@ async function getDatas(client, leadname) {
         console.log("inside else statement leadname is Null")
         const cursor = await client.db("CRM").collection("Lead").find().limit(5)
         const results = await cursor.toArray();
-        let propName = []
+        let ledName = []
         if (results.length > 0) {
             results.forEach(element => {
-                let propertyName = {
-                    propertyName: element.firstName,
+                let leadName = {
+                    leadName: element.firstName,
                     id: element._id
                 }
-                propName.push(propertyName)
+                ledName.push(leadName)
             })
-            return JSON.stringify(propName)
+            return JSON.stringify(ledName)
         }
         else {
             return 'No Records Found'
