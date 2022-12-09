@@ -6,7 +6,6 @@ const { upsertUser } =require('../model/User/upsertUser')
 const { upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
-const { getFiveAccountName} = require('../model/Account/getFiveAccountName')
 const { getfivepropertyName} = require('../model/Inventory Management/getfiveInventoryName')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
@@ -108,8 +107,8 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.post('/api/UpsertOpportunity',async (request, reply) => {
-        console.log("upsert route called")
-        console.log("upsert status code "+reply.statuscode);
+        console.log("upsert oportunity route called")
+        console.log("upsert opportunity request code ",JSON.stringify(request.body));
         try {
             console.log("upsert Lead try ");
             let result = await upsertOpportunity(request.body)
@@ -160,20 +159,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/accountsRecentName', async (request, reply) => {
-try {
-            let result = await getFiveAccountName();
-            if(result){
-                reply.send(result)
-            }
-            else{
-                reply.send("No Records found")
-            }
-        }
-        catch (e) {
-            reply.send("Error "+e.message)
-        }
-})
+
 
 fastify.post('/api/propertyRecentName', async (request, reply) => {
     try {
@@ -209,7 +195,18 @@ fastify.post('/api/propertyRecentName', async (request, reply) => {
         }
     }
     else{
-        reply.send("No Records found")
+        try {
+            let result = await getAccountName(request.bod);
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
     }
 })
 
@@ -233,7 +230,18 @@ if(request.query.searchKey)
     }
 }
 else{
-    reply.send("No Records found")
+    try {
+        let result = await propertyName();
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }  
 }
 })
     fastify.post('/api/contacts', async (request, reply) => {
