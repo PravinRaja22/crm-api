@@ -8,6 +8,7 @@ async function upsertOpportunity(request) {
         console.log("inside upsert opportunity route "+JSON.stringify(request.Inventory))
         var updatedatas={
             propertyId:request.Inventory,
+            LeadId:request.Lead,
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,

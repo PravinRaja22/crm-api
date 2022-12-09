@@ -34,7 +34,20 @@ async function getDatas(client)
             }
         }
     ])
-const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
+    let leadobj = ([
+        {
+            $lookup:
+            {
+                from: 'Lead',
+                let: { "searchId": { $toObjectId: "$LeadId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Leaddetails'
+            }
+        }
+    ])
+const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj,leadobj)
 const results = await cursor.toArray();  
     if(results.length >0){
       // console.log(results);

@@ -6,6 +6,7 @@ const { upsertUser } =require('../model/User/upsertUser')
 const { upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
+const { leadName} = require('../model/Lead/leadName')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
@@ -231,6 +232,42 @@ else{
     }  
 }
 })
+
+
+fastify.post('/api/LeadsbyName', async (request, reply) => {
+    console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+if(request.query.searchKey)
+{
+    try {
+        let result = await leadName(request.query.searchKey);
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }
+}
+else{
+    try {
+        let result = await leadName();
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }  
+}
+})
+
+
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
