@@ -32,7 +32,6 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else {
-
                 reply.status(404).send("No Data Inserted or updated")
             }
         }

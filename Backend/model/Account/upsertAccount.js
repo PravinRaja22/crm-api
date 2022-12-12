@@ -7,6 +7,7 @@ async function upsertAccount(request) {
         await client.connect();
         console.log("upsert Account " + request)
         var upsertdatas = {
+            PropertyId: request.Inventory,
             accountName: request.accountName,
             accountNumber: request.accountNumber,
             annualRevenue: request.annualRevenue,
@@ -22,11 +23,33 @@ async function upsertAccount(request) {
             description: request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
-           
         }
-          let data =  await upsertSingleRecord(client,request._id, upsertdatas)
-          return data
-    
+        var upsertdataswithoutinventory = {
+            accountName: request.accountName,
+            accountNumber: request.accountNumber,
+            annualRevenue: request.annualRevenue,
+            rating: request.rating,
+            type: request.type,
+            phone: request.phone,
+            industry: request.industry,
+            billingAddress: request.billingAddress,
+            billingCountry: request.billingCountry,
+            billingCity: request.billingCity,
+            billingCities: request.billingCities,
+            shippingAddress: request.shippingAddress,
+            description: request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+        }
+        if (request.Inventory) {
+            let data = await upsertSingleRecord(client, request._id, upsertdatas)
+            return data
+        }
+        else {
+            let data = await upsertSingleRecord(client, request._id, upsertdataswithoutinventory)
+            return data
+        }
+
     }
     catch (e) {
         console.error(e);
@@ -39,7 +62,7 @@ upsertAccount().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
     console.log("inside upsert  account ")
-    const result = await client.db("CRM").collection("Account").updateOne({ _id:ObjectId(id) },{$set: upsertdatas},{upsert:true});
+    const result = await client.db("CRM").collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         console.log(`one document was inserted with the id ${result.upsertedId}`);
