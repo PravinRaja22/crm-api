@@ -178,7 +178,7 @@ function getdatafromreact(fastify, options, done) {
     }
     else{
         try {
-            let result = await getAccountName(request.bod);
+            let result = await getAccountName(request.body);
             if(result){
                 reply.send(result)
             }

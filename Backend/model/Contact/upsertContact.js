@@ -39,12 +39,14 @@ async function upsertContact(request) {
         if(request.Account)
         {
             let data = await updatesiglerecord(client,request._id,updatedatas)
+            return data;
 
         }
         else{
             let data = await updatesiglerecord(client,request._id,updatedataswithoutaccount)
+            return data;
         }
-        return data;
+      
     } 
     catch (e) {
         console.error(e);

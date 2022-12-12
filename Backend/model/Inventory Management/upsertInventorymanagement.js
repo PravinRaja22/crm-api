@@ -1,4 +1,3 @@
-const { stubTrue } = require('lodash');
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertProperty(request) {
