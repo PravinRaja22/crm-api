@@ -18,7 +18,6 @@ const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
-const { getfastifyAccount } = require('../model/Account/fastifygetaccount')
 const { deleteUser } = require('../model/User/delelteUser')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 function getdatafromreact(fastify, options, done) {
