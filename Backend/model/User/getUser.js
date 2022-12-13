@@ -1,6 +1,5 @@
 const { MongoClient } = require('mongodb');
 async function getUser() {
-    console.log("inside get Account")
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     try {

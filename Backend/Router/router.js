@@ -7,7 +7,7 @@ const { upsertProperty} =require('../model/Inventory Management/upsertInventorym
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
 const { leadName} = require('../model/Lead/leadName')
-const { getAccount } = require('../model/Account/getAccount')
+const { getAccountdata } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
@@ -46,8 +46,9 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/UpsertContact',async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code "+reply.statuscode);
-        console.log("request body "+JSON.stringify(request.body.Account))
+        console.log("request body "+JSON.stringify(request.body))
         console.log("request query "+JSON.stringify(request.query))
+        console.log("file upload datas "+request.raw.files);
             try {
                 console.log("upsert contact try ");
                 let result = await upsertContact(request.body)
@@ -143,9 +144,8 @@ function getdatafromreact(fastify, options, done) {
         }
     })
     fastify.post('/api/accounts', async (request, reply) => {
-        console.log("test inside show accounts")
         try {
-            let result = await getAccount();
+            let result = await getAccountdata();
             if(result){
             reply.send(result)
             }
@@ -159,7 +159,6 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.post('/api/accountsname', async (request, reply) => {
-        console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
     if(request.query.searchKey)
     {
         try {
@@ -228,7 +227,6 @@ else{
 
 
 fastify.post('/api/LeadsbyName', async (request, reply) => {
-    console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
 if(request.query.searchKey)
 {
     try {

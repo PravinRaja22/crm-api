@@ -1,13 +1,11 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function deleteAccount(dataid) {
-    console.log('data id :' + dataid);
 
     //filter the data based on the bedrooms bathroom and beds
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     try {
-        console.log("inside delete Account");
         await client.connect();
 
         let data = await deleteDatas(client, dataid)
@@ -20,12 +18,8 @@ async function deleteAccount(dataid) {
 }
 deleteAccount().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
-    console.log("inside data deleteing " + deleteaccountdata)
     const results = await client.db("CRM").collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
-    console.log("results " + JSON.stringify(results))
     if (results) {
-        console.log(results);
-        console.log(`${results.deletedCount} documents deleted in the Database`);
         return results
     }
     else {

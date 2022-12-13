@@ -1,33 +1,42 @@
-const { MongoClient } = require('mongodb');
-async function getLead() {
-    console.log('data :');
-    //filter the data based on the bedrooms bathroom and beds
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
-    const client = new MongoClient(url);
-    try {
-        console.log("inside client");
-        await client.connect();
-        console.log("connected to client");
-    let data =     await getDatas(client)
-    return data;
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+const fastify = require('fastify')({logger :false})
+fastify.register(require('../plugin/mongodb'))
+fastify.after(error => error ? console.log(error):"plugin loaded successfully");
+fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
+async function getLead(){
+    console.log("inside get Inventory of mongo db");
+    const leadCollection = await fastify.mongo.client.db('CRM').collection('Lead')
+    let result =await  leadCollection.find().toArray();
+    return result;
 }
-getLead().catch(console.error);
-async function getDatas(client)
-{
-const cursor = await client.db("CRM").collection("Lead").find({})
-const results = await cursor.toArray();  
-    if(results.length >0){
-       console.log(results);
-       return JSON.stringify(results)
-}  
-else{
-    console.log("no data found");
-}                                                                                                    
-}
-module.exports= {getLead}
+module.exports = {getLead}
+
+
+// const { MongoClient } = require('mongodb');
+// async function getLead() {
+//     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+//     const client = new MongoClient(url);
+//     try {
+//         await client.connect();
+//     let data =     await getDatas(client)
+//     return data;
+//     } catch (e) {
+//         console.error(e);
+//     } finally {
+//         await client.close();
+//     }
+// }
+// getLead().catch(console.error);
+// async function getDatas(client)
+// {
+// const cursor = await client.db("CRM").collection("Lead").find({})
+// const results = await cursor.toArray();  
+//     if(results.length >0){
+//        console.log(results);
+//        return JSON.stringify(results)
+// }  
+// else{
+//     console.log("no data found");
+// }                                                                                                    
+// }
+// module.exports= {getLead}
 
