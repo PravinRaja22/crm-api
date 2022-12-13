@@ -35,7 +35,6 @@ async function upsertAccount(request) {
             billingAddress: request.billingAddress,
             billingCountry: request.billingCountry,
             billingCity: request.billingCity,
-            billingCities: request.billingCities,
             shippingAddress: request.shippingAddress,
             description: request.description,
             createdbyId: request.createdbyId,
