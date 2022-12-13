@@ -6,7 +6,6 @@ const Accouninsertschema = {
             properties: {
                 accountName:{ type: 'string' },
                 accountNumber:{ type: 'number' },
-               // annualRevenue:{ type: 'currency' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
             }
