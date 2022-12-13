@@ -21,12 +21,12 @@ async function deleteContact(dataid) {
 deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
-    console.log("inside data deleteing "+deletecontactdata)
+    console.log("inside data deleteing contact "+deletecontactdata)
 const results = await client.db("CRM").collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
 console.log("results "+JSON.stringify(results))
     if(results){
        console.log(results);
-       console.log(`${result.deletedCount} documents deleted in the Database`);
+       console.log(`${results.deletedCount} documents deleted in the Database`);
        return JSON.stringify(results)
 }  
 else{

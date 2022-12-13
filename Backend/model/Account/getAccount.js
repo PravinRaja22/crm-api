@@ -15,10 +15,24 @@ async function getAccount() {
 }
 getAccount().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Account").find({})
+
+    let queryobj = ([
+        {
+            $lookup:
+            {
+                from: 'Inventory Management',
+                let: { "searchId": { $toObjectId: "$PropertyId" } },
+                pipeline: [
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Propertydetails'
+            }
+        },
+    ])
+    const cursor = await client.db("CRM").collection("Account").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-        // console.log(results);
+         //console.log(results);
         return JSON.stringify(results)
     }
     else {
@@ -28,4 +42,3 @@ async function getDatas(client) {
 module.exports = { 
     getAccount
  }
-

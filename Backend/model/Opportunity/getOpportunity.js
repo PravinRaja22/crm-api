@@ -19,7 +19,34 @@ async function getOpportunity() {
 getOpportunity().catch(console.error);
 async function getDatas(client)
 {
-const cursor = await client.db("CRM").collection("Opportunity").find({})
+    console.log("inside client opportunity get")
+
+    let queryobj = ([
+        {
+            $lookup:
+            {
+                from: 'Inventory Management',
+                let: { "searchId": { $toObjectId: "$propertyId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Propertydetails'
+            }
+        },
+        {
+            $lookup:
+            {
+                from: 'Lead',
+                let: { "searchId": { $toObjectId: "$LeadId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Leaddetails'
+            }
+        }
+    ])
+   
+const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
 const results = await cursor.toArray();  
     if(results.length >0){
       // console.log(results);

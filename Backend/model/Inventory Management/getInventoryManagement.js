@@ -15,7 +15,7 @@ async function getProperty() {
 }
 getProperty().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Inventory Management").find({})
+    const cursor = await client.db("CRM").collection("Inventory Management").find()
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
@@ -27,5 +27,5 @@ async function getDatas(client) {
 }
 module.exports = { 
     getProperty
- }
+}
 

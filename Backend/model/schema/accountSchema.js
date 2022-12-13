@@ -13,5 +13,4 @@ const Accouninsertschema = {
         },
     }
 }
-
 module.exports = {Accouninsertschema}

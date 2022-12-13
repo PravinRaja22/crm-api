@@ -1,12 +1,12 @@
-const items = require('../item')
-
-const { Accountdata } = require('../model/Account/AccountInsert.js')
-const { Contactdata } = require('../model/Contact/contactInsert.js')
-const { Leaddata } = require('../model/Lead/LeadInsert')
-const { opportunitydata } = require('../model/Opportunity/opportunityInsert')
-const { propertydata } = require('../model/Inventory Management/inventoryManganagementInsert')
-const { Userdata } = require('../model/User/userInsert')
+const { upsertAccount } = require('../model/Account/upsertAccount')
+const { upsertContact } = require('../model/Contact/upsertContact')
+const { upsertLead } = require('../model/Lead/upsertLead')
+const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
+const { upsertUser } =require('../model/User/upsertUser')
+const { upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
 const { getAccountName } = require('../model/Account/accountname')
+const { propertyName} = require('../model/Inventory Management/inventroyname');
+const { leadName} = require('../model/Lead/leadName')
 const { getAccount } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
@@ -18,20 +18,429 @@ const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
+const { getfastifyAccount } = require('../model/Account/fastifygetaccount')
 const { deleteUser } = require('../model/User/delelteUser')
-const { updateAccount } = require('../model/Account/updateAccount')
-const { updateContact } = require('../model/Contact/updateContact')
-const { updateLead } = require('../model/Lead/updateLead')
-const { updateOpportunity } = require('../model/Opportunity/updateOpportunity')
-const { updateProperty } = require('../model/Inventory Management/updateinventoryMangement')
-const { updateUser } = require('../model/User/updateUser')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
-
 function getdatafromreact(fastify, options, done) {
 
-    fastify.post('/api/accountInsert', /*Accouninsertschema,*/ async (request, reply) => {
+    fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
+        console.log("upsert route called")
+        console.log("request body "+request.body)
+        try {
+            console.log("upsert account try ");
+            let result = await upsertAccount(request.body)
+            if (result) {
+                reply.send(result)
+            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Account Catch block ",e.message);
+            reply.send("Error "+e.message)
+        }
+    })
+
+
+
+    fastify.post('/api/UpsertContact',async (request, reply) => {
+        console.log("upsert route called")
+        console.log("upsert status code "+reply.statuscode);
+        console.log("request body "+JSON.stringify(request.body.Account))
+        console.log("request query "+JSON.stringify(request.query))
+            try {
+                console.log("upsert contact try ");
+                let result = await upsertContact(request.body)
+                console.log("result length " + result);
+                if (result) {
+                    reply.send(result)
+                }
+                else {
+                    reply.status(404).send("No Data Inserted or updated")
+                }
+            }
+            catch (e) {
+                console.log("inside Contact Catch block ",e.message);
+                reply.send("Error "+e.message)
+            }
+    })
+
+    fastify.post('/api/UpsertInventory', async (request, reply) => {
+        console.log("upsert route called")
+        console.log("upsert status code "+reply.statuscode);
+        try {
+            console.log("upsert Inventory try ");
+            let result = await upsertProperty(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send(result)            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Inventory Catch block ",e.message);
+            reply.send("Error "+e.message)
+        }
+    })
+
+
+
+    fastify.post('/api/UpsertLead',async (request, reply) => {
+        console.log("upsert route called")
+        console.log("upsert status code "+reply.statuscode);
+        try {
+            console.log("upsert Lead try ");
+            let result = await upsertLead(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send(result)            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Lead Catch block ",e.message);
+            reply.send("Error "+e.message)
+        }
+    })
+
+    fastify.post('/api/UpsertOpportunity',async (request, reply) => {
+        console.log("upsert oportunity route called")
+        console.log("upsert opportunity request code ",JSON.stringify(request.body));
+        try {
+            console.log("upsert Lead try ");
+            let result = await upsertOpportunity(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send(result)            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Opportunity  Catch block ",e.message);
+            reply.send("Error "+e.message)
+        }
+    })
+
+    fastify.post('/api/UpsertUser',async (request, reply) => {
+        console.log("upsert route called")
+        console.log("upsert status code "+reply.statuscode);
+        try {
+            console.log("upsert Lead try ");
+            let result = await upsertUser(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send(result)            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Opportunity  Catch block ",e.message);
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/accounts', async (request, reply) => {
+        console.log("test inside show accounts")
+        try {
+            let result = await getAccount();
+            if(result){
+            reply.send(result)
+            }
+            else{
+                reply.status(404).send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+
+    fastify.post('/api/accountsname', async (request, reply) => {
+        console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+    if(request.query.searchKey)
+    {
+        try {
+            let result = await getAccountName(request.query.searchKey);
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    }
+    else{
+        try {
+            let result = await getAccountName(request.body);
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    }
+})
+
+
+
+fastify.post('/api/InventoryName', async (request, reply) => {
+    console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+if(request.query.searchKey)
+{
+    try {
+        let result = await propertyName(request.query.searchKey);
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }
+}
+else{
+    try {
+        let result = await propertyName();
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }  
+}
+})
+
+
+fastify.post('/api/LeadsbyName', async (request, reply) => {
+    console.log(" inside show accountsname look up "+JSON.stringify(request.query.searchKey))
+if(request.query.searchKey)
+{
+    try {
+        let result = await leadName(request.query.searchKey);
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }
+}
+else{
+    try {
+        let result = await leadName();
+        if(result){
+            reply.send(result)
+        }
+        else{
+            reply.send("No Records found")
+        }
+    }
+    catch (e) {
+        reply.send("Error "+e.message)
+    }  
+}
+})
+
+
+    fastify.post('/api/contacts', async (request, reply) => {
+        try {
+            let result = await getContact();
+            if(result){
+            reply.send(result)
+        }
+        else{
+            reply.status(404).send("No Records found")
+        }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+
+    fastify.post('/api/leads', async (request, reply) => {
+        try {
+            let result = await getLead();
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.status(404).send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/opportunities', async (request, reply) => {
+        try {
+            let result = await getOpportunity();
+            if(result){
+                reply.send(result)
+            }
+            else {
+                reply.status(404).send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/inventories', async (request, reply) => {
+        console.log("inventory management datas test")
+        try {
+            let result = await getProperty();
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.status(404).send("No Records found")
+            }
+            
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/Users', async (request, reply) => {
+        console.log("inventory management datas test")
+        try {
+            let result = await getUser();
+            if(result){
+                reply.send(result)  
+            }
+            else{
+                reply.status(404).send("No Records found")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+
+
+    fastify.post('/api/deleteAccount', async (request, reply) => {
+        console.log("inside Account delete");
+        try {
+            let result = await deleteAccount(request.query.code);
+            if (result) {
+                reply.send("Account Deleted Successfully")
+            }
+            else {
+                reply.status(404).send("No data deleted")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+
+    })
+    fastify.post('/api/deleteContact', async (request, reply) => {
+        console.log("inside Contact delete");
+        console.log("Query " + JSON.stringify(request.query.code))
+        try {
+            let result = await deleteContact(request.query.code);
+            if(result){
+                reply.send("Contact Deleted Successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/deleteOpportunity', async (request, reply) => {
+        console.log("inside opportunity delete");
+        try {
+            let result = await deleteOpportunity(request.query.code);
+            if(result){
+                reply.send("Opportunity deleted successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+    })
+    fastify.post('/api/deleteLead', async (request, reply) => {
+        console.log("inside lead delete");
+        try {
+            let result = await deleteLead(request.query.code);
+            if(result){
+                reply.send("Lead Deleted Successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")   
+            }
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+
+    })
+    fastify.post('/api/deleteInventory', async (request, reply) => {
+        console.log("inside inventory delete");
+        try {
+            let result = await deleteProperty(request.query.code);
+            if(result){
+                
+                reply.send("Property Deleted Successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")   
+            }
+          
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+
+    })
+
+    fastify.post('/api/delete', async (request, reply) => {
+        console.log("inside user delete");
+        try {
+            let result = await deleteUser(request.query.code);
+            if(result){
+                reply.send("User Deleted Successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")   
+            }
+          
+        }
+        catch (e) {
+            reply.send("Error "+e.message)
+        }
+
+    })
+
+
+   /* fastify.post('/api/accountInsert', Accouninsertschema, async (request, reply) => {
         console.log("accountInsert Route called")
-        console.log("request status code "+request);
+        console.log("request status code "+reply.statuscode);
         try {
             console.log("inside account insert try ");
             let result = await Accountdata(request.body)
@@ -41,7 +450,7 @@ function getdatafromreact(fastify, options, done) {
             }
 
             else {
-                reply.send("No Data Inserted")
+                reply.status(404 ).send("No Data Inserted")
             }
 
 
@@ -60,9 +469,11 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("New Contact with id: " + result + " inserted successfully")
 
             }
+          
             else {
-                reply.send("No Data Inserted")
+                reply.status(404 ).send("No Data Inserted")
             }
+
         }
         catch (e) {
             reply.send(e);
@@ -79,9 +490,11 @@ function getdatafromreact(fastify, options, done) {
 
             }
 
+          
             else {
-                reply.send("No Data Inserted")
+                reply.status(404 ).send("No Data Inserted")
             }
+
         }
         catch (e) {
             reply.send(e);
@@ -97,9 +510,11 @@ function getdatafromreact(fastify, options, done) {
             if (result) {
                 await reply.send("New Lead with id: " + result + " inserted successfully")
             }
+           
             else {
-                reply.send("No Data Inserted")
+                reply.status(404 ).send("No Data Inserted")
             }
+
 
         }
         catch (e) {
@@ -113,7 +528,12 @@ function getdatafromreact(fastify, options, done) {
 
         try {
             let result = await propertydata(request.body)
+            if (result) {
             reply.send("New Inventory  with id: " + result + " inserted successfully")
+            }
+            else {
+                reply.status(404 ).send("No Data Inserted")
+            }
         }
         catch (e) {
             reply.send(e.message);
@@ -131,168 +551,17 @@ function getdatafromreact(fastify, options, done) {
             reply.send(e.message);
         }
     })
+*/
 
 
-    fastify.post('/api/accounts', async (request, reply) => {
-        console.log("test inside show accounts")
-        try {
-            let result = await getAccount();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e)
-        }
-
-    })
 
 
-    fastify.post('/api/accountsname', async (request, reply) => {
-        console.log("test inside show accounts")
-        try {
-            let result = await getAccountName();
-            reply.send(result)
-
-        }
-        catch (e) {
-
-        }
-
-    })
-
-    fastify.post('/api/contacts', async (request, reply) => {
-        try {
-            let result = await getContact();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e)
-        }
-
-    })
-
-    fastify.post('/api/leads', async (request, reply) => {
-        try {
-            let result = await getLead();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e)
-        }
-
-    })
-
-    fastify.post('/api/opportunities', async (request, reply) => {
-        try {
-            let result = await getOpportunity();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e)
-        }
-
-    })
-    fastify.post('/api/inventories', async (request, reply) => {
-        console.log("inventory management datas test")
-        try {
-            let result = await getProperty();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
 
 
-    fastify.post('/api/Users', async (request, reply) => {
-        console.log("inventory management datas test")
-        try {
-            let result = await getUser();
-            reply.send(result)
-        }
-        catch (e) {
-            reply.send(e)
-        }
-
-    })
 
 
-    fastify.post('/api/deleteAccount', async (request, reply) => {
-        console.log("inside Account delete");
-        try {
-            if (result) {
-                let result = await deleteAccount(request.query.code);
-                reply.send("Account Deleted Successfully")
-            }
-            else {
-                reply.send("No data deleted")
-            }
-        }
-        catch (e) {
-            reply.send(e);
-        }
 
-    })
-    fastify.post('/api/deleteContact', async (request, reply) => {
-        console.log("inside Contact delete");
-        console.log("Query " + JSON.stringify(request.query.code))
-        try {
-            let result = await deleteContact(request.query.code);
-            reply.send("Contact Deleted Successfully")
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
-    fastify.post('/api/deleteOpportunity', async (request, reply) => {
-        console.log("inside opportunity delete");
-        try {
-            let result = await deleteOpportunity(request.query.code);
-            reply.send("Opportunity deleted successfully")
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
-    fastify.post('/api/deleteLead', async (request, reply) => {
-        console.log("inside lead delete");
-        try {
-            let result = await deleteLead(request.query.code);
-            reply.send("Lead Deleted Successfully")
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
-    fastify.post('/api/deleteInventory', async (request, reply) => {
-        console.log("indie inventory delete");
-        try {
-            let result = await deleteProperty(request.query.code);
-            reply.send("Property Deleted Successfully")
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
-
-    fastify.post('/api/delete', async (request, reply) => {
-        console.log("indie user delete");
-        try {
-            let result = await deleteUser(request.query.code);
-            reply.send("User Deleted Successfully")
-        }
-        catch (e) {
-            reply.send(e.message)
-        }
-
-    })
-
-
-    fastify.post('/api/editAccount', async (request, reply) => {
+ /*   fastify.post('/api/editAccount', async (request, reply) => {
         console.log("inside updae Account");
         console.log("Query " + JSON.stringify(request.body))
         try {
@@ -362,7 +631,7 @@ function getdatafromreact(fastify, options, done) {
         catch (e) {
             reply.send(e.message)
         }
-    })
+    })*/
 
     done();
 

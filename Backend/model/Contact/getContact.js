@@ -8,8 +8,8 @@ async function getContact() {
         console.log("inside client");
         await client.connect();
         console.log("connected to client");
-    let data =     await getDatas(client)
-    return data;
+        let data = await getDatas(client)
+        return data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -17,15 +17,35 @@ async function getContact() {
     }
 }
 getContact().catch(console.error);
-async function getDatas(client)
-{
-const cursor = await client.db("CRM").collection("Contact").find({})
-const results = await cursor.toArray();  
-    if(results.length >0){
-    return JSON.stringify(results)
-}  
-else{
-    console.log("no data found");
-}                                                                                                    
+async function getDatas(client) {
+console.log("inside client contact get")
+    let queryobj = ([
+        {
+            $lookup:
+            {
+                from: 'Account',
+                let: { "searchId": { $toObjectId: "$AccountId" } },
+                pipeline: [
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Accountdetails'
+            }
+        }
+    ])
+    try{
+        const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
+        const results = await cursor.toArray();
+        if (results.length > 0) {
+            // console.log("contact data "+JSON.stringify(results))
+            return JSON.stringify(results)
+        }
+        else {
+            console.log("no data found");
+        }
+    }
+    catch(e){
+        return e.message
+    }
+  
 }
-module.exports= {getContact}
+module.exports = { getContact }

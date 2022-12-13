@@ -25,11 +25,11 @@ async function deleteDatas(client, deleteaccountdata) {
     console.log("results " + JSON.stringify(results))
     if (results) {
         console.log(results);
-        console.log(`${result.deletedCount} documents deleted in the Database`);
-        return JSON.stringify(results)
+        console.log(`${results.deletedCount} documents deleted in the Database`);
+        return results
     }
     else {
-        console.log("no data found");
+        return "no data found";
     }
 }
 module.exports = { deleteAccount }
