@@ -23,38 +23,6 @@ const { deleteUser } = require('../model/User/delelteUser')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 function getdatafromreact(fastify, options, done) {
 
-
-
-fastify.post('/api/fastifyaccount',async (request,reply)=>{
-    console.log("inside fastify account");
-
-    try {
-        let result = await getfastifyAccount();
-        const users = await this.mongo.client.db('CRM').collection('Account').find();
-        console.log("connected to lient ???");
-        const results = await users.toArray();
-        if(result){
-        reply.send(result)
-    }
-    else{
-        reply.status(404).send("No Records found")
-    }
-    }
-    catch (e) {
-        reply.status(404).send("Error "+e.message)
-    }
-
-})
-
-
-
-
-
-
-
-
-
-
     fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("request body "+request.body)
