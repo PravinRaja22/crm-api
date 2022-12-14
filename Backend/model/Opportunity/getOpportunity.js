@@ -3,7 +3,7 @@ fastify.register(require('../plugin/mongodb'))
 fastify.after(error => error ? console.log(error):"plugin loaded successfully");
 fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
 async function getOpportunity(){
-    console.log("inside get Inventory of mongo db");
+    console.log("inside get Opportunity of mongo db");
     let queryobj = ([
                 {
                     $lookup:
@@ -28,20 +28,17 @@ async function getOpportunity(){
                     }
                 }
             ])
-    const leadCollection = await fastify.mongo.client.db('CRM').collection('Opportunity')
-    let result =await  leadCollection.aggregate(queryobj).toArray();
-    return result;
+    const opportunityCollection = await fastify.mongo.client.db('CRM').collection('Opportunity')
+    let results =await  opportunityCollection.aggregate(queryobj).toArray();
+    if(results.length >0){
+                return JSON.stringify(results)
+        }  
+        else{
+            return "No data found";
+        }              
+    
 }
 module.exports = {getOpportunity}
-
-
-
-
-
-
-
-
-
 
 
 

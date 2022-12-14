@@ -3,7 +3,7 @@ fastify.register(require('../plugin/mongodb'))
 fastify.after(error => error ? console.log(error):"plugin loaded successfully");
 fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
 async function getContact(){
-    console.log("inside get Contact  of mongo db");
+    console.log("inside get contact  of mongo db");
     let queryobj = ([
                 {
                     $lookup:

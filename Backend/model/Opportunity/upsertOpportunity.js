@@ -5,7 +5,7 @@ async function upsertOpportunity(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        var updatedatas={
+        var updatedataswithpropandlead={
             propertyId:request.Inventory,
             LeadId:request.Lead,
             opportunityName:request.opportunityName,
@@ -18,8 +18,62 @@ async function upsertOpportunity(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        let data = await updatesiglerecord(client,request._id,updatedatas)
-        return data
+        var updatedataswithprop={
+            propertyId:request.Inventory,
+            opportunityName:request.opportunityName,
+            type:request.type,
+            leadSource:request.leadSource,
+            amount:request.amount,
+            closeDate:request.closeDate,
+            stage:request.stage,
+            description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+        }
+        var updatedataswithlead={
+            
+            LeadId:request.Lead,
+            opportunityName:request.opportunityName,
+            type:request.type,
+            leadSource:request.leadSource,
+            amount:request.amount,
+            closeDate:request.closeDate,
+            stage:request.stage,
+            description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+        }
+        var updatedataswithoutpropandlead={
+            opportunityName:request.opportunityName,
+            type:request.type,
+            leadSource:request.leadSource,
+            amount:request.amount,
+            closeDate:request.closeDate,
+            stage:request.stage,
+            description:request.description,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+        }
+
+        if(request.Inventory && request.Lead){
+            let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)
+            return data
+        }
+        else if(request.Inventory && !request.Lead){
+            let data = await updatesiglerecord(client,request._id,updatedataswithprop)
+            return data
+
+        }
+        else if(request.Lead && !request.Inventory){
+            let data = await updatesiglerecord(client,request._id,updatedataswithlead)
+            return data
+
+        }
+        else {
+            let data = await updatesiglerecord(client,request._id,updatedataswithoutpropandlead)
+            return data
+        }
+       
     } 
     catch (e) {
         console.error(e);

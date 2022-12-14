@@ -5,8 +5,14 @@ fastify.ready(error => error ? console.log(error):"All plugin loaded successfull
 async function getProperty(){
     console.log("inside get Inventory of mongo db");
     const inventoyCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
-    let result =await  inventoyCollection.find().toArray();
-    return result;
+    let results =await  inventoyCollection.find().toArray();
+    if (results.length > 0) {
+                // console.log(results);
+                return results
+            }
+            else {
+                return "No data found";
+            }
 }
 module.exports = {getProperty}
 
