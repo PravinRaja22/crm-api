@@ -74,7 +74,8 @@ function getdatafromreact(fastify, options, done) {
             let result = await upsertProperty(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send(result)            }
+                reply.send(result)      
+            }
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
@@ -95,7 +96,8 @@ function getdatafromreact(fastify, options, done) {
             let result = await upsertLead(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send(result)            }
+                reply.send(result)           
+            }
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
