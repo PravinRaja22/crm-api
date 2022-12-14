@@ -161,6 +161,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/accountsname', async (request, reply) => {
     if(request.query.searchKey)
     {
+        console.log("inside if statemeent for account name router");
         try {
             let result = await getAccountName(request.query.searchKey);
             if(result){
@@ -175,8 +176,9 @@ function getdatafromreact(fastify, options, done) {
         }
     }
     else{
+        console.log("inside else statemeent for account name router");
         try {
-            let result = await getAccountName(request.body);
+            let result = await getAccountName();
             if(result){
                 reply.send(result)
             }
