@@ -17,6 +17,7 @@ async function getAccountName(request) {
 getAccountName().catch(console.error);
 async function getDatas(client, accNames) {
     if(accNames){
+        console.log("inside if statement of accnames")
         const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^'+accNames)})
         const results = await cursor.toArray();
         let accname = []
