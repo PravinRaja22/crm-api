@@ -5,7 +5,6 @@ async function upsertProperty(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside upsert  inventory " + request)
         var updatedatas = {
             projectName: request.projectName,
             propertyName: request.propertyName,
@@ -20,7 +19,6 @@ async function upsertProperty(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-        console.log("update inventory  datas " + JSON.stringify(updatedatas))
         let data =  await updatesiglerecord(client, request._id, updatedatas)
         return data
     }
@@ -33,14 +31,11 @@ async function upsertProperty(request) {
 }
 upsertProperty().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
-    console.log("inside update inventory  " + id)
     const result = await client.db("CRM").collection("Inventory Management").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {
-        console.log(`one document was inserted with the id ${result.upsertedId}`);
         return `Record inserted with the id ${result.upsertedId}`
     }
     else {
-        console.log(`${result.modifiedCount} document(s) was were updated`);
         return `Inventory Management  Updated Succesfully`
     }
 }

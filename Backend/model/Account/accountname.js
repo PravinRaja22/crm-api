@@ -16,12 +16,9 @@ async function getAccountName(request) {
 }
 getAccountName().catch(console.error);
 async function getDatas(client, accNames) {
-    console.log("inside accnames for lookup is "+accNames)
     if(accNames){
         const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^'+accNames)})
-        console.log("cursor " + JSON.stringify(cursor));
         const results = await cursor.toArray();
-        console.log("result data " + results);
         let accname = []
         if (results.length > 0) {
             results.forEach(element => {
@@ -39,11 +36,9 @@ async function getDatas(client, accNames) {
         }
     }
     else {
-        console.log("inside else statement accNames is Null")
+        console.log("inside account name test");
         const cursor = await client.db("CRM").collection("Account").find().limit(5)
-        console.log("cursor " + JSON.stringify(cursor));
         const results = await cursor.toArray();
-        console.log("result data " + results);
         let accname = []
         if (results.length > 0) {
             results.forEach(element => {

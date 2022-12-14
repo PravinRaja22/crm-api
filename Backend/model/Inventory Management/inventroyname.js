@@ -16,6 +16,7 @@ async function propertyName(request) {
 propertyName().catch(console.error);
 async function getDatas(client, propname) {
     if (propname) {
+        console.log("inside property if ");
         const cursor = await client.db("CRM").collection("Inventory Management").find({ propertyName: new RegExp('^' + propname) })
         const results = await cursor.toArray();
         let propName = []
@@ -36,7 +37,6 @@ async function getDatas(client, propname) {
 
     }
     else {
-        console.log("inside else statement propName is Null")
         const cursor = await client.db("CRM").collection("Inventory Management").find().limit(5)
         const results = await cursor.toArray();
         let propName = []

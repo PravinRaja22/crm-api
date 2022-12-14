@@ -5,7 +5,6 @@ async function upsertUser(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        console.log("inside  upsert user "+request)
         var updatedatas={
             firstName:request.firstName,
             lastName: request.lastName,
@@ -16,7 +15,6 @@ async function upsertUser(request) {
             role: request.role,
             access: request.access
         }
-        console.log("update object datas "+JSON.stringify(updatedatas))
        let result =  await updatesiglerecord(client,request._id,updatedatas)
        return result
     } 
@@ -30,16 +28,12 @@ async function upsertUser(request) {
 upsertUser().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     //update single record
-    console.log("inside update user "+id)
-    console.log("User  "+ObjectId(id))
     const result = await client.db("CRM").collection("User").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
-        console.log(`one document was inserted with the id ${result.upsertedId}`);
         return `Record inserted with the id ${result.upsertedId}`
 
     }
     else {
-        console.log(`${result.modifiedCount} document(s) was were updated`);
         return `User Updated Succesfully`
 
     }

@@ -35,7 +35,6 @@ async function getDatas(client, leadname) {
 
     }
     else {
-        console.log("inside else statement leadname is Null")
         const cursor = await client.db("CRM").collection("Lead").find().limit(5)
         const results = await cursor.toArray();
         let ledName = []

@@ -16,6 +16,7 @@
     "fastify-cli": "^5.6.0",
     "fastify-cors": "^6.1.0",
     "fastify-env": "^2.2.0",
+    "fastify-file-upload": "^4.0.0",
     "fastify-mongodb": "^4.2.0",
     "fastify-swagger": "^5.2.0",
     "multer": "^1.4.5-lts.1",
