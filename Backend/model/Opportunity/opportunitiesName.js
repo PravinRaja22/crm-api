@@ -15,22 +15,22 @@ async function  getopportunityName(request) {
     }
 }
 getopportunityName().catch(console.error);
-async function getDatas(client, oppNames) {
-    if(accNames){
+async function getDatas(client, oppName) {
+    if(oppName){
         console.log("inside if statement of accnames")
         const cursor = await client.db("CRM").collection("Opportunity").find({ opportunityName: new RegExp('^'+oppNames)})
         const results = await cursor.toArray();
-        let accname = []
+        let oppname = []
         if (results.length > 0) {
             results.forEach(element => {
-                console.log(element.accountName);
-                let accountname = {
-                    accountName: element.accountName,
+                console.log(element.opportunityName);
+                let opportunityName = {
+                    opportunityName: element.opportunityName,
                     id: element._id
                 }
-                accname.push(accountname)
+                oppname.push(opportunityName)
             });
-            return JSON.stringify(accname)
+            return JSON.stringify(oppname)
         }
         else {
             return 'No data Found'
@@ -40,17 +40,17 @@ async function getDatas(client, oppNames) {
         console.log("inside account name test");
         const cursor = await client.db("CRM").collection("Opportunity").find().limit(5)
         const results = await cursor.toArray();
-        let accname = []
+        let oppname = []
         if (results.length > 0) {
             results.forEach(element => {
-                console.log(element.accountName);
-                let accountname = {
-                    accountName: element.accountName,
+                console.log(element.opportunityName);
+                let opportunityName = {
+                    opportunityName: element.opportunityName,
                     id: element._id
                 }
-                accname.push(accountname)
+                oppname.push(opportunityName)
             });
-            return JSON.stringify(accname)
+            return JSON.stringify(oppname)
         }
         else {
             return "no data found";

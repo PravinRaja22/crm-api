@@ -324,7 +324,7 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
                 reply.send(result)
             }
             else{
-                reply.send("No Records found")
+                reply.send("No Data found")
             }
         }
         catch (e) {
