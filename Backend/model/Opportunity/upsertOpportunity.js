@@ -54,7 +54,6 @@ async function upsertOpportunity(request) {
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
         }
-
         if(request.Inventory && request.Lead){
             let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)
             return data
@@ -73,7 +72,6 @@ async function upsertOpportunity(request) {
             let data = await updatesiglerecord(client,request._id,updatedataswithoutpropandlead)
             return data
         }
-       
     } 
     catch (e) {
         console.error(e);

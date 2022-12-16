@@ -1,3 +1,25 @@
+// const { ObjectId } = require('@fastify/mongodb')
+// const fastify = require('fastify')({logger :false})
+// fastify.register(require('../plugin/mongodb'))
+// fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
+// fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
+// async function deleteAccount(deleteaccountdata){
+//     console.log("inside Delete Account  of mongo db");
+//     console.log("deleted account id is : ",deleteaccountdata);
+//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     let results =await  accountCollection.deleteOne({ _id: ObjectId(deleteaccountdata) });
+//     if (results) {
+//                 console.log('inside if of delete Account');
+//                 return results
+//             }
+//             else {
+//                 console.log("inside else of delete Account");
+//                 return "no data found";
+//             }
+// }
+// module.exports = {deleteAccount}
+
+
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function deleteAccount(dataid) {

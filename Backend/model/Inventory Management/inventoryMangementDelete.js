@@ -1,3 +1,24 @@
+// const { ObjectId } = require('@fastify/mongodb')
+// const fastify = require('fastify')({logger :false})
+// fastify.register(require('../plugin/mongodb'))
+// fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
+// fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
+// async function deleteProperty(deleteInventorydata){
+//     console.log("inside Delete Inventory  of mongo db");
+//     console.log("Inventory id is : ",deleteInventorydata);
+//     const inventoyCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
+//     let results =await  inventoyCollection.deleteOne({ _id: ObjectId(deleteInventorydata) });
+//     if (results) {
+//                 console.log('inside if of delete Inventory');
+//                 return results
+//             }
+//             else {
+//                 console.log("inside else of delete Inventory");
+//                 return "no data found";
+//             }
+// }
+// module.exports = {deleteProperty}
+
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function deleteProperty(dataid) {
