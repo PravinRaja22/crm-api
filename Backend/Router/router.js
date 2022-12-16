@@ -8,6 +8,7 @@ const { upsertTask } = require('../model/Task/upsertTask');
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
 const { leadName} = require('../model/Lead/leadName')
+const { getUserName } = require('../model/User/userName')
 const { getopportunityName } = require('../model/Opportunity/opportunitiesName')
 const { getAccountdata } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
@@ -337,7 +338,41 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     }
     })
 
-
+    fastify.post('/api/usersbyName', async (request, reply) => {
+        if(request.query.searchKey)
+        {
+            try {
+                let result = await getUserName(request.query.searchKey);
+                if(result){
+                    reply.send(result)
+                }
+                else{
+                    reply.send("No Records found")
+                }
+            }
+            catch (e) {
+                console.log("inside user lookup name  Catch block ",e);
+        
+                reply.send("Error "+e.message)
+            }
+        }
+        else{
+            try {
+                let result = await getUserName();
+                if(result){
+                    reply.send(result)
+                }
+                else{
+                    reply.send("No Data found")
+                }
+            }
+            catch (e) {
+                console.log("inside user lookup name  Catch block ",e);
+        
+                reply.send("Error "+e.message)
+            }  
+        }
+        })
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
