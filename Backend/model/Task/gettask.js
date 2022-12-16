@@ -15,10 +15,45 @@ async function getTask() {
 }
 getTask().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Task").find({})
+
+    let queryobj = ([
+        {
+            $lookup:
+            {
+                from: 'Account',
+                let: { "searchId": { $toObjectId: "$AccountId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Accountdetails'
+            }
+        },
+        {
+            $lookup:
+            {
+                from: 'Lead',
+                let: { "searchId": { $toObjectId: "$LeadId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Leaddetails'
+            }
+        },
+        {
+            $lookup:
+            {
+                from: 'Opportunity',
+                let: { "searchId": { $toObjectId: "$OpportunityId" } },
+                pipeline: [
+                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                ],
+                as: 'Opportunitydetails'
+            }
+        }
+    ])
+    const cursor = await client.db("CRM").collection("Task").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-        //console.log(results);
         return JSON.stringify(results)
     }
     else {

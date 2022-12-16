@@ -22,6 +22,7 @@ const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
+const { deleteTask } = require('../model/Task/deleteTask')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 function getdatafromreact(fastify, options, done) {
 
@@ -380,7 +381,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in opportunity view  page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -392,14 +392,12 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
                 reply.send(result)
             }
             else{
-
                 reply.status(404).send("No Records found")
             }
             
         }
         catch (e) {
             console.log("error block in Inventory view  page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -416,7 +414,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in users view  page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -434,7 +431,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in users view  page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -453,7 +449,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in delete account   page ",e);
-
             reply.send("Error "+e.message)
         }
 
@@ -472,7 +467,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in delete contact   page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -488,7 +482,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in delete opportunity   page ",e);
-
             reply.send("Error "+e.message)
         }
     })
@@ -525,7 +518,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         }
         catch (e) {
             console.log("error block in delete Inventory   page ",e);
-
             reply.send("Error "+e.message)
         }
 
@@ -544,9 +536,24 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
           
         }
         catch (e) {
-
             console.log("error block in delete user   page ",e);
+            reply.send("Error "+e.message)
+        }
 
+    })
+    fastify.post('/api/deleteTask', async (request, reply) => {
+        console.log("inside Task delete");
+        try {
+            let result = await deleteTask(request.query.code);
+            if(result){
+                reply.send("Task Deleted Successfully")
+            }
+            else{
+                reply.status(404).send("No data deleted")   
+            }
+        }
+        catch (e) {
+            console.log("error block in delete user   page ",e);
             reply.send("Error "+e.message)
         }
 
