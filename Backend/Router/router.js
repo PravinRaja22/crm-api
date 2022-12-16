@@ -4,6 +4,7 @@ const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } =require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } =require('../model/User/upsertUser')
 const { upsertProperty} =require('../model/Inventory Management/upsertInventorymanagement')
+const { upsertTask } = require('../model/Task/upsertTask');
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
 const { leadName} = require('../model/Lead/leadName')
@@ -13,6 +14,7 @@ const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
 const { getUser } = require('../model/User/getUser')
+const { getTask } = require ('../model/Task/gettask.js')
 const { deleteAccount } = require('../model/Account/deleteAccount')
 const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteLead } = require('../model/Lead/deleteLead')
@@ -36,7 +38,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Account Catch block ",e.message);
+            console.log("inside Account upsert Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
@@ -61,7 +63,7 @@ function getdatafromreact(fastify, options, done) {
                 }
             }
             catch (e) {
-                console.log("inside Contact Catch block ",e.message);
+                console.log("inside Contact upsert Catch block ",e);
                 reply.send("Error "+e.message)
             }
     })
@@ -81,7 +83,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Inventory Catch block ",e.message);
+            console.log("inside Inventory upsert Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
@@ -103,7 +105,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Lead Catch block ",e.message);
+            console.log("inside Lead upsert Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
@@ -122,13 +124,13 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Opportunity  Catch block ",e.message);
+            console.log("inside Opportunity upsert  Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
 
     fastify.post('/api/UpsertUser',async (request, reply) => {
-        console.log("upsert route called")
+        console.log("upsert user route called")
         console.log("upsert status code "+reply.statuscode);
         try {
             console.log("upsert Lead try ");
@@ -141,10 +143,30 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Opportunity  Catch block ",e.message);
+            console.log("inside user upsert  Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
+
+    fastify.post('/api/UpsertTask',async (request, reply) => {
+        console.log("upsert task route called")
+        console.log("upsert status code "+reply.statuscode);
+        try {
+            console.log("upsert Lead try ");
+            let result = await upsertTask(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send(result)            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside user upsert  Catch block ",e);
+            reply.send("Error "+e.message)
+        }
+    })
+    
     fastify.post('/api/accounts', async (request, reply) => {
         try {
             let result = await getAccountdata();
@@ -156,6 +178,8 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
+            console.log("inside Account view Catch block ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -174,6 +198,8 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
+            console.log("inside lookyp account name view Catch block ",e);
+
             reply.send("Error "+e.message)
         }
     }
@@ -189,6 +215,8 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
+            console.log("inside lookup account name view Catch block ",e);
+
             reply.send("Error "+e.message)
         }
     }
@@ -210,6 +238,8 @@ if(request.query.searchKey)
         }
     }
     catch (e) {
+        console.log("inside inventory lookup name  Catch block ",e);
+
         reply.send("Error "+e.message)
     }
 }
@@ -224,6 +254,8 @@ else{
         }
     }
     catch (e) {
+        console.log("inside inventory lookup name  Catch block ",e);
+
         reply.send("Error "+e.message)
     }  
 }
@@ -243,6 +275,8 @@ if(request.query.searchKey)
         }
     }
     catch (e) {
+        console.log("inside lead lookup name  Catch block ",e);
+
         reply.send("Error "+e.message)
     }
 }
@@ -257,6 +291,8 @@ else{
         }
     }
     catch (e) {
+        console.log("inside lead lookup name  Catch block ",e);
+
         reply.send("Error "+e.message)
     }  
 }
@@ -270,10 +306,11 @@ else{
             reply.send(result)
         }
         else{
-            reply.status(404).send("No Records found")
+            reply.send("No Records found")
         }
         }
         catch (e) {
+            console.log("error block in contact view  page ",e);
             reply.send("Error "+e.message)
         }
     })
@@ -289,6 +326,8 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in lead view  page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -303,6 +342,8 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in opportunity view  page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -314,11 +355,14 @@ else{
                 reply.send(result)
             }
             else{
+
                 reply.status(404).send("No Records found")
             }
             
         }
         catch (e) {
+            console.log("error block in Inventory view  page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -334,6 +378,26 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in users view  page ",e);
+
+            reply.send("Error "+e.message)
+        }
+    })
+
+    fastify.post('/api/Task', async (request, reply) => {
+        console.log("Inside Task Router")
+        try {
+            let result = await  getTask();
+            if(result){
+                reply.send(result)  
+            }
+            else{
+                reply.status(404).send("No Records found")
+            }
+        }
+        catch (e) {
+            console.log("error block in users view  page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -351,6 +415,8 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in delete account   page ",e);
+
             reply.send("Error "+e.message)
         }
 
@@ -368,6 +434,8 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in delete contact   page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -382,6 +450,8 @@ else{
                 reply.status(404).send("No data deleted")            }
         }
         catch (e) {
+            console.log("error block in delete opportunity   page ",e);
+
             reply.send("Error "+e.message)
         }
     })
@@ -397,6 +467,8 @@ else{
             }
         }
         catch (e) {
+            console.log("error block in delete lead   page ",e);
+
             reply.send("Error "+e.message)
         }
 
@@ -415,6 +487,8 @@ else{
           
         }
         catch (e) {
+            console.log("error block in delete Inventory   page ",e);
+
             reply.send("Error "+e.message)
         }
 
@@ -433,6 +507,9 @@ else{
           
         }
         catch (e) {
+
+            console.log("error block in delete user   page ",e);
+
             reply.send("Error "+e.message)
         }
 

@@ -1,7 +1,7 @@
 const fastify = require('fastify')({logger :false})
 fastify.register(require('../plugin/mongodb'))
-fastify.after(error => error ? console.log(error):"plugin loaded successfully");
-fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
+fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
+fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 async function getContact(){
     console.log("inside get contact  of mongo db");
     let queryobj = ([
@@ -18,8 +18,8 @@ async function getContact(){
                 }
             ])
     const contactCollection = await fastify.mongo.client.db('CRM').collection('Contact')
-    let result =await  contactCollection.aggregate(queryobj).toArray();
-    return result;
+    let results =await contactCollection.aggregate(queryobj).toArray();
+    return  results;
 }
 module.exports = {getContact}
 

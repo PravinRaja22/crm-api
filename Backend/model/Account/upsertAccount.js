@@ -1,3 +1,72 @@
+// const { ObjectId } = require('@fastify/mongodb')
+// const fastify = require('fastify')({ logger: false })
+// fastify.register(require('../plugin/mongodb'))
+// fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
+// fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
+// async function upsertAccount(request) {
+//     let results
+//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     let upsertdatas = {
+//         PropertyId: request.Inventory,
+//         accountName: request.accountName,
+//         accountNumber: request.accountNumber,
+//         annualRevenue: request.annualRevenue,
+//         rating: request.rating,
+//         type: request.type,
+//         phone: request.phone,
+//         industry: request.industry,
+//         billingAddress: request.billingAddress,
+//         billingCountry: request.billingCountry,
+//         billingCity: request.billingCity,
+//         billingCities: request.billingCities,
+//         shippingAddress: request.shippingAddress,
+//         description: request.description,
+//         createdbyId: request.createdbyId,
+//         createdDate: request.createdDate,
+//     }
+//     let upsertdataswithoutinventory = {
+//         accountName: request.accountName,
+//         accountNumber: request.accountNumber,
+//         annualRevenue: request.annualRevenue,
+//         rating: request.rating,
+//         type: request.type,
+//         phone: request.phone,
+//         industry: request.industry,
+//         billingAddress: request.billingAddress,
+//         billingCountry: request.billingCountry,
+//         billingCity: request.billingCity,
+//         shippingAddress: request.shippingAddress,
+//         description: request.description,
+//         createdbyId: request.createdbyId,
+//         createdDate: request.createdDate,
+//     }
+//     let id=request._id;
+//     if (request.Inventory) {
+//         console.log("request.Inventory in account object");
+//         results = await accountCollection.updateOne({ _id: ObjectId(id) },{ $set: upsertdatas }, { upsert: true });
+//     }
+//     else {
+//         console.log("inventory not availabe in account object");
+//         results = await accountCollection.updateOne({ _id: ObjectId(id) }, { $set:upsertdataswithoutinventory }, { upsert: true });
+//     }
+//     console.log("Results inside account upsert object  "+JSON.stringify(results));
+//     if (results.upsertedCount > 0) {
+//         return `Record inserted with the id ${results.upsertedId}`
+//     }
+//     else if(results.modifiedCount > 0){
+//         return `Account Updated Succesfully`
+//     }
+//     else {
+//         return 'No Data Inserted or Updated'
+//     }
+// }
+// module.exports = { upsertAccount }
+
+
+
+
+
+
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertAccount(request) {

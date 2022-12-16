@@ -1,8 +1,0 @@
-
-##get all items
-GET http://localhost:3000/ HTTP/1.1
-
-
-##get single items
-GET http://localhost:3000/1 HTTP/1.1
- 
