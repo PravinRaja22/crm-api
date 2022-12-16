@@ -158,13 +158,14 @@ function getdatafromreact(fastify, options, done) {
             let result = await upsertTask(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send(result)            }
+                reply.send(result)          
+            }
             else {
                 reply.status(404).send("No Data Inserted or updated")
             }
         }
         catch (e) {
-            console.log("inside user upsert  Catch block ",e);
+            console.log("inside task upsert  Catch block ",e);
             reply.send("Error "+e.message)
         }
     })
