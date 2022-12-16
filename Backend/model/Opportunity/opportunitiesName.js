@@ -18,7 +18,7 @@ getopportunityName().catch(console.error);
 async function getDatas(client, oppName) {
     if(oppName){
         console.log("inside if statement of accnames")
-        const cursor = await client.db("CRM").collection("Opportunity").find({ opportunityName: new RegExp('^'+oppNames)})
+        const cursor = await client.db("CRM").collection("Opportunity").find({ opportunityName: new RegExp('^'+oppName)})
         const results = await cursor.toArray();
         let oppname = []
         if (results.length > 0) {
