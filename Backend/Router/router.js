@@ -8,6 +8,7 @@ const { upsertTask } = require('../model/Task/upsertTask');
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName} = require('../model/Inventory Management/inventroyname');
 const { leadName} = require('../model/Lead/leadName')
+const { getopportunityName } = require('../model/Opportunity/opportunitiesName')
 const { getAccountdata } = require('../model/Account/getAccount')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
@@ -297,6 +298,42 @@ else{
     }  
 }
 })
+
+fastify.post('/api/opportunitiesbyName', async (request, reply) => {
+    if(request.query.searchKey)
+    {
+        try {
+            let result = await getopportunityName(request.query.searchKey);
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.send("No Records found")
+            }
+        }
+        catch (e) {
+            console.log("inside lead lookup name  Catch block ",e);
+    
+            reply.send("Error "+e.message)
+        }
+    }
+    else{
+        try {
+            let result = await getopportunityName();
+            if(result){
+                reply.send(result)
+            }
+            else{
+                reply.send("No Records found")
+            }
+        }
+        catch (e) {
+            console.log("inside lead lookup name  Catch block ",e);
+    
+            reply.send("Error "+e.message)
+        }  
+    }
+    })
 
 
     fastify.post('/api/contacts', async (request, reply) => {

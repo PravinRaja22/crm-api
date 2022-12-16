@@ -1,7 +1,7 @@
 // const fastify = require('fastify')({logger :false})
 // fastify.register(require('../plugin/mongodb'))
-// fastify.after(error => error ? console.log(error):"plugin loaded successfully");
-// fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
+// // fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
+// // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 // async function getOpportunity(){
 //     console.log("inside get Opportunity of mongo db");
 //     let queryobj = ([

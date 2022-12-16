@@ -1,19 +1,20 @@
-// const fastify = require('fastify')({logger :false})
+// const fastify = require('fastify')({ logger: false })
 // fastify.register(require('../plugin/mongodb'))
-// fastify.after(error => error ? console.log(error):"plugin loaded successfully");
-// fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
-// async function getProperty(){
-//     console.log("inside get Inventory of mongo db");
-//     const inventoyCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
-//     let results =await  inventoyCollection.find().toArray();
+// fastify.after(error => error ? console.log(error) : "plugin loaded successfully");
+// fastify.ready(error => error ? console.log(error) : "All plugin loaded successfully");
+// async function getProperty() {
+//     console.log("inside get inventory of mongo db");
+//     const inventoryCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
+//     let results = await inventoryCollection.find().toArray();
 //     if (results.length > 0) {
-//                 return results
-//             }
-//             else {
-//                 return "No data found";
-//             }
+//         console.log(results);
+//         return JSON.stringify(results)
+//     }
+//     else {
+//         return "No data found";
+//     }
 // }
-// module.exports = {getProperty}
+// module.exports = { getProperty }
 
 
 const { MongoClient } = require('mongodb');
