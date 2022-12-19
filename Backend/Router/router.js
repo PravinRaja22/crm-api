@@ -513,7 +513,7 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
                 reply.send("Opportunity deleted successfully")
             }
             else{
-                reply.status(404).send("No data deleted")            }
+                reply.send("No data deleted")            }
         }
         catch (e) {
             console.log("error block in delete opportunity   page ",e);
