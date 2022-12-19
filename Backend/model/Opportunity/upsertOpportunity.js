@@ -6,7 +6,7 @@ async function upsertOpportunity(request) {
     try {
         await client.connect();
         var updatedataswithpropandlead={
-            propertyId:request.Inventory,
+            InventoryId:request.Inventory,
             LeadId:request.Lead,
             opportunityName:request.opportunityName,
             type:request.type,
@@ -19,7 +19,7 @@ async function upsertOpportunity(request) {
             createdDate: request.createdDate,
         }
         var updatedataswithprop={
-            propertyId:request.Inventory,
+            InventoryId:request.Inventory,
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,
