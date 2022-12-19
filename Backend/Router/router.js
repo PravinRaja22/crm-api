@@ -407,12 +407,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     fastify.post('/api/opportunities', async (request, reply) => {
         try {
             let result = await getOpportunity();
-            if(result){
+        
                 reply.send(result)
-            }
-            else {
-                reply.send("No Records found")
-            }
+        
         }
         catch (e) {
             console.log("error block in opportunity view  page ",e);
