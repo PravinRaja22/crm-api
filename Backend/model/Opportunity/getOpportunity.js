@@ -75,7 +75,7 @@ async function getDatas(client)
                 pipeline: [
                 { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
-                as: 'Invetorydetails'
+                as: 'Inventorydetails'
             }
         },
         {
