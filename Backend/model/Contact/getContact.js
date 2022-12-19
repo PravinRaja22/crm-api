@@ -40,7 +40,6 @@
 
 const { MongoClient } = require('mongodb');
 async function getContact() {
-    //filter the data based on the bedrooms bathroom and beds
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     try {
@@ -72,7 +71,14 @@ async function getDatas(client) {
         const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
         const results = await cursor.toArray();
         if (results.length > 0) {
-            // console.log("contact data "+JSON.stringify(results))
+            results.forEach((datearray)=>{
+                console.log("date field "+datearray.date);
+                var utcSeconds = datearray.date;
+                var d = new Date(utcSeconds);
+                console.log(d.toISOString().split('T')[0]) 
+                datearray.date = d.toISOString().split('T')[0]
+                console.log("resutles of contact data "+JSON.stringify(results));
+            });
             return JSON.stringify(results)
         }
         else {
@@ -82,6 +88,5 @@ async function getDatas(client) {
     catch(e){
         return e.message
     }
-  
 }
 module.exports = { getContact }

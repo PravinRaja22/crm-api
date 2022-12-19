@@ -375,12 +375,10 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
-            if(result){
+           
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+        
+        
         }
         catch (e) {
             console.log("error block in contact view  page ",e);
