@@ -57,6 +57,4 @@ async function getDatas(client, userName) {
         }
     }
 }
-module.exports = {
-    getUserName
-}
+module.exports = {getUserName}

@@ -9,6 +9,7 @@ async function upsertTask(request) {
             subject: request.subject,
             nameofContact: request.nameofContact,
             realatedTo: request.realatedTo,
+            attachments:request.attachments,
             assignedTo: request.assignedTo,
             startDate: request.startDate,
             startTime: request.startTime,
@@ -21,6 +22,7 @@ async function upsertTask(request) {
             AccountId: request.AccountId,
             subject: request.subject,
             nameofContact: request.nameofContact,
+            attachments:request.attachments,
             realatedTo: request.realatedTo,
             assignedTo: request.assignedTo,
             startDate: request.startDate,
@@ -34,6 +36,7 @@ async function upsertTask(request) {
             LeadId: request.LeadId,
             subject: request.subject,
             nameofContact: request.nameofContact,
+            attachments:request.attachments,
             realatedTo: request.realatedTo,
             assignedTo: request.assignedTo,
             startDate: request.startDate,
@@ -45,6 +48,7 @@ async function upsertTask(request) {
         }
         var updatedataswithopportunity = {
             OpportunityId: request.OpportunityId,
+            attachments:request.attachments,
             subject: request.subject,
             nameofContact: request.nameofContact,
             realatedTo: request.realatedTo,
