@@ -26,7 +26,6 @@ const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 function getdatafromreact(fastify, options, done) {
-
     fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("request body "+request.body)
@@ -53,7 +52,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert status code "+reply.statuscode);
         console.log("request body "+JSON.stringify(request.body))
         console.log("request query "+JSON.stringify(request.query))
-        console.log("file upload datas "+request.raw.files);
+        console.log("file upload datas "+request);
             try {
                 console.log("upsert contact try ");
                 let result = await upsertContact(request.body)
@@ -153,9 +152,9 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/UpsertTask',async (request, reply) => {
         console.log("upsert task route called")
-        console.log("upsert status code "+reply.statuscode);
+        console.log("upsert status code "+(request));
         try {
-            console.log("upsert Lead try ");
+            console.log("upsert tASK try ");
             let result = await upsertTask(request.body)
             console.log("result length " + result);
             if (result) {
@@ -376,12 +375,10 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
-            if(result){
+           
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+        
+        
         }
         catch (e) {
             console.log("error block in contact view  page ",e);
@@ -408,12 +405,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     fastify.post('/api/opportunities', async (request, reply) => {
         try {
             let result = await getOpportunity();
-            if(result){
+        
                 reply.send(result)
-            }
-            else {
-                reply.status(404).send("No Records found")
-            }
+        
         }
         catch (e) {
             console.log("error block in opportunity view  page ",e);
@@ -514,7 +508,7 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
                 reply.send("Opportunity deleted successfully")
             }
             else{
-                reply.status(404).send("No data deleted")            }
+                reply.send("No data deleted")            }
         }
         catch (e) {
             console.log("error block in delete opportunity   page ",e);
@@ -543,14 +537,12 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         console.log("inside inventory delete");
         try {
             let result = await deleteProperty(request.query.code);
-            if(result){
-                
+            if(result){   
                 reply.send("Property Deleted Successfully")
             }
             else{
                 reply.status(404).send("No data deleted")   
             }
-          
         }
         catch (e) {
             console.log("error block in delete Inventory   page ",e);
@@ -569,13 +561,11 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
             else{
                 reply.status(404).send("No data deleted")   
             }
-          
         }
         catch (e) {
             console.log("error block in delete user   page ",e);
             reply.send("Error "+e.message)
         }
-
     })
     fastify.post('/api/deleteTask', async (request, reply) => {
         console.log("inside Task delete");
@@ -592,7 +582,6 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
             console.log("error block in delete user   page ",e);
             reply.send("Error "+e.message)
         }
-
     })
 
 

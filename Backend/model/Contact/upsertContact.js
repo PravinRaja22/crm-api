@@ -64,6 +64,12 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertContact(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
+    let datestring = request.date;
+    console.log("upsert contact date field "+datestring);
+    let dateformatfield=new Date(datestring);
+    console.log("date formated field "+dateformatfield);
+    let contactdate = dateformatfield.getTime();
+
     try {
         await client.connect();
         var updatedatas={
@@ -71,7 +77,7 @@ async function upsertContact(request) {
             salutation:request.salutation,
             firstName:request.firstName,
             lastName:request.lastName,
-            date:request.date,
+            date:contactdate,
             phone:request.phone,
             department:request.department,
             leadSource:request.leadSource,
@@ -86,7 +92,7 @@ async function upsertContact(request) {
             salutation:request.salutation,
             firstName:request.firstName,
             lastName:request.lastName,
-            date:request.date,
+            date:contactdate,
             phone:request.phone,
             department:request.department,
             leadSource:request.leadSource,

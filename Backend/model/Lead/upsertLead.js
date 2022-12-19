@@ -5,20 +5,20 @@ async function upsertLead(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
+        console.log("full Name "+request.fullName);
         var updatedatas={
             salutation: request.salutation,
             firstName: request.firstName,
             lastName: request.lastName,
-            company: request.company,
+            fullName:request.fullName,
             phone: request.phone,
             leadSource: request.leadSource,
             industry: request.industry,
             leadStatus: request.leadStatus,
             email: request.email,
-            fax: request.fax,
-            description: request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate,
         }
     let data =  await updatesiglerecord(client,request._id,updatedatas)
     return data

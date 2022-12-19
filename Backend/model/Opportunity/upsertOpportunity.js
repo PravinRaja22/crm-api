@@ -3,10 +3,14 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertOpportunity(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
+
+
+
+
     try {
         await client.connect();
         var updatedataswithpropandlead={
-            propertyId:request.Inventory,
+            InventoryId:request.Inventory,
             LeadId:request.Lead,
             opportunityName:request.opportunityName,
             type:request.type,
@@ -19,7 +23,7 @@ async function upsertOpportunity(request) {
             createdDate: request.createdDate,
         }
         var updatedataswithprop={
-            propertyId:request.Inventory,
+            InventoryId:request.Inventory,
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,
@@ -31,13 +35,12 @@ async function upsertOpportunity(request) {
             createdDate: request.createdDate,
         }
         var updatedataswithlead={
-            
             LeadId:request.Lead,
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:request.closeDate, 
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
