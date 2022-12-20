@@ -8,6 +8,7 @@ async function upsertUser(request) {
         var updatedatas={
             firstName:request.firstName,
             lastName: request.lastName,
+            fullName:request.fullName,
             username: request.username,
             phone: request.phone,
             company: request.company,
