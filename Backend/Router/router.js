@@ -173,12 +173,9 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/accounts', async (request, reply) => {
         try {
             let result = await getAccountdata();
-            if(result){
+           
             reply.send(result)
-            }
-            else{
-                reply.status(404).send("No Records found")
-            }
+           
         }
         catch (e) {
             console.log("inside Account view Catch block ",e);
