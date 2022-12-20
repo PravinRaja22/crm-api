@@ -86,6 +86,7 @@ async function upsertAccount(request) {
             billingAddress: request.billingAddress,
             billingCountry: request.billingCountry,
             billingCity: request.billingCity,
+            billingCities: request.billingCities,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
             modifiedDate:request.modifiedDate
@@ -101,6 +102,7 @@ async function upsertAccount(request) {
             billingAddress: request.billingAddress,
             billingCountry: request.billingCountry,
             billingCity: request.billingCity,
+            billingCities: request.billingCities,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
             modifiedDate:request.modifiedDate
