@@ -71,6 +71,7 @@ async function upsertProperty(request) {
             tower: request.tower,
             country: request.country,
             city: request.city,
+            propertyCities:request.projectName,
             floor: request.floor,
             status: request.status,
             totalArea: request.totalArea,
