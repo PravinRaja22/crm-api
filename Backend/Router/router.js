@@ -173,9 +173,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/accounts', async (request, reply) => {
         try {
             let result = await getAccountdata();
-           
             reply.send(result)
-           
         }
         catch (e) {
             console.log("inside Account view Catch block ",e);
@@ -190,12 +188,10 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside if statemeent for account name router");
         try {
             let result = await getAccountName(request.query.searchKey);
-            if(result){
+          
                 reply.send(result)
-            }
-            else{
-                reply.send("No Records found")
-            }
+            
+            
         }
         catch (e) {
             console.log("inside lookyp account name view Catch block ",e);
@@ -207,12 +203,9 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside else statemeent for account name router");
         try {
             let result = await getAccountName();
-            if(result){
+         
                 reply.send(result)
-            }
-            else{
-                reply.send("No Records found")
-            }
+           
         }
         catch (e) {
             console.log("inside lookup account name view Catch block ",e);
@@ -230,12 +223,10 @@ if(request.query.searchKey)
 {
     try {
         let result = await propertyName(request.query.searchKey);
-        if(result){
+        
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+        
+       
     }
     catch (e) {
         console.log("inside inventory lookup name  Catch block ",e);
@@ -246,12 +237,9 @@ if(request.query.searchKey)
 else{
     try {
         let result = await propertyName();
-        if(result){
+        
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+       
     }
     catch (e) {
         console.log("inside inventory lookup name  Catch block ",e);
@@ -267,12 +255,9 @@ if(request.query.searchKey)
 {
     try {
         let result = await leadName(request.query.searchKey);
-        if(result){
+       
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+       
     }
     catch (e) {
         console.log("inside lead lookup name  Catch block ",e);
@@ -283,12 +268,9 @@ if(request.query.searchKey)
 else{
     try {
         let result = await leadName();
-        if(result){
+        
             reply.send(result)
-        }
-        else{
-            reply.send("No Records found")
-        }
+       
     }
     catch (e) {
         console.log("inside lead lookup name  Catch block ",e);
@@ -303,12 +285,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     {
         try {
             let result = await getopportunityName(request.query.searchKey);
-            if(result){
+           
                 reply.send(result)
-            }
-            else{
-                reply.send("No Records found")
-            }
+           
         }
         catch (e) {
             console.log("inside lead lookup name  Catch block ",e);
@@ -319,12 +298,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     else{
         try {
             let result = await getopportunityName();
-            if(result){
+          
                 reply.send(result)
-            }
-            else{
-                reply.send("No Data found")
-            }
+          
         }
         catch (e) {
             console.log("inside lead lookup name  Catch block ",e);
@@ -339,12 +315,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         {
             try {
                 let result = await getUserName(request.query.searchKey);
-                if(result){
+                
                     reply.send(result)
-                }
-                else{
-                    reply.send("No Records found")
-                }
+               
             }
             catch (e) {
                 console.log("inside user lookup name  Catch block ",e);
@@ -355,12 +328,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         else{
             try {
                 let result = await getUserName();
-                if(result){
+                
                     reply.send(result)
-                }
-                else{
-                    reply.send("No Data found")
-                }
+               
             }
             catch (e) {
                 console.log("inside user lookup name  Catch block ",e);
@@ -386,12 +356,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     fastify.post('/api/leads', async (request, reply) => {
         try {
             let result = await getLead();
-            if(result){
+           
                 reply.send(result)
-            }
-            else{
-                reply.status(404).send("No Records found")
-            }
+           
         }
         catch (e) {
             console.log("error block in lead view  page ",e);
@@ -415,12 +382,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             let result = await getProperty();
-            if(result){
+          
                 reply.send(result)
-            }
-            else{
-                reply.status(404).send("No Records found")
-            }
+        
             
         }
         catch (e) {
@@ -432,12 +396,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             let result = await getUser();
-            if(result){
+           
                 reply.send(result)  
-            }
-            else{
-                reply.status(404).send("No Records found")
-            }
+          
         }
         catch (e) {
             console.log("error block in users view  page ",e);
@@ -449,12 +410,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         console.log("Inside Task Router")
         try {
             let result = await  getTask();
-            if(result){
+           
                 reply.send(result)  
-            }
-            else{
-                reply.status(404).send("No Records found")
-            }
+           
         }
         catch (e) {
             console.log("error block in users view  page ",e);
