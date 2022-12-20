@@ -11,7 +11,6 @@ async function upsertUser(request) {
             fullName:request.fullName,
             username: request.username,
             phone: request.phone,
-            company: request.company,
             email: request.email,
             role: request.role,
             access: request.access,
