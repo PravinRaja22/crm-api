@@ -6,6 +6,7 @@ async function upsertLead(request) {
     try {
         await client.connect();
         console.log("full Name "+request.fullName);
+
         var updatedatas={
             salutation: request.salutation,
             firstName: request.firstName,

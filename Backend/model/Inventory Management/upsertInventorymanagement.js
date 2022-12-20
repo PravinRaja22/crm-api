@@ -75,7 +75,8 @@ async function upsertProperty(request) {
             status: request.status,
             totalArea: request.totalArea,
             createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
+            createdDate: request.cretedDate,
+            modifiedDate:request.modifiedDaate
         }
         let data =  await updatesiglerecord(client, request._id, updatedatas)
         return data

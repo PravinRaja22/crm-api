@@ -20,7 +20,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
+            createdDate: request.cretedDate,
+            modifiedDate:request.modifiedDaate
         }
         var updatedataswithprop={
             InventoryId:request.Inventory,
@@ -32,7 +33,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
+            createdDate: request.cretedDate,
+            modifiedDate:request.modifiedDaate
         }
         var updatedataswithlead={
             LeadId:request.Lead,
@@ -44,7 +46,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
+            createdDate: request.cretedDate,
+            modifiedDate:request.modifiedDaate
         }
         var updatedataswithoutpropandlead={
             opportunityName:request.opportunityName,
@@ -55,7 +58,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
+            createdDate: request.cretedDate,
+            modifiedDate:request.modifiedDaate
         }
         if(request.Inventory && request.Lead){
             let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)
