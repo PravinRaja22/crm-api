@@ -64,11 +64,20 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertContact(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
-    let datestring = request.date;
-    console.log("upsert contact date field "+datestring);
-    let dateformatfield=new Date(datestring);
-    console.log("date formated field "+dateformatfield);
-    let contactdate = dateformatfield.getTime();
+    if(request.date){
+        let datestring = request.date;
+        console.log("upsert contact date field "+datestring);
+        let dateformatfield=new Date(datestring);
+        console.log("date formated field "+dateformatfield);
+        var contactdate = dateformatfield.getTime();
+
+    }
+    else{
+
+        var contactdate = request.date;
+
+    }
+   
 
     try {
         await client.connect();

@@ -3,7 +3,10 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertOpportunity(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
-if(request.closeDate !== null){
+    console.log("opportunity daate outside if "+request.closeDate);
+    console.log('close date is : '+request.closeDate);
+if(request.closeDate){
+    console.log("inside if of epoch time");
     console.log("inside upsert opportunity ",request);
     let oppclosedate = request.closeDate;
     let formatdateopp = new Date(oppclosedate);
@@ -12,7 +15,7 @@ if(request.closeDate !== null){
 
 }
 else{
-
+console.log("inside else of epoch time");
     var getepochtime = request.closeDate
 }
 
