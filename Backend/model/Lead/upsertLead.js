@@ -11,7 +11,7 @@ async function upsertLead(request) {
             salutation: request.salutation,
             firstName: request.firstName,
             lastName: request.lastName,
-            fullName:request.fullName,
+            fullName:request.firstName+' '+request.lastName,
             phone: request.phone,
             leadSource: request.leadSource,
             industry: request.industry,
