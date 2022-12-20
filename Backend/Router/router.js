@@ -368,8 +368,9 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     })
     fastify.post('/api/opportunities', async (request, reply) => {
         try {
+            console.log("opportuntiy try");
             let result = await getOpportunity();
-        
+            console.log("opportunity result ",result);
                 reply.send(result)
         
         }
