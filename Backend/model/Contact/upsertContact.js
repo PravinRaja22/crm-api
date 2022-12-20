@@ -85,8 +85,8 @@ async function upsertContact(request) {
             mailingAddress:request.mailingAddress,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
 
         var updatedataswithoutaccount={
@@ -101,8 +101,8 @@ async function upsertContact(request) {
             mailingAddress:request.mailingAddress,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if(request.Account)
         {

@@ -4,7 +4,7 @@ async function upsertOpportunity(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
 
-
+console.log("inside upsert opportunity ",request);
 
 
     try {
@@ -20,8 +20,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithprop={
             InventoryId:request.Inventory,
@@ -33,8 +33,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithlead={
             LeadId:request.Lead,
@@ -46,8 +46,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithoutpropandlead={
             opportunityName:request.opportunityName,
@@ -58,8 +58,8 @@ async function upsertOpportunity(request) {
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
-            createdDate: request.cretedDate,
-            modifiedDate:request.modifiedDaate
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if(request.Inventory && request.Lead){
             let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)

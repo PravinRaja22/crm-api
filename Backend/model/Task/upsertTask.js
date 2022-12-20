@@ -17,6 +17,9 @@ async function upsertTask(request) {
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithaccount = {
             AccountId: request.AccountId,
@@ -31,6 +34,9 @@ async function upsertTask(request) {
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithLead = {
             LeadId: request.LeadId,
@@ -45,6 +51,9 @@ async function upsertTask(request) {
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithopportunity = {
             OpportunityId: request.OpportunityId,
@@ -59,6 +68,9 @@ async function upsertTask(request) {
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if (request.AccountId) {
             let data = await updatesiglerecord(client, request._id, updatedataswithaccount)

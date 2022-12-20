@@ -13,7 +13,10 @@ async function upsertUser(request) {
             company: request.company,
             email: request.email,
             role: request.role,
-            access: request.access
+            access: request.access,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
        let result =  await updatesiglerecord(client,request._id,updatedatas)
        return result
