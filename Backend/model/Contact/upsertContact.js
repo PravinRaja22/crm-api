@@ -65,20 +65,15 @@ async function upsertContact(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     if(request.date){
-        let datestring = request.date;
+        let datestring = request.dob;
         console.log("upsert contact date field "+datestring);
         let dateformatfield=new Date(datestring);
         console.log("date formated field "+dateformatfield);
         var contactdate = dateformatfield.getTime();
-
     }
     else{
-
         var contactdate = request.date;
-
     }
-   
-
     try {
         await client.connect();
         var updatedatas={
@@ -86,28 +81,29 @@ async function upsertContact(request) {
             salutation:request.salutation,
             firstName:request.firstName,
             lastName:request.lastName,
-            date:contactdate,
+            fullName:request.fullName,
+            dob:contactdate,
             phone:request.phone,
             department:request.department,
             leadSource:request.leadSource,
             email:request.email,
-            mailingAddress:request.mailingAddress,
+            fullAddress:request.fullAddress,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
             modifiedDate:request.modifiedDate
         }
-
         var updatedataswithoutaccount={
             salutation:request.salutation,
             firstName:request.firstName,
             lastName:request.lastName,
-            date:contactdate,
+            fullName:request.fullName,
+            dob:contactdate,
             phone:request.phone,
             department:request.department,
             leadSource:request.leadSource,
             email:request.email,
-            mailingAddress:request.mailingAddress,
+            fullAddress:request.fullAddress,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
@@ -117,13 +113,11 @@ async function upsertContact(request) {
         {
             let data = await updatesiglerecord(client,request._id,updatedatas)
             return data;
-
         }
         else{
             let data = await updatesiglerecord(client,request._id,updatedataswithoutaccount)
             return data;
         }
-      
     } 
     catch (e) {
         console.error(e);
@@ -142,6 +136,4 @@ async function updatesiglerecord(client,id,updatedatas){
         return `Contact Updated Succesfully`
     }
 }
-
-
 module.exports={upsertContact}
