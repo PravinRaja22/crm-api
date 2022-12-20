@@ -47,6 +47,7 @@
 
 
 
+const { result } = require('lodash');
 const { MongoClient } = require('mongodb');
 async function getOpportunity() {
     //filter the data based on the bedrooms bathroom and beds
@@ -94,7 +95,12 @@ async function getDatas(client)
 const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
 const results = await cursor.toArray();  
     if(results.length >0){
-      // console.log(results);
+    results.forEach(oppdate =>{
+        console.log("opportunity date "+oppdate.closeDate);
+        var d = new Date(oppdate.closeDate);
+        oppdate.closeDate = d.toISOString().split('T')[0]
+        console.log("resutles of contact data "+JSON.stringify(results));
+    })
        return JSON.stringify(results)
 }  
 else{

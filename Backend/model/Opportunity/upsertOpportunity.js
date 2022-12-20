@@ -5,7 +5,10 @@ async function upsertOpportunity(request) {
     const client = new MongoClient(url);
 
 console.log("inside upsert opportunity ",request);
-
+   let oppclosedate = request.closeDate;
+   let formatdateopp = new Date(oppclosedate);
+   let getepochtime = formatdateopp.getTime();
+   console.log("opportunity epoch time "+getepochtime);
 
     try {
         await client.connect();
@@ -16,7 +19,7 @@ console.log("inside upsert opportunity ",request);
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
@@ -29,7 +32,7 @@ console.log("inside upsert opportunity ",request);
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
@@ -42,7 +45,7 @@ console.log("inside upsert opportunity ",request);
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate, 
+            closeDate:getepochtime, 
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
@@ -54,7 +57,7 @@ console.log("inside upsert opportunity ",request);
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
