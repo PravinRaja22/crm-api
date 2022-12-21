@@ -60,4 +60,4 @@ async function getDatas(client) {
         console.log("no data found");
     }
 }
-module.exports = { getTask }
+module.exports = {getTask}

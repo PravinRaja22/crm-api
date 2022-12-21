@@ -41,5 +41,7 @@ async function updatesiglerecord(client,id,updatedatas){
     else {
         return `Lead  Updated Succesfully`
     }
+    
+
 }
 module.exports={upsertLead}
