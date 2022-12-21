@@ -21,6 +21,7 @@ async function getDatas(client, leadname) {
         let ledName = []
         if (results.length > 0) {
             results.forEach(element => {
+                console.log("full name ",element.fullName);
                 let leadName = {
                     leadName: element.fullName,
                     id: element._id
@@ -41,7 +42,7 @@ async function getDatas(client, leadname) {
         if (results.length > 0) {
             results.forEach(element => {
                 let leadName = {
-                    leadName: element.firstName,
+                    leadName: element.fullName,
                     id: element._id
                 }
                 ledName.push(leadName)
