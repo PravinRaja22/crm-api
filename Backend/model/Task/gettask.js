@@ -7,7 +7,7 @@ async function getTask() {
         let data = await getDatas(client)
         return data;
     } catch (e) {
-        console.error("get task catch block " +e);
+        console.error("get task catch block " + e);
         return e.message
     } finally {
         await client.close();
@@ -23,7 +23,7 @@ async function getDatas(client) {
                 from: 'Account',
                 let: { "searchId": { $toObjectId: "$AccountId" } },
                 pipeline: [
-                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
                 as: 'Accountdetails'
             }
@@ -34,7 +34,7 @@ async function getDatas(client) {
                 from: 'Lead',
                 let: { "searchId": { $toObjectId: "$LeadId" } },
                 pipeline: [
-                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
                 as: 'Leaddetails'
             }
@@ -45,7 +45,7 @@ async function getDatas(client) {
                 from: 'Opportunity',
                 let: { "searchId": { $toObjectId: "$OpportunityId" } },
                 pipeline: [
-                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
                 as: 'Opportunitydetails'
             }
@@ -54,10 +54,26 @@ async function getDatas(client) {
     const cursor = await client.db("CRM").collection("Task").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
+        results.forEach((element) => {
+            if (element.startDate && element.EndDate) {
+                let startdatesecs = new Date(element.startDate)
+                element.startDate = startdatesecs.toISOString().split('T')[0]
+                let enddatesecs = new Date(element.EndDate)
+                element.EndDate = enddatesecs.toISOString().split('T')[0]
+            }
+            else if(element.startDate && !element.EndDate){
+                let startdatesecs = new Date(element.startDate)
+                element.startDate = startdatesecs.toISOString().split('T')[0]
+            }
+            else if(!element.startDate && element.EndDate){
+                let enddatesecs = new Date(element.EndDate)
+                element.EndDate = enddatesecs.toISOString().split('T')[0]
+            }
+        })
         return JSON.stringify(results)
     }
     else {
         console.log("no data found");
     }
 }
-module.exports = {getTask}
+module.exports = { getTask }
