@@ -36,16 +36,9 @@
 //         else{
 //             return "No data found";
 //         }              
-    
+
 // }
 // module.exports = {getOpportunity}
-
-
-
-
-
-
-
 
 const { result } = require('lodash');
 const { MongoClient } = require('mongodb');
@@ -55,8 +48,8 @@ async function getOpportunity() {
     const client = new MongoClient(url);
     try {
         await client.connect();
-    let data =     await getDatas(client)
-    return data;
+        let data = await getDatas(client)
+        return data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -64,9 +57,7 @@ async function getOpportunity() {
     }
 }
 getOpportunity().catch(console.error);
-async function getDatas(client)
-{
-
+async function getDatas(client) {
     let queryobj = ([
         {
             $lookup:
@@ -74,7 +65,7 @@ async function getDatas(client)
                 from: 'Inventory Management',
                 let: { "searchId": { $toObjectId: "$InventoryId" } },
                 pipeline: [
-                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
                 as: 'Inventorydetails'
             }
@@ -85,28 +76,28 @@ async function getDatas(client)
                 from: 'Lead',
                 let: { "searchId": { $toObjectId: "$LeadId" } },
                 pipeline: [
-                { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
                 ],
                 as: 'Leaddetails'
             }
         }
     ])
-   
-const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
-const results = await cursor.toArray();  
-    if(results.length >0){
-    results.forEach(oppdate =>{
-        console.log("opportunity date "+oppdate.closeDate);
-        if(oppdate.closeDate)
-        {var d = new Date(oppdate.closeDate);
-        oppdate.closeDate = d.toISOString().split('T')[0]
-        console.log("resutles of contact data "+JSON.stringify(results));}
-    })
-       return JSON.stringify(results)
-}  
-else{
-    console.log("no data found");
-}                                                                                                    
+    const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
+    const results = await cursor.toArray();
+    if (results.length > 0) {
+        results.forEach(oppdate => {
+            console.log("opportunity date " + oppdate.closeDate);
+            if (oppdate.closeDate) {
+                var d = new Date(oppdate.closeDate);
+                oppdate.closeDate = d.toISOString().split('T')[0]
+                console.log("resutles of contact data " + JSON.stringify(results));
+            }
+        })
+        return JSON.stringify(results)
+    }
+    else {
+        console.log("no data found");
+    }
 }
-module.exports= {getOpportunity}
+module.exports = { getOpportunity }
 

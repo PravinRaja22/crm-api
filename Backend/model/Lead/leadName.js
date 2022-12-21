@@ -22,7 +22,7 @@ async function getDatas(client, leadname) {
         if (results.length > 0) {
             results.forEach(element => {
                 let leadName = {
-                    leadName: element.firstName,
+                    leadName: element.fullName,
                     id: element._id
                 }
                 ledName.push(leadName)

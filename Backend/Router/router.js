@@ -18,7 +18,6 @@ const { getProperty } = require('../model/Inventory Management/getInventoryManag
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require ('../model/Task/gettask.js')
 const { deleteAccount } = require('../model/Account/deleteAccount')
-const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
@@ -44,9 +43,6 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error "+e.message)
         }
     })
-
-
-
     fastify.post('/api/UpsertContact',async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code "+reply.statuscode);
@@ -81,7 +77,7 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)      
             }
             else {
-                reply.status(404).send("No Data Inserted or updated")
+
             }
         }
         catch (e) {
