@@ -421,6 +421,7 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
         try{
 
             let result = await leadTask(request.query.searchId)
+            return result;
         }
         catch (e) {
             console.log("error block in users view  page ",e);
