@@ -18,6 +18,8 @@ const { getProperty } = require('../model/Inventory Management/getInventoryManag
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require ('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
+const { opportunityTask} =require('../model/Task/opportunitytask')
+const {accountTask} = require('../model/Task/accounttask')
 const { deleteAccount } = require('../model/Account/deleteAccount')
 const { deleteLead } = require('../model/Lead/deleteLead')
 const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
@@ -431,10 +433,28 @@ fastify.post('/api/opportunitiesbyName', async (request, reply) => {
     })
     fastify.post('/api/getTaskbyAccountId', async (request, reply) => {
         console.log("Inside Task Account Router "+request.query.searchId)
+        try{
+
+            let result = await accountTask (request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ",e);
+            reply.send("Error "+e.message)
+        }
         
     })
     fastify.post('/api/getTaskbyOpportunityId', async (request, reply) => {
         console.log("Inside Task Opportunity Router "+request.query.searchId)
+        try{
+
+            let result = await opportunityTask(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ",e);
+            reply.send("Error "+e.message)
+        }
        
     })
 
