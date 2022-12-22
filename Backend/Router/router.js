@@ -1,3 +1,4 @@
+const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
 const { upsertAccount } = require('../model/Account/upsertAccount')
 const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
@@ -27,7 +28,35 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
+
+const csvtojson = require('csvtojson')
+
 function getdatafromreact(fastify, options, done) {
+
+
+
+fastify.post('/api/dataloaderlead',async(request,reply)=>{
+    console.log('inside data loader files');
+    console.log('data loader files '+JSON.stringify(request.body.file.name));
+    const files = request.body.file.name
+    const csvfilepath = files
+    csvtojson()
+    .fromFile(csvfilepath)
+    .then((jsonobj)=>{
+        console.log('json format '+JSON.stringify(jsonobj));
+        let result =  dataloaderLead(jsonobj)
+        return result
+    })
+})
+
+
+
+
+
+
+
+
+
     fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("request body "+request.body)
