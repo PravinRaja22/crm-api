@@ -21,7 +21,24 @@ async function leadtaskDatas(client,leadid) {
     const results = await cursor.toArray();
     console.log("lead final results "+JSON.stringify(results));
     if (results.length > 0) {
+        results.forEach((element) => {
+            if (element.startDate && element.EndDate) {
+                let startdatesecs = new Date(element.startDate)
+                element.startDate = startdatesecs.toISOString().split('T')[0]
+                let enddatesecs = new Date(element.EndDate)
+                element.EndDate = enddatesecs.toISOString().split('T')[0]
+            }
+            else if(element.startDate && !element.EndDate){
+                let startdatesecs = new Date(element.startDate)
+                element.startDate = startdatesecs.toISOString().split('T')[0]
+            }
+            else if(!element.startDate && element.EndDate){
+                let enddatesecs = new Date(element.EndDate)
+                element.EndDate = enddatesecs.toISOString().split('T')[0]
+            }
+        })
         return JSON.stringify(results)
+    
     }
     else {
         console.log("no data found");
