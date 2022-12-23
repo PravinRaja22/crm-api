@@ -42,14 +42,11 @@ dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client,id,updatedatas){
     const result = await client.db("CRM").collection("Lead").insertMany(updatedatas);
     console.log("result of inserted id "+JSON.stringify(result.insertedCount));
-    if (result.insertedCount) {
-        result.insertedIds.forEach(function(variable){
-            return `Record inserted with the id ${variable}`
-        });
-       
-    }
-   
-    
+    // if (result.insertedCount) {
+    //     result.insertedIds.forEach(function(variable){
+    //         return `Record inserted with the id ${variable}`
+    //     });
+    // }
 
 }
 module.exports={dataloaderLead}
