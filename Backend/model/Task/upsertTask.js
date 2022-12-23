@@ -3,6 +3,38 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertTask(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
+if(request.startDate &&request.EndDate ){
+    let startdatestring = request.startDate;
+    console.log("upsert contact date field "+startdatestring);
+    let startdateformatfield=new Date(startdatestring);
+    console.log("date formated field "+startdateformatfield);
+    var startdate = startdateformatfield.getTime();
+
+    let enddatestring = request.EndDate;
+    console.log("upsert contact date field "+enddatestring);
+    let enddateformatfield=new Date(enddatestring);
+    console.log("date formated field "+enddateformatfield);
+    var enddate = enddateformatfield.getTime();
+}
+   else if(request.startDate && ! request.EndDate){
+    let startdatestring = request.startDate;
+    console.log("upsert contact date field "+startdatestring);
+    let startdateformatfield=new Date(startdatestring);
+    console.log("date formated field "+startdateformatfield);
+    var startdate = startdateformatfield.getTime();
+
+    }
+    else if(request.EndDate && !request.startDate){
+        let enddatestring = request.EndDate;
+    console.log("upsert contact date field "+enddatestring);
+    let enddateformatfield=new Date(enddatestring);
+    console.log("date formated field "+enddateformatfield);
+    var enddate = enddateformatfield.getTime();
+    }
+    else{
+        var startdate = request.startDate;
+        var enddate = request.EndDate
+    }
     try {
         await client.connect();
         var updatedatas = {
@@ -11,40 +43,51 @@ async function upsertTask(request) {
             realatedTo: request.realatedTo,
             attachments:request.attachments,
             assignedTo: request.assignedTo,
-            startDate: request.startDate,
+            startDate: startdate,
             startTime: request.startTime,
-            EndDate: request.EndDate,
+            EndDate: enddate,
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithaccount = {
             AccountId: request.AccountId,
             subject: request.subject,
             nameofContact: request.nameofContact,
+            object:request.object,
             attachments:request.attachments,
             realatedTo: request.realatedTo,
             assignedTo: request.assignedTo,
-            startDate: request.startDate,
+            startDate: startdate,
             startTime: request.startTime,
-            EndDate: request.EndDate,
+            EndDate: enddate,
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithLead = {
             LeadId: request.LeadId,
             subject: request.subject,
             nameofContact: request.nameofContact,
+            object:request.object,
             attachments:request.attachments,
             realatedTo: request.realatedTo,
             assignedTo: request.assignedTo,
-            startDate: request.startDate,
+            startDate: startdate,
             startTime: request.startTime,
             EndDate: request.EndDate,
-            EndTime: request.EndTime,
+            EndTime: enddate,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithopportunity = {
             OpportunityId: request.OpportunityId,
@@ -53,12 +96,15 @@ async function upsertTask(request) {
             nameofContact: request.nameofContact,
             realatedTo: request.realatedTo,
             assignedTo: request.assignedTo,
-            startDate: request.startDate,
+            startDate: startdate,
             startTime: request.startTime,
-            EndDate: request.EndDate,
+            EndDate:enddate,
             EndTime: request.EndTime,
             description: request.description,
             attachments: request.attachments,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if (request.AccountId) {
             let data = await updatesiglerecord(client, request._id, updatedataswithaccount)

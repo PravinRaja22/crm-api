@@ -6,11 +6,12 @@ async function upsertLead(request) {
     try {
         await client.connect();
         console.log("full Name "+request.fullName);
+
         var updatedatas={
             salutation: request.salutation,
             firstName: request.firstName,
             lastName: request.lastName,
-            fullName:request.fullName,
+            fullName:request.firstName+' '+request.lastName,
             phone: request.phone,
             leadSource: request.leadSource,
             industry: request.industry,
@@ -40,5 +41,7 @@ async function updatesiglerecord(client,id,updatedatas){
     else {
         return `Lead  Updated Succesfully`
     }
+    
+
 }
 module.exports={upsertLead}

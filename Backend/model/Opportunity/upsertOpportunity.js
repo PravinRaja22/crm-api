@@ -3,9 +3,21 @@ var ObjectId = require('mongodb').ObjectId;
 async function upsertOpportunity(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
+    console.log("opportunity daate outside if "+request.closeDate);
+    console.log('close date is : '+request.closeDate);
+if(request.closeDate){
+    console.log("inside if of epoch time");
+    console.log("inside upsert opportunity ",request);
+    let oppclosedate = request.closeDate;
+    let formatdateopp = new Date(oppclosedate);
+    var getepochtime = formatdateopp.getTime();
+    console.log("opportunity epoch time "+getepochtime);
 
-
-
+}
+else{
+console.log("inside else of epoch time");
+    var getepochtime = request.closeDate
+}
 
     try {
         await client.connect();
@@ -16,11 +28,12 @@ async function upsertOpportunity(request) {
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithprop={
             InventoryId:request.Inventory,
@@ -28,11 +41,12 @@ async function upsertOpportunity(request) {
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithlead={
             LeadId:request.Lead,
@@ -40,22 +54,24 @@ async function upsertOpportunity(request) {
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate, 
+            closeDate:getepochtime, 
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var updatedataswithoutpropandlead={
             opportunityName:request.opportunityName,
             type:request.type,
             leadSource:request.leadSource,
             amount:request.amount,
-            closeDate:request.closeDate,
+            closeDate:getepochtime,
             stage:request.stage,
             description:request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if(request.Inventory && request.Lead){
             let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)

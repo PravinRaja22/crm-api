@@ -18,14 +18,14 @@ getUserName().catch(console.error);
 async function getDatas(client, userName) {
     if(userName){
         console.log("inside if statement of user names")
-        const cursor = await client.db("CRM").collection("User").find({ firstName: new RegExp('^'+userName)})
+        const cursor = await client.db("CRM").collection("User").find({ fullName: new RegExp('^'+userName)})
         const results = await cursor.toArray();
         let username = []
         if (results.length > 0) {
             results.forEach(element => {
-                console.log(element.firstName);
+                console.log(element.fullName);
                 let userName = {
-                    userName: element.firstName,
+                    userName: element.fullName,
                     id: element._id
                 }
                 username.push(userName)
@@ -43,9 +43,9 @@ async function getDatas(client, userName) {
         let username = []
         if (results.length > 0) {
             results.forEach(element => {
-                console.log(element.opportunityName);
+                console.log(element.fullName);
                 let userName = {
-                    userName: element.firstName,
+                    userName: element.fullName,
                     id: element._id
                 }
                 username.push(userName)

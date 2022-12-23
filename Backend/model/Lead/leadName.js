@@ -22,7 +22,7 @@ async function getDatas(client, leadname) {
         if (results.length > 0) {
             results.forEach(element => {
                 let leadName = {
-                    leadName: element.firstName,
+                    leadName: element.fullName,
                     id: element._id
                 }
                 ledName.push(leadName)
@@ -32,7 +32,6 @@ async function getDatas(client, leadname) {
         else {
             return 'No Records Found'
         }
-
     }
     else {
         const cursor = await client.db("CRM").collection("Lead").find().limit(5)
@@ -41,7 +40,7 @@ async function getDatas(client, leadname) {
         if (results.length > 0) {
             results.forEach(element => {
                 let leadName = {
-                    leadName: element.firstName,
+                    leadName: element.fullName,
                     id: element._id
                 }
                 ledName.push(leadName)

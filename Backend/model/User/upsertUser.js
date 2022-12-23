@@ -8,12 +8,15 @@ async function upsertUser(request) {
         var updatedatas={
             firstName:request.firstName,
             lastName: request.lastName,
+            fullName:request.fullName,
             username: request.username,
             phone: request.phone,
-            company: request.company,
             email: request.email,
             role: request.role,
-            access: request.access
+            access: request.access,
+            createdbyId: request.createdbyId,
+            createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
        let result =  await updatesiglerecord(client,request._id,updatedatas)
        return result

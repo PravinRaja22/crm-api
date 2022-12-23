@@ -35,7 +35,7 @@ async function getDatas(client)
 const cursor = await client.db("CRM").collection("Lead").find({})
 const results = await cursor.toArray();
     if(results.length >0){
-       //console.log(results);
+   
     return JSON.stringify(results)
 }
 else{

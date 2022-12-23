@@ -73,11 +73,12 @@ async function getDatas(client) {
         if (results.length > 0) {
             results.forEach((datearray)=>{
                 console.log("date field "+datearray.date);
-                var utcSeconds = datearray.date;
-                var d = new Date(utcSeconds);
-                console.log(d.toISOString().split('T')[0]) 
-                datearray.date = d.toISOString().split('T')[0]
-                console.log("resutles of contact data "+JSON.stringify(results));
+                if(datearray.date){
+                    var utcSeconds = datearray.date;
+                    var d = new Date(utcSeconds);
+                    datearray.date = d.toISOString().split('T')[0]
+                    console.log("resutles of contact data "+JSON.stringify(results));
+                }
             });
             return JSON.stringify(results)
         }

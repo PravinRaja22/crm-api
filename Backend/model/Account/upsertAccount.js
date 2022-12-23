@@ -87,10 +87,9 @@ async function upsertAccount(request) {
             billingCountry: request.billingCountry,
             billingCity: request.billingCity,
             billingCities: request.billingCities,
-            shippingAddress: request.shippingAddress,
-            description: request.description,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         var upsertdataswithoutinventory = {
             accountName: request.accountName,
@@ -103,10 +102,10 @@ async function upsertAccount(request) {
             billingAddress: request.billingAddress,
             billingCountry: request.billingCountry,
             billingCity: request.billingCity,
-            shippingAddress: request.shippingAddress,
-            description: request.description,
+            billingCities: request.billingCities,
             createdbyId: request.createdbyId,
             createdDate: request.createdDate,
+            modifiedDate:request.modifiedDate
         }
         if (request.Inventory) {
             let data = await upsertSingleRecord(client, request._id, upsertdatas)
