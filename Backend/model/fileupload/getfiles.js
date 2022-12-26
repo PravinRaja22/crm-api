@@ -22,7 +22,7 @@ async function getfiledata(client) {
             return JSON.stringify(results)
         }
         else {
-            console.log("no data found");
+            return 'No data found'
         }
     }
     catch(e){

@@ -12,7 +12,11 @@ console.log("Files "+request.file.filename);
         //Connecting to DB
         await client.connect();
        let data =  await insertFiledata(client, {
-        file:request.protocol + '://' + request.headers.host + '/ '+request.file.filename,
+       // file:request.protocol + '://' + request.headers.host + '/ '+request.file.filename,
+        file:request.file.filename,
+        files:request.file,
+
+
         })
         return data;
 
