@@ -16,7 +16,7 @@ getFiles().catch
 async function getfiledata(client) {
 
     try{
-        const cursor = await client.db("CRM").collection("File").find()
+        const cursor = await client.db("CRM").collection("Files").find()
         const results = await cursor.toArray();
         if (results.length > 0) {
             return JSON.stringify(results)
