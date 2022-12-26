@@ -239,7 +239,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/UpsertTask', async (request, reply) => {
         console.log("upsert task route called")
-        console.log("upsert status code " + (request));
+        console.log("upsert task attacments  ");
         try {
             console.log("upsert tASK try ");
             let result = await upsertTask(request.body)
