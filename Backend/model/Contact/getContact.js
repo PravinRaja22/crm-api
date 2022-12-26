@@ -38,7 +38,7 @@
 
 
 
-const { MongoClient } = require('mongodb');
+(console.error);const { MongoClient } = require('mongodb');
 async function getContact() {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
@@ -52,7 +52,7 @@ async function getContact() {
         await client.close();
     }
 }
-getContact().catch(console.error);
+getContact().catch
 async function getDatas(client) {
     let queryobj = ([
         {

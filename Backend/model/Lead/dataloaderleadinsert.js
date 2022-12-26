@@ -9,7 +9,8 @@ async function dataloaderLead(request) {
     let d = new Date();
 
     const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
-
+console.log("Before size");
+console.log("After size");
 
 
     var dataloaderarray=[];

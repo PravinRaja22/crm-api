@@ -26,6 +26,8 @@ const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
+const { insertFile } = require('../model/fileupload/fileupload')
+const { getFiles } = require('../model/fileupload/getfiles')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 // const csvtojson = require('csvtojson')
 // const Multer = require('fastify-multer')
@@ -89,7 +91,9 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
 
-
+fastify.get('/test',(request,reply)=>{
+    reply.send("data send")
+})
 
     //fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile)
     // fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile,async(request,reply)=>{
@@ -108,7 +112,23 @@ function getdatafromreact(fastify, options, done) {
 
 
 
+fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
+    console.log("inside upload file datas ");
+   // console.log(request.file.filename);
+    try {
+        console.log("Insert file upload try ");
+        let result = await insertFile(request)
+       
+            reply.send(result)
+        
+    }
+    catch (e) {
+        console.log("inside file  Inser  Catch block ", e);
+        reply.send("Error " + e.message)
+    }
 
+    
+})
 
 
 
@@ -239,7 +259,6 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/UpsertTask', async (request, reply) => {
         console.log("upsert task route called")
-        console.log("upsert task attacments  ");
         try {
             console.log("upsert tASK try ");
             let result = await upsertTask(request.body)
@@ -424,6 +443,20 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
+
+            reply.send(result)
+
+
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+    fastify.post('/api/files', async (request, reply) => {
+        try {
+            let result = await getFiles();
 
             reply.send(result)
 
