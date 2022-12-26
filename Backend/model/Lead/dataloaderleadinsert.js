@@ -4,6 +4,14 @@ async function dataloaderLead(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
     console.log("data loader testing data "+JSON.stringify(request));
+
+
+    let d = new Date();
+
+    const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+
+
+
     var dataloaderarray=[];
     request.forEach((variable)=>{
         console.log("inside for loop "+JSON.stringify(variable));
@@ -18,8 +26,8 @@ async function dataloaderLead(request) {
             leadStatus: variable.leadStatus,
             email: variable.email,
             createdbyId: variable.createdbyId,
-            createdDate: variable.createdDate,
-            modifiedDate:variable.modifiedDate,
+            createdDate: formatDate,
+            modifiedDate:formatDate,
         };
         dataloaderarray.push(updatedatas)
     });
