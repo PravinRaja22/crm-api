@@ -4,17 +4,15 @@ async function insertFile(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     //    const url = process.env.MONGODB_URL;
 //    console.log("process data "+ process.env.MONGODB_URL);
-console.log("inside File Upload insert "+request.file);
-console.log("inside file protocol "+request.headers.host);
-console.log("Files "+request.file.filename);
+console.log(request);
+// console.log("inside file protocol "+request.headers.host);
+// console.log("Files "+request.file.filename);
     const client = new MongoClient(url);
     try {
         //Connecting to DB
         await client.connect();
        let data =  await insertFiledata(client, {
-       // file:request.protocol + '://' + request.headers.host + '/ '+request.file.filename,
-        file:request.file.filename,
-        files:request.file,
+        files:request.raw.files,
 
 
         })

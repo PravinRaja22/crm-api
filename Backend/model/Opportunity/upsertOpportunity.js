@@ -21,76 +21,93 @@ console.log("inside else of epoch time");
 
     try {
         await client.connect();
-        var updatedataswithpropandlead={
-            InventoryId:request.Inventory,
-            LeadId:request.Lead,
-            opportunityName:request.opportunityName,
-            type:request.type,
-            leadSource:request.leadSource,
-            amount:request.amount,
-            closeDate:getepochtime,
-            stage:request.stage,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        var updatedataswithprop={
-            InventoryId:request.Inventory,
-            opportunityName:request.opportunityName,
-            type:request.type,
-            leadSource:request.leadSource,
-            amount:request.amount,
-            closeDate:getepochtime,
-            stage:request.stage,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        var updatedataswithlead={
-            LeadId:request.Lead,
-            opportunityName:request.opportunityName,
-            type:request.type,
-            leadSource:request.leadSource,
-            amount:request.amount,
-            closeDate:getepochtime, 
-            stage:request.stage,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        var updatedataswithoutpropandlead={
-            opportunityName:request.opportunityName,
-            type:request.type,
-            leadSource:request.leadSource,
-            amount:request.amount,
-            closeDate:getepochtime,
-            stage:request.stage,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        if(request.Inventory && request.Lead){
-            let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)
-            return data
-        }
-        else if(request.Inventory && !request.Lead){
-            let data = await updatesiglerecord(client,request._id,updatedataswithprop)
-            return data
 
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+    
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id') {
+                    result[names[i]] = values[i];
+                    console.log('inside upsert lead function ' + result);
+                }
         }
-        else if(request.Lead && !request.Inventory){
-            let data = await updatesiglerecord(client,request._id,updatedataswithlead)
-            return data
+        toObject(objdata, objvalues)
 
-        }
-        else {
-            let data = await updatesiglerecord(client,request._id,updatedataswithoutpropandlead)
-            return data
-        }
+        // var updatedataswithpropandlead={
+        //     InventoryId:request.Inventory,
+        //     LeadId:request.Lead,
+        //     opportunityName:request.opportunityName,
+        //     type:request.type,
+        //     leadSource:request.leadSource,
+        //     amount:request.amount,
+        //     closeDate:getepochtime,
+        //     stage:request.stage,
+        //     description:request.description,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // var updatedataswithprop={
+        //     InventoryId:request.Inventory,
+        //     opportunityName:request.opportunityName,
+        //     type:request.type,
+        //     leadSource:request.leadSource,
+        //     amount:request.amount,
+        //     closeDate:getepochtime,
+        //     stage:request.stage,
+        //     description:request.description,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // var updatedataswithlead={
+        //     LeadId:request.Lead,
+        //     opportunityName:request.opportunityName,
+        //     type:request.type,
+        //     leadSource:request.leadSource,
+        //     amount:request.amount,
+        //     closeDate:getepochtime, 
+        //     stage:request.stage,
+        //     description:request.description,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // var updatedataswithoutpropandlead={
+        //     opportunityName:request.opportunityName,
+        //     type:request.type,
+        //     leadSource:request.leadSource,
+        //     amount:request.amount,
+        //     closeDate:getepochtime,
+        //     stage:request.stage,
+        //     description:request.description,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // if(request.Inventory && request.Lead){
+        //     let data = await updatesiglerecord(client,request._id,updatedataswithpropandlead)
+        //     return data
+        // }
+        // else if(request.Inventory && !request.Lead){
+        //     let data = await updatesiglerecord(client,request._id,updatedataswithprop)
+        //     return data
+
+        // }
+        // else if(request.Lead && !request.Inventory){
+        //     let data = await updatesiglerecord(client,request._id,updatedataswithlead)
+        //     return data
+
+        // }
+        // else {
+        //     let data = await updatesiglerecord(client,request._id,updatedataswithoutpropandlead)
+        //     return data
+        // }
+
+        let data = await updatesiglerecord(client,request._id,result)
+        return data
     } 
     catch (e) {
         console.error(e);

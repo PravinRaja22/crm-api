@@ -71,15 +71,16 @@ async function getDatas(client) {
         const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
         const results = await cursor.toArray();
         if (results.length > 0) {
-            results.forEach((datearray)=>{
-                console.log("date field "+datearray.date);
-                if(datearray.date){
-                    var utcSeconds = datearray.date;
-                    var d = new Date(utcSeconds);
-                    datearray.date = d.toISOString().split('T')[0]
-                    console.log("resutles of contact data "+JSON.stringify(results));
-                }
-            });
+              //converting epoch time to ist
+            // results.forEach((datearray)=>{
+            //     console.log("date field "+datearray.date);
+            //     if(datearray.date){
+            //         var utcSeconds = datearray.date;
+            //         var d = new Date(utcSeconds);
+            //         datearray.date = d.toISOString().split('T')[0]
+            //         console.log("resutles of contact data "+JSON.stringify(results));
+            //     }
+            // });
             return JSON.stringify(results)
         }
         else {

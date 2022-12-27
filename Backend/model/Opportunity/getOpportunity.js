@@ -85,14 +85,15 @@ async function getDatas(client) {
     const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-        results.forEach(oppdate => {
-            console.log("opportunity date " + oppdate.closeDate);
-            if (oppdate.closeDate) {
-                var d = new Date(oppdate.closeDate);
-                oppdate.closeDate = d.toISOString().split('T')[0]
-                console.log("resutles of contact data " + JSON.stringify(results));
-            }
-        })
+        //converting epoch time to ist
+        // results.forEach(oppdate => {
+        //     console.log("opportunity date " + oppdate.closeDate);
+        //     if (oppdate.closeDate) {
+        //         var d = new Date(oppdate.closeDate);
+        //         oppdate.closeDate = d.toISOString().split('T')[0]
+        //         console.log("resutles of contact data " + JSON.stringify(results));
+        //     }
+        // })
         return JSON.stringify(results)
     }
     else {

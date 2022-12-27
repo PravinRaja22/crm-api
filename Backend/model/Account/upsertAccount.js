@@ -74,47 +74,64 @@ async function upsertAccount(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        var upsertdatas = {
-            PropertyId: request.Inventory,
-            accountName: request.accountName,
-            accountNumber: request.accountNumber,
-            annualRevenue: request.annualRevenue,
-            rating: request.rating,
-            type: request.type,
-            phone: request.phone,
-            industry: request.industry,
-            billingAddress: request.billingAddress,
-            billingCountry: request.billingCountry,
-            billingCity: request.billingCity,
-            billingCities: request.billingCities,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
+
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+    
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id') {
+                    result[names[i]] = values[i];
+                    console.log('inside upsert lead function ' + result);
+                }
         }
-        var upsertdataswithoutinventory = {
-            accountName: request.accountName,
-            accountNumber: request.accountNumber,
-            annualRevenue: request.annualRevenue,
-            rating: request.rating,
-            type: request.type,
-            phone: request.phone,
-            industry: request.industry,
-            billingAddress: request.billingAddress,
-            billingCountry: request.billingCountry,
-            billingCity: request.billingCity,
-            billingCities: request.billingCities,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        if (request.Inventory) {
-            let data = await upsertSingleRecord(client, request._id, upsertdatas)
-            return data
-        }
-        else {
-            let data = await upsertSingleRecord(client, request._id, upsertdataswithoutinventory)
-            return data
-        }
+        toObject(objdata, objvalues)
+
+
+        // var upsertdatas = {
+        //     PropertyId: request.Inventory,
+        //     accountName: request.accountName,
+        //     accountNumber: request.accountNumber,
+        //     annualRevenue: request.annualRevenue,
+        //     rating: request.rating,
+        //     type: request.type,
+        //     phone: request.phone,
+        //     industry: request.industry,
+        //     billingAddress: request.billingAddress,
+        //     billingCountry: request.billingCountry,
+        //     billingCity: request.billingCity,
+        //     billingCities: request.billingCities,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // var upsertdataswithoutinventory = {
+        //     accountName: request.accountName,
+        //     accountNumber: request.accountNumber,
+        //     annualRevenue: request.annualRevenue,
+        //     rating: request.rating,
+        //     type: request.type,
+        //     phone: request.phone,
+        //     industry: request.industry,
+        //     billingAddress: request.billingAddress,
+        //     billingCountry: request.billingCountry,
+        //     billingCity: request.billingCity,
+        //     billingCities: request.billingCities,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // if (request.Inventory) {
+        //     let data = await upsertSingleRecord(client, request._id, upsertdatas)
+        //     return data
+        // }
+        // else {
+        //     let data = await upsertSingleRecord(client, request._id, upsertdataswithoutinventory)
+        //     return data
+        // }
+        let data = await upsertSingleRecord(client, request._id, result)
+        return data
 
     }
     catch (e) {

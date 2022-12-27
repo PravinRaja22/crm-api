@@ -26,8 +26,17 @@ const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
+const { deleteContact } = require('../model/Contact/deleteContact')
+
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
+
+// const fastify = require('fastify')({ logger: false })
+// const fileUpload = require('fastify-file-upload')
+// fastify.register(fileUpload, {
+//     limits: { fileSize: 50 * 1024 * 1024 },
+//   });
+
 const { Accouninsertschema } = require('../model/schema/accountSchema')
 // const csvtojson = require('csvtojson')
 // const Multer = require('fastify-multer')
@@ -112,12 +121,30 @@ fastify.get('/test',(request,reply)=>{
 
 
 
-fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
-    console.log("inside upload file datas ");
-   // console.log(request.file.filename);
+// fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
+//     console.log("inside upload file datas ");
+//    // console.log(request.file.filename);
+//     try {
+//         console.log("Insert file upload try ");
+//         let result = await insertFile(request)
+       
+//             reply.send(result)
+        
+//     }
+//     catch (e) {
+//         console.log("inside file  Inser  Catch block ", e);
+//         reply.send("Error " + e.message)
+//     }
+
+    
+// })
+
+
+fastify.post('/api/uploadfile',async(request,reply)=>{
+   console.log('Request body data '+request.body);
     try {
         console.log("Insert file upload try ");
-        let result = await insertFile(request)
+        let result = await insertFile(request.body)
        
             reply.send(result)
         
@@ -154,7 +181,7 @@ fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)
     })
     fastify.post('/api/UpsertContact', async (request, reply) => {
         console.log("upsert route called")
-        console.log("upsert status code " + reply.statuscode);
+
         console.log("request body " + JSON.stringify(request.body))
         console.log("request query " + JSON.stringify(request.query))
         console.log("file upload datas " + request);
@@ -202,6 +229,7 @@ fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)
         console.log("upsert status code " + reply.statuscode);
         try {
             console.log("upsert Lead try ");
+            
             let result = await upsertLead(request.body)
             console.log("result length " + result);
             if (result) {
@@ -258,7 +286,7 @@ fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)
     })
 
     fastify.post('/api/UpsertTask', async (request, reply) => {
-        console.log("upsert task route called")
+        console.log("upsert task route called "+JSON.stringify(request.body))
         try {
             console.log("upsert tASK try ");
             let result = await upsertTask(request.body)

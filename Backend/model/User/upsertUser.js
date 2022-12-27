@@ -5,21 +5,37 @@ async function upsertUser(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        var updatedatas={
-            firstName:request.firstName,
-            lastName: request.lastName,
-            fullName:request.fullName,
-            username: request.username,
-            phone: request.phone,
-            email: request.email,
-            role: request.role,
-            access: request.access,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
+
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+    
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id') {
+                    result[names[i]] = values[i];
+                    console.log('inside upsert lead function ' + result);
+                }
         }
-       let result =  await updatesiglerecord(client,request._id,updatedatas)
-       return result
+        toObject(objdata, objvalues)
+
+    //     var updatedatas={
+    //         firstName:request.firstName,
+    //         lastName: request.lastName,
+    //         fullName:request.fullName,
+    //         username: request.username,
+    //         phone: request.phone,
+    //         email: request.email,
+    //         role: request.role,
+    //         access: request.access,
+    //         createdbyId: request.createdbyId,
+    //         createdDate: request.createdDate,
+    //         modifiedDate:request.modifiedDate
+    //     }
+    //    let result =  await updatesiglerecord(client,request._id,updatedatas)
+    //    return result
+       let data =  await updatesiglerecord(client,request._id,updatedatas)
+       return data
     } 
     catch (e) {
         console.error(e);
