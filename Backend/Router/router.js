@@ -139,6 +139,24 @@ fastify.get('/test',(request,reply)=>{
     
 // })
 
+// fastify.get('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
+//     console.log("inside upload file get datas  ");
+//    // console.log(request.file.filename);
+//     try {
+//         console.log("Insert file upload try ");
+//        let result = await insertFile(request)
+       
+//             reply.send('result')
+        
+//     }
+//     catch (e) {
+//         console.log("inside file  Inser  Catch block ", e);
+//         reply.send("Error " + e.message)
+//     }
+
+    
+// })
+
 
 fastify.post('/api/uploadfile',async(request,reply)=>{
    console.log('Request body data '+request.body);
@@ -229,7 +247,7 @@ fastify.post('/api/uploadfile',async(request,reply)=>{
         console.log("upsert status code " + reply.statuscode);
         try {
             console.log("upsert Lead try ");
-            
+
             let result = await upsertLead(request.body)
             console.log("result length " + result);
             if (result) {
