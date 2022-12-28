@@ -27,7 +27,7 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-
+const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
 const fastify = require('fastify')({ logger: false })
@@ -547,6 +547,32 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+    fastify.post('/download/:id', async (req, res) => {
+        console.log("inside download id ");
+        console.log(req.params.id);
+        try {
+            let result = await  getEachFiles(req.params.id);
+
+            reply.send(result)
+
+
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+        // try {
+        //   const file = await File.findById(req.params.id);
+        //   res.set({
+        //     'Content-Type': file.file_mimetype
+        //   });
+        //   res.sendFile(path.join(__dirname, '..', file.file_path));
+        // } catch (error) {
+        //   res.status(400).send('Error while downloading file. Try again later.');
+        // }
+      });
+
 
     fastify.post('/api/leads', async (request, reply) => {
         try {
