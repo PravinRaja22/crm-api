@@ -75,7 +75,7 @@ function toObject(names, values) {
     for (let i = 0; i < names.length; i++)
     if(names[i] != '_id'){
         result[names[i]] = values[i];
-        console.log('inside function '+result); ;
+        console.log('inside UPSERT CONTACT function '+result); ;
    }
        
 }

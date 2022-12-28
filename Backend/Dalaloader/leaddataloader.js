@@ -15,7 +15,7 @@ var storage = Multer.diskStorage({
     filename: (req, file, cb) => {
         cb(
             null,
-            file.originalname + '-' + Date.now()
+            new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname
         );
     }
 })

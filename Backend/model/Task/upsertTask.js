@@ -4,55 +4,57 @@ async function upsertTask(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
 
-    let objdata = Object.keys(request);
-    let objvalues = Object.values(request);
-    let result = {};
-
-    function toObject(names, values) {
-        for (let i = 0; i < names.length; i++)
-            if (names[i] != '_id') {
-                result[names[i]] = values[i];
-                console.log('inside upsert lead function ' + result);
-            }
-    }
-    toObject(objdata, objvalues)
 
 
-if(request.startDate &&request.EndDate ){
-    let startdatestring = request.startDate;
-    console.log("upsert contact date field "+startdatestring);
-    let startdateformatfield=new Date(startdatestring);
-    console.log("date formated field "+startdateformatfield);
-    var startdate = startdateformatfield.getTime();
 
-    let enddatestring = request.EndDate;
-    console.log("upsert contact date field "+enddatestring);
-    let enddateformatfield=new Date(enddatestring);
-    console.log("date formated field "+enddateformatfield);
-    var enddate = enddateformatfield.getTime();
-}
-   else if(request.startDate && ! request.EndDate){
-    let startdatestring = request.startDate;
-    console.log("upsert contact date field "+startdatestring);
-    let startdateformatfield=new Date(startdatestring);
-    console.log("date formated field "+startdateformatfield);
-    var startdate = startdateformatfield.getTime();
+// if(request.startDate &&request.EndDate ){
+//     let startdatestring = request.startDate;
+//     console.log("upsert contact date field "+startdatestring);
+//     let startdateformatfield=new Date(startdatestring);
+//     console.log("date formated field "+startdateformatfield);
+//     var startdate = startdateformatfield.getTime();
 
-    }
-    else if(request.EndDate && !request.startDate){
-        let enddatestring = request.EndDate;
-    console.log("upsert contact date field "+enddatestring);
-    let enddateformatfield=new Date(enddatestring);
-    console.log("date formated field "+enddateformatfield);
-    var enddate = enddateformatfield.getTime();
-    }
-    else{
-        var startdate = request.startDate;
-        var enddate = request.EndDate
-    }
-    console.log("attachemnent inside task ",request.attachments);
+//     let enddatestring = request.EndDate;
+//     console.log("upsert contact date field "+enddatestring);
+//     let enddateformatfield=new Date(enddatestring);
+//     console.log("date formated field "+enddateformatfield);
+//     var enddate = enddateformatfield.getTime();
+// }
+//    else if(request.startDate && ! request.EndDate){
+//     let startdatestring = request.startDate;
+//     console.log("upsert contact date field "+startdatestring);
+//     let startdateformatfield=new Date(startdatestring);
+//     console.log("date formated field "+startdateformatfield);
+//     var startdate = startdateformatfield.getTime();
+
+//     }
+//     else if(request.EndDate && !request.startDate){
+//         let enddatestring = request.EndDate;
+//     console.log("upsert contact date field "+enddatestring);
+//     let enddateformatfield=new Date(enddatestring);
+//     console.log("date formated field "+enddateformatfield);
+//     var enddate = enddateformatfield.getTime();
+//     }
+//     else{
+//         var startdate = request.startDate;
+//         var enddate = request.EndDate
+//     }
+//     console.log("attachemnent inside task ",request.attachments);
     try {
         await client.connect();
+
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+    
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id' ) {
+                result[names[i]] = values[i];
+                console.log('inside upsert Task function ' + result);
+        }
+    }
+        toObject(objdata, objvalues)
         // var updatedatas = {
         //     subject: request.subject,
         //     nameofContact: request.nameofContact,

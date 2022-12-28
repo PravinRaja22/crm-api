@@ -11,9 +11,9 @@ console.log("inside functions "+request.file);
     try {
         //Connecting to DB
         await client.connect();
-       let data =  await insertFiledata(client, {
-        files:request,
-
+        let data =  await insertFiledata(client, {
+        files:request.protocol + '://' + request.headers.host + '/' + request.file.filename,
+        filedata:request.file
 
         })
         return data;

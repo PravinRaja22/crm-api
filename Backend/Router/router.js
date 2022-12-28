@@ -30,6 +30,12 @@ const { deleteContact } = require('../model/Contact/deleteContact')
 
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
+const fastify = require('fastify')({ logger: false })
+
+
+
+
+
 
 // const fastify = require('fastify')({ logger: false })
 // const fileUpload = require('fastify-file-upload')
@@ -41,8 +47,11 @@ const { Accouninsertschema } = require('../model/schema/accountSchema')
 // const csvtojson = require('csvtojson')
 // const Multer = require('fastify-multer')
 // const path = require('path')
-const{fieldsUpload,uploadFile,Multer} = require('../Dalaloader/leaddataloader')
+const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/leaddataloader')
 function getdatafromreact(fastify, options, done) {
+    const fileUpload = require('fastify-file-upload')
+
+
 
     // var storage = Multer.diskStorage({
     //     destination: (req, file, cb) => {
@@ -96,13 +105,13 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-   
+
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
 
-fastify.get('/test',(request,reply)=>{
-    reply.send("data send")
-})
+    fastify.get('/test', (request, reply) => {
+        reply.send("data send")
+    })
 
     //fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile)
     // fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile,async(request,reply)=>{
@@ -121,59 +130,84 @@ fastify.get('/test',(request,reply)=>{
 
 
 
-// fastify.post('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
-//     console.log("inside upload file datas ");
-//    // console.log(request.file.filename);
-//     try {
-//         console.log("Insert file upload try ");
-//         let result = await insertFile(request)
-       
-//             reply.send(result)
-        
-//     }
-//     catch (e) {
-//         console.log("inside file  Inser  Catch block ", e);
-//         reply.send("Error " + e.message)
-//     }
+    fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside upload file datas ");
+        // console.log(request.file.filename);
+        try {
+            console.log("inside try function datas ");
+            const { title, description } = request.body;
+            const { path, mimetype } = request.file;
+            console.log("request body ",request.body);
+            console.log("request file ",request.file);
 
-    
-// })
-
-// fastify.get('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
-//     console.log("inside upload file get datas  ");
-//    // console.log(request.file.filename);
-//     try {
-//         console.log("Insert file upload try ");
-//        let result = await insertFile(request)
-       
-//             reply.send('result')
-        
-//     }
-//     catch (e) {
-//         console.log("inside file  Inser  Catch block ", e);
-//         reply.send("Error " + e.message)
-//     }
-
-    
-// })
-
-
-fastify.post('/api/uploadfile',async(request,reply)=>{
-   console.log('Request body data '+request.body);
-    try {
-        console.log("Insert file upload try ");
-        let result = await insertFile(request.body)
-       
+            
+            //  await file.save();
+            console.log("after request file");
+           // console.log("file data ", file);
+            let result = await insertFile(request)
             reply.send(result)
-        
-    }
-    catch (e) {
-        console.log("inside file  Inser  Catch block ", e);
-        reply.send("Error " + e.message)
-    }
+           // res.send('file uploaded successfully.');
+        } catch (error) {
+            reply.status(400).send('Error while uploading file. Try again later.');
+        }
+    },
+        (error, req, res, next) => {
+            if (error) {
+                reply.status(500).send(error.message);
+            }
+        }
 
-    
-})
+        // try {
+        //     console.log("Insert file upload try ");
+        //     let result = await insertFile(request)
+
+        //     reply.send(result)
+
+        // }
+        // catch (e) {
+        //     console.log("inside file  Inser  Catch block ", e);
+        //     reply.send("Error " + e.message)
+        // }
+    )
+
+
+    // })
+
+    // fastify.get('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
+    //     console.log("inside upload file get datas  ");
+    //    // console.log(request.file.filename);
+    //     try {
+    //         console.log("Insert file upload try ");
+    //        let result = await insertFile(request)
+
+    //             reply.send('result')
+
+    //     }
+    //     catch (e) {
+    //         console.log("inside file  Inser  Catch block ", e);
+    //         reply.send("Error " + e.message)
+    //     }
+
+
+    // })
+
+
+    // fastify.post('/api/uploadfile',async(request,reply)=>{
+    //    console.log(request);
+    //     try {
+    //         console.log("Insert file upload try ");
+    //         let result = await insertFile(request.body)
+
+    //             reply.send(result)
+
+    //     }
+    //     catch (e) {
+    //         console.log("inside file  Inser  Catch block ", e);
+    //         reply.send("Error " + e.message)
+    //     }
+
+
+    // })
 
 
 
@@ -304,7 +338,7 @@ fastify.post('/api/uploadfile',async(request,reply)=>{
     })
 
     fastify.post('/api/UpsertTask', async (request, reply) => {
-        console.log("upsert task route called "+JSON.stringify(request.body))
+        console.log("upsert task route called " + JSON.stringify(request.body))
         try {
             console.log("upsert tASK try ");
             let result = await upsertTask(request.body)

@@ -14,7 +14,7 @@ async function upsertUser(request) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert lead function ' + result);
+                    console.log('inside upsert User function ' + result);
                 }
         }
         toObject(objdata, objvalues)

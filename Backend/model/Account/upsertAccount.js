@@ -83,12 +83,10 @@ async function upsertAccount(request) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert lead function ' + result);
+                    console.log('inside upsert Account function ' + JSON.stringify(result));
                 }
         }
         toObject(objdata, objvalues)
-
-
         // var upsertdatas = {
         //     PropertyId: request.Inventory,
         //     accountName: request.accountName,
