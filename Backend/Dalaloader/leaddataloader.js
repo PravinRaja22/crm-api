@@ -10,7 +10,9 @@ var storage = Multer.diskStorage({
         console.log("Root path " + ROOT_PATH);
         console.log("directory name of path ", path.dirname(ROOT_PATH))
         console.log("inside destination folder " + JSON.stringify(file));
-        cb(null, path.dirname(ROOT_PATH))
+       // cb(null, path.dirname(ROOT_PATH))
+        cb(null,'uploads')
+
     },
     filename: (req, file, cb) => {
         cb(

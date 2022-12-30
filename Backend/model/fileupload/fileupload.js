@@ -22,7 +22,7 @@ console.log("path file ",pathfil);
         files:request.protocol + '://' + request.headers.host + '/' + request.file.filename,
         filedata:request.file,
         fileName:request.file.originalname,
-        filePath:pathfil,
+        filePath:request.file.path,
         fileSize:request.file.size,
         fileType:request.file.mimetype,
         })
