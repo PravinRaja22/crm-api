@@ -41,8 +41,8 @@ const uploadFile = async (req, res) => {
         console.log('data loader files ' + JSON.stringify(req.file.filename));
         console.log('body ' + JSON.stringify(req.file.filename));
         const files = req.file.filename
-        console.log("files " +'/uploads ',files);
-        const csvfilepath = files
+        console.log("files " +'/uploads/'+files);
+        const csvfilepath = 'uploads/'+files
         csvtojson()
             .fromFile(csvfilepath)
             .then((jsonobj) => {
