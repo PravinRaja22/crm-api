@@ -31,12 +31,6 @@ const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
 const fastify = require('fastify')({ logger: false })
-
-
-
-
-
-
 // const fastify = require('fastify')({ logger: false })
 // const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
@@ -134,19 +128,18 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside upload file datas ");
         // console.log(request.file.filename);
         try {
-            console.log("inside try function datas ");
-            const { title, description } = request.body;
-            const { path, mimetype } = request.file;
-            console.log("request body ",request.body);
-            console.log("request file ",request.file);
+            console.log("inside try upload file  datas ");
+           
+            console.log("request body ", request.body);
+            console.log("request file ", request.file);
 
-            
+
             //  await file.save();
             console.log("after request file");
-           // console.log("file data ", file);
+            // console.log("file data ", file);
             let result = await insertFile(request)
             reply.send(result)
-           // res.send('file uploaded successfully.');
+            // res.send('file uploaded successfully.');
         } catch (error) {
             reply.status(400).send('Error while uploading file. Try again later.');
         }
@@ -552,7 +545,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside download id ");
         console.log(req.params.id);
         try {
-            let result = await  getEachFiles(req.params.id);
+            let result = await getEachFiles(req.params.id);
 
             reply.send(result)
 
@@ -571,19 +564,16 @@ function getdatafromreact(fastify, options, done) {
         // } catch (error) {
         //   res.status(400).send('Error while downloading file. Try again later.');
         // }
-      });
+    });
 
 
     fastify.post('/api/leads', async (request, reply) => {
         try {
             let result = await getLead();
-
             reply.send(result)
-
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
-
             reply.send("Error " + e.message)
         }
     })
@@ -604,10 +594,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inventory management datas test")
         try {
             let result = await getProperty();
-
             reply.send(result)
-
-
         }
         catch (e) {
             console.log("error block in Inventory view  page ", e);
@@ -618,9 +605,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inventory management datas test")
         try {
             let result = await getUser();
-
             reply.send(result)
-
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -643,7 +628,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyLeadId', async (request, reply) => {
         console.log("Inside Task lead Router " + request.query.searchId)
         try {
-
             let result = await leadTask(request.query.searchId)
             return result;
         }
@@ -656,7 +640,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyAccountId', async (request, reply) => {
         console.log("Inside Task Account Router " + request.query.searchId)
         try {
-
             let result = await accountTask(request.query.searchId)
             return result;
         }
@@ -669,7 +652,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyOpportunityId', async (request, reply) => {
         console.log("Inside Task Opportunity Router " + request.query.searchId)
         try {
-
             let result = await opportunityTask(request.query.searchId)
             return result;
         }
@@ -695,7 +677,6 @@ function getdatafromreact(fastify, options, done) {
             console.log("error block in delete account   page ", e);
             reply.send("Error " + e.message)
         }
-
     })
     fastify.post('/api/deleteContact', async (request, reply) => {
         console.log("inside Contact delete");

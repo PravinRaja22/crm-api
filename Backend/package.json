@@ -21,7 +21,9 @@
     "fastify-mongodb": "^4.2.0",
     "fastify-multer": "^2.0.3",
     "fastify-swagger": "^5.2.0",
+    "form-data": "^4.0.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
   }
