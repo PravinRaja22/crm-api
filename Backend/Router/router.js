@@ -541,7 +541,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/download/:id', async (req, res) => {
+    fastify.post('/api/download/:id', async (req, res) => {
         console.log("inside download id ");
         console.log(req.params.id);
         try {
