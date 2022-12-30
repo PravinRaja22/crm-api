@@ -541,11 +541,11 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/download/:id', async (req, res) => {
+    fastify.post('/api/download/', async (req, res) => {
         console.log("inside download id ");
-        console.log(req.params.id);
+        console.log(request.query.searchKey);
         try {
-            let result = await getEachFiles(req.params.id);
+            let result = await getEachFiles(request.query.searchKey);
 
             reply.send(result)
 
