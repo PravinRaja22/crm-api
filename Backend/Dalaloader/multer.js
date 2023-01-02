@@ -28,30 +28,30 @@ var upload = Multer({
 
 let fieldsUpload = upload.single('file')
 
-const uploadFile = async (req, res) => {
-    console.log("inside upload fuile");
+// const uploadFile = async (req, res) => {
+//     console.log("inside upload fuile");
     //file upload
    // console.log(req.raw.files.file.name);
     //multer
-     console.log(req.file.filename);
+    //  console.log(req.file.filename);
 
-    try {
+    // try {
         
-        console.log("inside upload fuile");
-        console.log('data loader files ' + JSON.stringify(req.file.filename));
-        console.log('body ' + JSON.stringify(req.file.filename));
-        const files = req.file.filename
-        console.log("files " +'/uploads/'+files);
-        const csvfilepath = 'uploads/'+files
-        csvtojson()
-            .fromFile(csvfilepath)
-            .then((jsonobj) => {
-                console.log('data format ' + JSON.stringify(jsonobj));
-                let result = dataloaderLead(jsonobj)
-                return 'success';
+    //     console.log("inside upload fuile");
+    //     console.log('data loader files ' + JSON.stringify(req.file.filename));
+    //     console.log('body ' + JSON.stringify(req.file.filename));
+    //     const files = req.file.filename
+    //     console.log("files " +'/uploads/'+files);
+    //     const csvfilepath = 'uploads/'+files
+    //     csvtojson()
+    //         .fromFile(csvfilepath)
+    //         .then((jsonobj) => {
+    //             console.log('data format ' + JSON.stringify(jsonobj));
+    //             let result = dataloaderLead(jsonobj)
+    //             return 'success';
 
 
-            })
+    //         })
 
 //file upload
        // const file = req.raw.files
@@ -72,14 +72,18 @@ const uploadFile = async (req, res) => {
 
     //         })
 
-    }
-    catch (e) {
-        res.send('error ' + e.message)
-    }
-}
+//     }
+//     catch (e) {
+//         res.send('error ' + e.message)
+//     }
+// }
+
+// module.exports={
+//     fieldsUpload,uploadFile,Multer
+// }
 
 module.exports={
-    fieldsUpload,uploadFile,Multer
+    fieldsUpload,Multer
 }
 
 

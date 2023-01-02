@@ -30,97 +30,103 @@ const { deleteContact } = require('../model/Contact/deleteContact')
 const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
-const fastify = require('fastify')({ logger: false })
-// const fastify = require('fastify')({ logger: false })
-// const fileUpload = require('fastify-file-upload')
-// fastify.register(fileUpload, {
-//     limits: { fileSize: 50 * 1024 * 1024 },
-//   });
-
+const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
+const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
+const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
+const csvtojson = require('csvtojson')
 const { Accouninsertschema } = require('../model/schema/accountSchema')
-// const csvtojson = require('csvtojson')
-// const Multer = require('fastify-multer')
-// const path = require('path')
-const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/leaddataloader')
+//const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
+const { fieldsUpload, Multer } = require('../Dalaloader/multer')
+
 function getdatafromreact(fastify, options, done) {
-    const fileUpload = require('fastify-file-upload')
 
 
-
-    // var storage = Multer.diskStorage({
-    //     destination: (req, file, cb) => {
-    //         const ROOT_PATH = __dirname
-    //         console.log("Root path " + ROOT_PATH);
-    //         console.log("directory name of path ", path.dirname(ROOT_PATH));
-    //         console.log("inside destination folder " + JSON.stringify(file));
-    //         cb(null, path.dirname(ROOT_PATH))
-    //     },
-    //     filename: (req, file, cb) => {
-    //         cb(
-    //             null,
-    //             file.originalname + '-' + Date.now()
-    //         );
-    //     }
-    // })
-
-    // var upload = Multer({
-    //     storage: storage,
-    // })
-
-    // let fieldsUpload = upload.single('file')
-
-    // const uploadFile = async (req, res) => {
-    //     console.log("inside upload fuile");
-    //     console.log(req.raw);
-    //     console.log(req.file.filename);
-
-    //     try {
-    //         console.log("inside upload fuile");
-    //         console.log('data loader files ' + JSON.stringify(req.file.filename));
-    //         console.log('body ' + JSON.stringify(req.file.filename));
-    //         const files = req.file.filename
-    //         console.log("files " + files);
-    //         const csvfilepath = files
-    //         csvtojson()
-    //             .fromFile(csvfilepath)
-    //             .then((jsonobj) => {
-    //                 console.log('data format ' + JSON.stringify(jsonobj));
-    //                 let result = dataloaderLead(jsonobj)
-    //                 return 'success';
+    //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
 
-    //             })
-
-    //     }
-    //     catch (e) {
-    //         res.send('error ' + e.message)
-    //     }
-    // }
+   // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
 
 
+    fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async(req,res)=>{
+        console.log("inside upload file data loader files");
+
+         console.log(req.file.filename);
+    
+        try {
+            
+            console.log("inside upload file data loader ");
+            console.log('data loader files file data  ' + JSON.stringify(req.file.filename));
+            console.log('body ' + JSON.stringify(req.file.filename));
+            const files = req.file.filename
+            console.log("files " +'../uploads/'+files);
+            const csvfilepath = 'uploads/'+files
+            console.log("csvfile "+csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format ' + JSON.stringify(jsonobj));
+                    let result = dataloaderLead(jsonobj)
+                    return 'success';
+    
+    
+                })
+    
+    
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
+    fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async(req,res)=>{
+        console.log("inside upload file data loader Account");
+        console.log(req.file.filename);
+        try {
+            
+            console.log("inside upload file data loader Account ");
+            console.log('data loader Account  data  ' + JSON.stringify(req.file.filename));
+            console.log('body Account ' + JSON.stringify(req.file.filename));
+            const files = req.file.filename
+            console.log("Accounts " +'../uploads/'+files);
+            const csvfilepath = 'uploads/'+files
+            console.log("csvfile Accounts "+csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format Account ' + JSON.stringify(jsonobj));
+                    let result = dataloaderAccount(jsonobj)
+                    return 'success';
+                })
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
 
 
-    fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
+    fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async(req,res)=>{
+        console.log("inside upload file data loader Account");
+        console.log(req.file.filename);
+        try {
+            
+            console.log("inside upload file data loader opportunity ");
+            console.log('data loader opportunity  data  ' + JSON.stringify(req.file.filename));
+            const files = req.file.filename
+            console.log("opportunity " +'../uploads/'+files);
+            const csvfilepath = 'uploads/'+files
+            console.log("csvfile opportunity "+csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format opportunity ' + JSON.stringify(jsonobj));
+                    let result = dataloaderOpportuntiy(jsonobj)
+                    return 'success';
+                })
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
 
-
-    fastify.get('/test', (request, reply) => {
-        reply.send("data send")
-    })
-
-    //fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile)
-    // fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile,async(request,reply)=>{
-    //     console.log('inside data loader files');
-    //     console.log('data loader files '+JSON.stringify(request.body.file.name));
-    //     const files = request.body.file.name
-    //     const csvfilepath = files
-    //     csvtojson()
-    //     .fromFile(csvfilepath)
-    //     .then((jsonobj)=>{
-    //         console.log('json format '+JSON.stringify(jsonobj));
-    //         let result =  dataloaderLead(jsonobj)
-    //         return result
-    //     })
-    // })
 
 
 
@@ -129,17 +135,11 @@ function getdatafromreact(fastify, options, done) {
         // console.log(request.file.filename);
         try {
             console.log("inside try upload file  datas ");
-           
             console.log("request body ", request.body);
             console.log("request file ", request.file);
-
-
-            //  await file.save();
             console.log("after request file");
-            // console.log("file data ", file);
             let result = await insertFile(request)
             reply.send(result)
-            // res.send('file uploaded successfully.');
         } catch (error) {
             reply.status(400).send('Error while uploading file. Try again later.');
         }
@@ -541,7 +541,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/download', async (req, res) => {
+    fastify.post('/api/download', async (request, reply) => {
         console.log("inside download id ");
         console.log(request.query.searchKey);
         try {
