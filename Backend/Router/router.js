@@ -11,10 +11,13 @@ const { leadName } = require('../model/Lead/leadName')
 const { getUserName } = require('../model/User/userName')
 const { getopportunityName } = require('../model/Opportunity/opportunitiesName')
 const { getAccountdata } = require('../model/Account/getAccount')
+const { getAccountInventory } = require('../model/Account/accountInventory')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
+const { getOpportunityInventory} = require('../model/Opportunity/opportunityInventory')
+const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
@@ -26,89 +29,183 @@ const { deleteOpportunity } = require('../model/Opportunity/deleteOpportunity')
 const { deleteProperty } = require('../model/Inventory Management/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
-const { Accouninsertschema } = require('../model/schema/accountSchema')
-// const csvtojson = require('csvtojson')
-// const Multer = require('fastify-multer')
-// const path = require('path')
-const{fieldsUpload,uploadFile,Multer} = require('../Dalaloader/leaddataloader')
+const { deleteContact } = require('../model/Contact/deleteContact')
+const { getEachFiles } = require('../model/fileupload/individualfile')
+const { insertFile } = require('../model/fileupload/fileupload')
+const { getFiles } = require('../model/fileupload/getfiles')
+const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
+const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
+const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
+const csvtojson = require('csvtojson')
+const accountSchema = require('../model/schema/accountSchema')
+//const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
+const { fieldsUpload, Multer } = require('../Dalaloader/multer')
+
 function getdatafromreact(fastify, options, done) {
 
-    // var storage = Multer.diskStorage({
-    //     destination: (req, file, cb) => {
-    //         const ROOT_PATH = __dirname
-    //         console.log("Root path " + ROOT_PATH);
-    //         console.log("directory name of path ", path.dirname(ROOT_PATH));
-    //         console.log("inside destination folder " + JSON.stringify(file));
-    //         cb(null, path.dirname(ROOT_PATH))
-    //     },
-    //     filename: (req, file, cb) => {
-    //         cb(
-    //             null,
-    //             file.originalname + '-' + Date.now()
-    //         );
-    //     }
+
+    //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
+
+
+    // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
+
+
+    fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside upload file data loader files");
+
+        console.log(req.file.filename);
+
+        try {
+
+            console.log("inside upload file data loader ");
+            console.log('data loader files file data  ' + JSON.stringify(request.file.filename));
+            console.log('body ' + JSON.stringify(request.file.filename));
+            const files = request.file.filename
+            console.log("files " + '../uploads/' + files);
+            const csvfilepath = 'uploads/' + files
+            console.log("csvfile " + csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format ' + JSON.stringify(jsonobj));
+                    let result = dataloaderLead(jsonobj)
+                    return 'success';
+
+
+                })
+
+
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
+    fastify.post('/api/dataloaderAccount', {preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside upload file data loader Account");
+        console.log(request.file.filename);
+        try {
+
+        
+
+            console.log("inside upload file data loader Account ");
+            console.log('data loader Account  data  ' + JSON.stringify(request.file.filename));
+            console.log('body Account ' + JSON.stringify(request.file.filename));
+            const files = request.file.filename
+            console.log("Accounts " + '../uploads/' + files);
+            const csvfilepath = 'uploads/' + files
+            console.log("csvfile Accounts " + csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format Account ' + JSON.stringify(jsonobj));
+                    let result = dataloaderAccount(jsonobj)
+                    return 'success';
+                })
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
+
+
+    fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside upload file data loader Account");
+        console.log(request.file.filename);
+        try {
+
+            console.log("inside upload file data loader opportunity ");
+            console.log('data loader opportunity  data  ' + JSON.stringify(request.file.filename));
+            const files = request.file.filename
+            console.log("opportunity " + '../uploads/' + files);
+            const csvfilepath = 'uploads/' + files
+            console.log("csvfile opportunity " + csvfilepath);
+            csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                    console.log('data format opportunity ' + JSON.stringify(jsonobj));
+                    let result = dataloaderOpportuntiy(jsonobj)
+                    return 'success';
+                })
+        }
+        catch (e) {
+            res.send('error ' + e.message)
+        }
+    });
+
+
+
+
+    fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside upload file datas ");
+        // console.log(request.file.filename);
+        try {
+            console.log("inside try upload file  datas ");
+            console.log("request body ", request.body);
+            console.log("request file ", request.file);
+            console.log("after request file");
+            let result = await insertFile(request)
+            reply.send(result)
+        } catch (error) {
+            reply.status(400).send('Error while uploading file. Try again later.');
+        }
+    },
+        (error, req, res, next) => {
+            if (error) {
+                reply.status(500).send(error.message);
+            }
+        }
+
+        // try {
+        //     console.log("Insert file upload try ");
+        //     let result = await insertFile(request)
+
+        //     reply.send(result)
+
+        // }
+        // catch (e) {
+        //     console.log("inside file  Inser  Catch block ", e);
+        //     reply.send("Error " + e.message)
+        // }
+    )
+
+
     // })
 
-    // var upload = Multer({
-    //     storage: storage,
-    // })
-
-    // let fieldsUpload = upload.single('file')
-
-    // const uploadFile = async (req, res) => {
-    //     console.log("inside upload fuile");
-    //     console.log(req.raw);
-    //     console.log(req.file.filename);
-
+    // fastify.get('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
+    //     console.log("inside upload file get datas  ");
+    //    // console.log(request.file.filename);
     //     try {
-    //         console.log("inside upload fuile");
-    //         console.log('data loader files ' + JSON.stringify(req.file.filename));
-    //         console.log('body ' + JSON.stringify(req.file.filename));
-    //         const files = req.file.filename
-    //         console.log("files " + files);
-    //         const csvfilepath = files
-    //         csvtojson()
-    //             .fromFile(csvfilepath)
-    //             .then((jsonobj) => {
-    //                 console.log('data format ' + JSON.stringify(jsonobj));
-    //                 let result = dataloaderLead(jsonobj)
-    //                 return 'success';
+    //         console.log("Insert file upload try ");
+    //        let result = await insertFile(request)
 
-
-    //             })
+    //             reply.send('result')
 
     //     }
     //     catch (e) {
-    //         res.send('error ' + e.message)
+    //         console.log("inside file  Inser  Catch block ", e);
+    //         reply.send("Error " + e.message)
     //     }
-    // }
 
 
-
-   
-    fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
-
-
-
-
-    //fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile)
-    // fastify.post('/api/dataloaderlead',{preHandler:fieldsUpload},uploadFile,async(request,reply)=>{
-    //     console.log('inside data loader files');
-    //     console.log('data loader files '+JSON.stringify(request.body.file.name));
-    //     const files = request.body.file.name
-    //     const csvfilepath = files
-    //     csvtojson()
-    //     .fromFile(csvfilepath)
-    //     .then((jsonobj)=>{
-    //         console.log('json format '+JSON.stringify(jsonobj));
-    //         let result =  dataloaderLead(jsonobj)
-    //         return result
-    //     })
     // })
 
 
+    // fastify.post('/api/uploadfile',async(request,reply)=>{
+    //    console.log(request);
+    //     try {
+    //         console.log("Insert file upload try ");
+    //         let result = await insertFile(request.body)
+
+    //             reply.send(result)
+
+    //     }
+    //     catch (e) {
+    //         console.log("inside file  Inser  Catch block ", e);
+    //         reply.send("Error " + e.message)
+    //     }
 
 
+    // })
 
 
 
@@ -134,7 +231,7 @@ function getdatafromreact(fastify, options, done) {
     })
     fastify.post('/api/UpsertContact', async (request, reply) => {
         console.log("upsert route called")
-        console.log("upsert status code " + reply.statuscode);
+
         console.log("request body " + JSON.stringify(request.body))
         console.log("request query " + JSON.stringify(request.query))
         console.log("file upload datas " + request);
@@ -182,6 +279,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert status code " + reply.statuscode);
         try {
             console.log("upsert Lead try ");
+
             let result = await upsertLead(request.body)
             console.log("result length " + result);
             if (result) {
@@ -238,8 +336,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.post('/api/UpsertTask', async (request, reply) => {
-        console.log("upsert task route called")
-        console.log("upsert status code " + (request));
+        console.log("upsert task route called " + JSON.stringify(request.body))
         try {
             console.log("upsert tASK try ");
             let result = await upsertTask(request.body)
@@ -267,6 +364,22 @@ function getdatafromreact(fastify, options, done) {
 
             reply.send("Error " + e.message)
         }
+    })
+
+    
+
+    fastify.post('/api/getAccountbyInventory', async (request, reply) => {
+        console.log("inside get inventories by account id ");
+        console.log("Inside  get Inventories by acc id  Router " + request.query.searchId)
+        try {
+            let result = await getAccountInventory(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
     })
 
     fastify.post('/api/accountsname', async (request, reply) => {
@@ -435,16 +548,53 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/leads', async (request, reply) => {
+    fastify.post('/api/files', async (request, reply) => {
         try {
-            let result = await getLead();
+            let result = await getFiles();
 
             reply.send(result)
 
+
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+    fastify.post('/api/download', async (request, reply) => {
+        console.log("inside download id ");
+        console.log(request.query.searchKey);
+        try {
+            let result = await getEachFiles(request.query.searchKey);
+
+            reply.send(result)
+
+
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+        // try {
+        //   const file = await File.findById(req.params.id);
+        //   res.set({
+        //     'Content-Type': file.file_mimetype
+        //   });
+        //   res.sendFile(path.join(__dirname, '..', file.file_path));
+        // } catch (error) {
+        //   res.status(400).send('Error while downloading file. Try again later.');
+        // }
+    });
+
+
+    fastify.post('/api/leads', async (request, reply) => {
+        try {
+            let result = await getLead();
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
-
             reply.send("Error " + e.message)
         }
     })
@@ -461,27 +611,62 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+
+
+
+
+
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             let result = await getProperty();
-
             reply.send(result)
-
-
         }
         catch (e) {
             console.log("error block in Inventory view  page ", e);
             reply.send("Error " + e.message)
         }
     })
+
+
+
+    fastify.post('/api/getInventoriesbyOppid', async (request, reply) => {
+        console.log("inside get inventories by opp id ");
+        console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)
+        try {
+            let result = await getOpportunityInventory(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+    fastify.post('/api/getLeadsbyOppid', async (request, reply) => {
+        console.log("inside get lead by opp id ");
+        console.log("Inside Task get lead by opp id  Router " + request.query.searchId)
+        try {
+            let result = await getOpportunityLead(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+
+
+
     fastify.post('/api/Users', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             let result = await getUser();
-
             reply.send(result)
-
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -504,7 +689,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyLeadId', async (request, reply) => {
         console.log("Inside Task lead Router " + request.query.searchId)
         try {
-
             let result = await leadTask(request.query.searchId)
             return result;
         }
@@ -517,7 +701,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyAccountId', async (request, reply) => {
         console.log("Inside Task Account Router " + request.query.searchId)
         try {
-
             let result = await accountTask(request.query.searchId)
             return result;
         }
@@ -530,7 +713,6 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getTaskbyOpportunityId', async (request, reply) => {
         console.log("Inside Task Opportunity Router " + request.query.searchId)
         try {
-
             let result = await opportunityTask(request.query.searchId)
             return result;
         }
@@ -556,7 +738,6 @@ function getdatafromreact(fastify, options, done) {
             console.log("error block in delete account   page ", e);
             reply.send("Error " + e.message)
         }
-
     })
     fastify.post('/api/deleteContact', async (request, reply) => {
         console.log("inside Contact delete");

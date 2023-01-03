@@ -1,10 +1,10 @@
 const fastify = require('fastify')({ logger: false })
-const fileUpload = require('fastify-file-upload')
+// const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
-//   });
+// });
 
-// fastify.register(fileUpload)
+//fastify.register(fileUpload)
 const Multer = require ('fastify-multer')
 // fastify.register(require('./model/plugin/mongodb'))
 // fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});

@@ -59,65 +59,90 @@
 
 
 
+const { keys } = require('lodash');
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertContact(request) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
-    if(request.date){
-        let datestring = request.dob;
-        console.log("upsert contact date field "+datestring);
-        let dateformatfield=new Date(datestring);
-        console.log("date formated field "+dateformatfield);
-        var contactdate = dateformatfield.getTime();
-    }
-    else{
-        var contactdate = request.date;
-    }
+    console.log("inside funnctiolity "+JSON.stringify(request));
+
+let objdata = Object.keys(request);
+let objvalues = Object.values(request);
+let result = {};
+
+function toObject(names, values) {
+    for (let i = 0; i < names.length; i++)
+    if(names[i] != '_id'){
+        result[names[i]] = values[i];
+        console.log('inside UPSERT CONTACT function '+result); ;
+   }
+       
+}
+toObject(objdata,objvalues)
+
+
+console.log("outside of the functionality "+JSON.stringify(result));
+//converting date field in to epoch time 
+    // if(request.date){
+    //     let datestring = request.dob;
+    //     console.log("upsert contact date field "+datestring);
+    //     let dateformatfield=new Date(datestring);
+    //     console.log("date formated field "+dateformatfield);
+    //     var contactdate = dateformatfield.getTime();
+    // }
+    // else{
+    //     var contactdate = request.date;
+    // }
     try {
         await client.connect();
-        var updatedatas={
-            AccountId:request.Account,
-            salutation:request.salutation,
-            firstName:request.firstName,
-            lastName:request.lastName,
-            fullName:request.fullName,
-            dob:contactdate,
-            phone:request.phone,
-            department:request.department,
-            leadSource:request.leadSource,
-            email:request.email,
-            fullAddress:request.fullAddress,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        var updatedataswithoutaccount={
-            salutation:request.salutation,
-            firstName:request.firstName,
-            lastName:request.lastName,
-            fullName:request.fullName,
-            dob:contactdate,
-            phone:request.phone,
-            department:request.department,
-            leadSource:request.leadSource,
-            email:request.email,
-            fullAddress:request.fullAddress,
-            description:request.description,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
-        }
-        if(request.Account)
-        {
-            let data = await updatesiglerecord(client,request._id,updatedatas)
-            return data;
-        }
-        else{
-            let data = await updatesiglerecord(client,request._id,updatedataswithoutaccount)
-            return data;
-        }
+    //     var updatedatas={
+    //         AccountId:request.Account,
+    //         salutation:request.salutation,
+    //         firstName:request.firstName,
+    //         lastName:request.lastName,
+    //         fullName:request.fullName,
+    //         dob:contactdate,
+    //         phone:request.phone,
+    //         department:request.department,
+    //         leadSource:request.leadSource,
+    //         email:request.email,
+    //         fullAddress:request.fullAddress,
+    //         description:request.description,
+    //         createdbyId: request.createdbyId,
+    //         createdDate: request.createdDate,
+    //         modifiedDate:request.modifiedDate
+    //     }
+    //     var updatedataswithoutaccount={
+    //         salutation:request.salutation,
+    //         firstName:request.firstName,
+    //         lastName:request.lastName,
+    //         fullName:request.fullName,
+    //         dob:contactdate,
+    //         phone:request.phone,
+    //         department:request.department,
+    //         leadSource:request.leadSource,
+    //         email:request.email,
+    //         fullAddress:request.fullAddress,
+    //         description:request.description,
+    //         createdbyId: request.createdbyId,
+    //         createdDate: request.createdDate,
+    //         modifiedDate:request.modifiedDate
+    //     }
+    //     console.log("JSON ",JSON.stringify(updatedatas));
+    //     if(request.Account)
+    //     {
+    //         let data = await updatesiglerecord(client,request._id,updatedatas)
+    //         return data;
+    //     }
+    //     else{
+    //         let data = await updatesiglerecord(client,request._id,updatedataswithoutaccount)
+    //         return data;
+    //     }
+console.log("REQUEST ID "+request._id);
+        let data = await updatesiglerecord(client,request._id,result);
+        return data;
+
     } 
     catch (e) {
         console.error(e);
@@ -128,7 +153,9 @@ async function upsertContact(request) {
 }
 upsertContact().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
-    const result = await client.db("CRM").collection("Contact").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
+    console.log("id inside function "+id);
+    console.log("functionality inside data "+JSON.stringify(updatedatas));
+    const result = await client.db("CRM").collection("Contact").updateOne({'_id':ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
     }

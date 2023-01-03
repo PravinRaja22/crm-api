@@ -63,23 +63,40 @@ async function upsertProperty(request) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-        var updatedatas = {
-            projectName: request.projectName,
-            propertyName: request.propertyName,
-            propertyUnitNumber: request.propertyUnitNumber,
-            type: request.type,
-            tower: request.tower,
-            country: request.country,
-            city: request.city,
-            propertyCities:request.propertyCities,
-            floor: request.floor,
-            status: request.status,
-            totalArea: request.totalArea,
-            createdbyId: request.createdbyId,
-            createdDate: request.createdDate,
-            modifiedDate:request.modifiedDate
+
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+    
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id') {
+                    result[names[i]] = values[i];
+                    console.log('inside upsert Inventory Management function ' + result);
+                }
         }
-        let data =  await updatesiglerecord(client, request._id, updatedatas)
+        toObject(objdata, objvalues)
+
+        // var updatedatas = {
+        //     projectName: request.projectName,
+        //     propertyName: request.propertyName,
+        //     propertyUnitNumber: request.propertyUnitNumber,
+        //     type: request.type,
+        //     tower: request.tower,
+        //     country: request.country,
+        //     city: request.city,
+        //     propertyCities:request.propertyCities,
+        //     floor: request.floor,
+        //     status: request.status,
+        //     totalArea: request.totalArea,
+        //     createdbyId: request.createdbyId,
+        //     createdDate: request.createdDate,
+        //     modifiedDate:request.modifiedDate
+        // }
+        // let data =  await updatesiglerecord(client, request._id, updatedatas)
+        // return data
+
+        let data =  await updatesiglerecord(client, request._id, result)
         return data
     }
     catch (e) {
