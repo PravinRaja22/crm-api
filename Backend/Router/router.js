@@ -11,10 +11,13 @@ const { leadName } = require('../model/Lead/leadName')
 const { getUserName } = require('../model/User/userName')
 const { getopportunityName } = require('../model/Opportunity/opportunitiesName')
 const { getAccountdata } = require('../model/Account/getAccount')
+const { getAccountInventory } = require('../model/Account/accountInventory')
 const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
+const { getOpportunityInventory} = require('../model/Opportunity/opportunityInventory')
+const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
@@ -363,6 +366,22 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
+    
+
+    fastify.post('/api/getAccountbyInventory', async (request, reply) => {
+        console.log("inside get inventories by account id ");
+        console.log("Inside  get Inventories by acc id  Router " + request.query.searchId)
+        try {
+            let result = await getAccountInventory(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
     fastify.post('/api/accountsname', async (request, reply) => {
         if (request.query.searchKey) {
             console.log("inside if statemeent for account name router");
@@ -592,6 +611,12 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+
+
+
+
+
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
@@ -603,6 +628,40 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+
+
+    fastify.post('/api/getInventoriesbyOppid', async (request, reply) => {
+        console.log("inside get inventories by opp id ");
+        console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)
+        try {
+            let result = await getOpportunityInventory(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+    fastify.post('/api/getLeadsbyOppid', async (request, reply) => {
+        console.log("inside get lead by opp id ");
+        console.log("Inside Task get lead by opp id  Router " + request.query.searchId)
+        try {
+            let result = await getOpportunityLead(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+
+
+
     fastify.post('/api/Users', async (request, reply) => {
         console.log("inventory management datas test")
         try {
