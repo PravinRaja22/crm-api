@@ -28,7 +28,7 @@ async function getDatas(client) {
         }
     ])
     try{
-        const cursor = await client.db("CRM").collection("Contact").aggregate(queryobj)
+        const cursor = await client.db("CRM").collection("Inventory Management").aggregate(queryobj)
         const results = await cursor.toArray();
         if (results.length > 0) {
             results.forEach((datearray)=>{

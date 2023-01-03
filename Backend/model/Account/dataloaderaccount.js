@@ -8,6 +8,8 @@ async function dataloaderAccount(request) {
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
+        let requestfile={};
+        
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = [{}];
