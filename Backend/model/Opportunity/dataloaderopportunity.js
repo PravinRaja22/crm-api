@@ -18,9 +18,6 @@ async function dataloaderOpportuntiy(request) {
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
             if (names[i] != '_id') {
-                //  names.push(5,6)
-                //  values.push(formatDate,formatDate)
-               // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
             }

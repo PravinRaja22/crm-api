@@ -16,7 +16,7 @@ async function main() {
 }
 main().catch(console.error);
 async function deleteManyrecored(client){
-    const result = await client.db("CRM").collection("Lead").deleteMany();
+    const result = await client.db("CRM").collection("Account").deleteMany();
     console.log(result);
     console.log(`${result.deletedCount} documents deleted in the Database`);
 }
