@@ -53,7 +53,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
 
-        console.log(req.file.filename);
+        console.log(request.file.filename);
 
         try {
 

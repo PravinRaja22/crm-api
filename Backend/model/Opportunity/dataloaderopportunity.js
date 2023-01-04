@@ -9,6 +9,14 @@ async function dataloaderOpportuntiy(request) {
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
+        request.forEach(function(variable){
+            console.log("inside for loop before adding date ",variable);
+            variable.createdDate=formatDate
+            variable.modifiedDate=formatDate
+            console.log("inside for loop after adding date  ",variable);
+
+        });
+
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = [{}];
@@ -17,12 +25,8 @@ async function dataloaderOpportuntiy(request) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
-            if (names[i] != '_id') {
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-            }
-
-
         }
         toObject(objdata, objvalues)
         //  console.log("data loader array "+JSON.stringify(dataloaderarray));
@@ -40,15 +44,9 @@ async function dataloaderOpportuntiy(request) {
     }
 }
 dataloaderOpportuntiy().catch(console.error);
-async function insertDataloaderOpportunity(client, updatedatas) {
-    const result = await client.db("CRM").collection("Opportunity").insertMany(updatedatas);
+async function insertDataloaderOpportunity(client, insertdatas) {
+    const result = await client.db("CRM").collection("Opportunity").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
-    // if (result.insertedCount) {
-    //     result.insertedIds.forEach(function(variable){
-    //         return `Record inserted with the id ${variable}`
-    //     });
-    // }
-
 }
 module.exports = { dataloaderOpportuntiy }
 
