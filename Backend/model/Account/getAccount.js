@@ -45,9 +45,9 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Inventory Management',
-                let: { "searchId": { $toObjectId: "$InventoryId" } },
+                let: { "searchId": { $toObjectId:"$InventoryId" } },
                 pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    { $match: { $expr: { $eq: ["$_id","$$searchId"] } } },
                 ],
                 as: 'Propertydetails'
             }
