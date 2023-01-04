@@ -32,28 +32,29 @@ async function dataloaderLead(request) {
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
-        // request.push({ createdDate:formatDate, modifiedDate:formatDate});
-        // console.log("after push "+JSON.stringify(request));
+
+        request.forEach(function(variable){
+            console.log("inside for loop before adding date lead insert data loader",variable);
+            variable.createdDate=formatDate
+            variable.modifiedDate=formatDate
+            console.log("inside for loop after adding date lead insert data loader ",variable);
+
+        });
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = [{}];
         console.log("KEYS " + objdata);
+
         function toObject(names, values) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
-
-            let dates = [{
-                createdDate:formatDate,
-                modifiedDate:formatDate
-            }]
             for (let i = 0; i < names.length; i++)
-            if (names[i] != '_id') {
                 //  names.push(5,6)
                 //  values.push(formatDate,formatDate)
                // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-            }
+            
 
 
         }
@@ -73,15 +74,9 @@ async function dataloaderLead(request) {
     }
 }
 dataloaderLead().catch(console.error);
-async function upsertmultiplerecord(client, updatedatas) {
-    const result = await client.db("CRM").collection("Lead").insertMany(updatedatas);
+async function upsertmultiplerecord(client, insertdatas) {
+    const result = await client.db("CRM").collection("Lead").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
-    // if (result.insertedCount) {
-    //     result.insertedIds.forEach(function(variable){
-    //         return `Record inserted with the id ${variable}`
-    //     });
-    // }
-
 }
 module.exports = { dataloaderLead }
 

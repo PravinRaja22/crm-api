@@ -9,7 +9,15 @@ async function dataloaderAccount(request) {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
         let requestfile={};
-        
+        console.log("Before for loop");
+        request.forEach(function(variable){
+            console.log("inside for loop before adding date ",variable);
+            variable.createdDate=formatDate
+            variable.modifiedDate=formatDate
+            console.log("inside for loop after adding date  ",variable);
+
+        });
+        console.log("After for loop");
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = [{}];
@@ -18,13 +26,11 @@ async function dataloaderAccount(request) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
-            if (names[i] != '_id') {
                 //  names.push(5,6)
                 //  values.push(formatDate,formatDate)
                // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-            }
 
 
         }
@@ -44,8 +50,8 @@ async function dataloaderAccount(request) {
     }
 }
 dataloaderAccount().catch(console.error);
-async function insertDataloaderAccount(client, updatedatas) {
-    const result = await client.db("CRM").collection("Account").insertMany(updatedatas);
+async function insertDataloaderAccount(client, insertdatas) {
+    const result = await client.db("CRM").collection("Account").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
     // if (result.insertedCount) {
     //     result.insertedIds.forEach(function(variable){
