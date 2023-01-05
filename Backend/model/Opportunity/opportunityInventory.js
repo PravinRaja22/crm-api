@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+var ObjectId = require('mongodb').ObjectId;
 async function getOpportunityInventorylookup(oppid) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
@@ -10,17 +11,34 @@ async function getOpportunityInventorylookup(oppid) {
     } catch (e) {
         console.error(e);
     } finally {
+
         await client.close();
     }
 }
 getOpportunityInventorylookup().catch(console.error);
 async function getOpportunityDatas(client,oppid) {
+    var InventoryId
     console.log("inside functionality inventory id "+oppid);
     const cursor = await client.db("CRM").collection("Opportunity Inventory").find({OpportunityId :new RegExp('^' + oppid)})
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
-        return JSON.stringify(results)
+        console.log("inside result of opp inventory");
+        console.log('Opp Id '+JSON.stringify(results));
+        results.forEach(function(variable){
+            console.log(variable.InventoryId);
+            InventoryId = variable.InventoryId;
+            console.log("inventory Id ",InventoryId);
+        });
+        console.log("outside block "+InventoryId);
+        console.log("data base check");
+        const cursorI = await client.db("CRM").collection("Inventory Management").find({ _id: ObjectId(InventoryId)})
+        const resultsI = await cursorI.toArray();
+        if (resultsI.length > 0) {
+            console.log("inside Inventory find of object "+JSON.stringify(resultsI));
+            return JSON.stringify(resultsI)
+        }
+       
     }
     else {
         console.log("no data found");
