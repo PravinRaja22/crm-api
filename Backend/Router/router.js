@@ -653,7 +653,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/opportuintyinventory', async (request, reply) => {
         console.log("get opportuunity inventorty")
         try {
-            let result = await getOpportunityInventorylookup();
+            let result = await getOpportunityInventory();
             reply.send(result)
         }
         catch (e) {
@@ -666,7 +666,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside get inventories by opp id ");
         console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)
         try {
-            let result = await getOpportunityInventory(request.query.searchId)
+            let result = await getOpportunityInventorylookup(request.query.searchId)
             return result;
         }
         catch (e) {
