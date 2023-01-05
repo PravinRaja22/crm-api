@@ -16,7 +16,7 @@ const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
-const { getOpportunityInventory } = require('../model/Opportunity/opportunityInventory')
+const { getOpportunityInventorylookup } = require('../model/Opportunity/opportunityInventory')
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
@@ -36,6 +36,9 @@ const { getFiles } = require('../model/fileupload/getfiles')
 const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
 const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
 const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
+const { upsertOpportunityInventory } = require('../model/opportunity_inventory/upsertoppinv')
+const { getOpportunityInventory } = require('../model/opportunity_inventory/getoppinv')
+const { deleteOpportunityInventory } = require ('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
 const accountSchema = require('../model/schema/accountSchema')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
@@ -359,7 +362,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert junction object opp inventory route called " + JSON.stringify(request.body))
         try {
             console.log("upsert junction object try ");
-            let result = await upsertTask(request.body)
+            let result = await upsertOpportunityInventory(request.body)
             console.log("result length junction object " + result);
             if (result) {
                 reply.send(result)
@@ -646,6 +649,19 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+    fastify.post('/api/opportuintyinventory', async (request, reply) => {
+        console.log("get opportuunity inventorty")
+        try {
+            let result = await getOpportunityInventorylookup();
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("error block in Inventory view  page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
     fastify.post('/api/getInventoriesbyOppid', async (request, reply) => {
         console.log("inside get inventories by opp id ");
         console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)
@@ -845,6 +861,23 @@ function getdatafromreact(fastify, options, done) {
             let result = await deleteTask(request.query.code);
             if (result) {
                 reply.send("Task Deleted Successfully")
+            }
+            else {
+                reply.status(404).send("No data deleted")
+            }
+        }
+        catch (e) {
+            console.log("error block in delete user   page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+    fastify.post('/api/deleteOpportunityInventory', async (request, reply) => {
+        console.log("inside delete opportunity inventory ");
+        try {
+            let result = await deleteOpportunityInventory(request.query.code);
+            if (result) {
+                reply.send("oppInventory Deleted Successfully")
             }
             else {
                 reply.status(404).send("No data deleted")
