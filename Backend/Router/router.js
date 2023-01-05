@@ -17,6 +17,7 @@ const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
 const { getOpportunityInventorylookup } = require('../model/Opportunity/opportunityInventory')
+const { getInventoryOpportunityjn } = require('../model/Inventory Management/inventoryopportunity')
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
@@ -653,9 +654,23 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/getInventoriesbyOppid', async (request, reply) => {
         console.log("inside get inventories by opp id ");
-        console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)
+        console.log("Inside  get Inventories by opp id  Router " + request.query.searchId)
         try {
             let result = await getOpportunityInventorylookup(request.query.searchId)
+            return result;
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+    fastify.post('/api/getOpportunitiesbyInvid', async (request, reply) => {
+        console.log("inside get Opportunites by Inv id ");
+        console.log("Inside  get Opportunity by Inv id  Router " + request.query.searchId)
+        try {
+            let result = await getInventoryOpportunityjn(request.query.searchId)
             return result;
         }
         catch (e) {
