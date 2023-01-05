@@ -1,10 +1,10 @@
 const { upsertAccount } = require('../model/Account/upsertAccount')
 const { upsertContact } = require('../model/Contact/upsertContact')
-const { upsertLead } = require('../model/Lead/upsertLead')
+const { upsertLead } = require('../model/nodemailer/upsertLead')
 const { upsertOpportunity } = require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } = require('../model/User/upsertUser')
 const { upsertProperty } = require('../model/Inventory Management/upsertInventorymanagement')
-const { upsertTask } = require('../model/Task/upsertTask');
+const { upsertTask } = require('../model/Task/upsertTask')
 const { getAccountName } = require('../model/Account/accountname')
 const { propertyName } = require('../model/Inventory Management/inventroyname');
 const { leadName } = require('../model/Lead/leadName')
@@ -55,11 +55,8 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
-
         console.log(request.file.filename);
-
         try {
-
             console.log("inside upload file data loader ");
             console.log('data loader files file data  ' + JSON.stringify(request.file.filename));
             console.log('body ' + JSON.stringify(request.file.filename));
@@ -73,11 +70,7 @@ function getdatafromreact(fastify, options, done) {
                     console.log('data format ' + JSON.stringify(jsonobj));
                     let result = dataloaderLead(jsonobj)
                     return 'success';
-
-
                 })
-
-
         }
         catch (e) {
             res.send('error ' + e.message)
@@ -87,9 +80,6 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside upload file data loader Account");
         console.log(request.file.filename);
         try {
-
-
-
             console.log("inside upload file data loader Account ");
             console.log('data loader Account  data  ' + JSON.stringify(request.file.filename));
             console.log('body Account ' + JSON.stringify(request.file.filename));
@@ -115,7 +105,6 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside upload file data loader Account");
         console.log(request.file.filename);
         try {
-
             console.log("inside upload file data loader opportunity ");
             console.log('data loader opportunity  data  ' + JSON.stringify(request.file.filename));
             const files = request.file.filename
@@ -151,12 +140,12 @@ function getdatafromreact(fastify, options, done) {
         } catch (error) {
             reply.status(400).send('Error while uploading file. Try again later.');
         }
-    },
-        (error, req, res, next) => {
-            if (error) {
-                reply.status(500).send(error.message);
-            }
-        }
+    }
+        // (error, req, res, next) => {
+        //     if (error) {
+        //         reply.status(500).send(error.message);
+        //     }
+        // }
 
         // try {
         //     console.log("Insert file upload try ");
@@ -690,9 +679,6 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-
-
-
     fastify.post('/api/Users', async (request, reply) => {
         console.log("inventory management datas test")
         try {
@@ -891,118 +877,94 @@ function getdatafromreact(fastify, options, done) {
 
 
     /* fastify.post('/api/accountInsert', Accouninsertschema, async (request, reply) => {
-         console.log("accountInsert Route called")
-         console.log("request status code "+reply.statuscode);
-         try {
-             console.log("inside account insert try ");
-             let result = await Accountdata(request.body)
-             console.log("result length " + result);
-             if (result) {
-                 reply.send("New account with id: " + result + " inserted successfully")
-             }
- 
-             else {
-                 reply.status(404 ).send("No Data Inserted")
-             }
- 
- 
-         }
-         catch (e) {
-             console.log("inside Account Catch block");
-             reply.send(e)
-         }
-     })
- 
-     fastify.post('/api/contactInsert', async (request, reply) => {
-         console.log("contact insert ");
-         try {
-             let result = await Contactdata(request)
-             if (result) {
-                 reply.send("New Contact with id: " + result + " inserted successfully")
- 
-             }
-           
-             else {
-                 reply.status(404 ).send("No Data Inserted")
-             }
- 
-         }
-         catch (e) {
-             reply.send(e);
-         }
-     })
- 
-     fastify.post('/api/opportunityInsert', async (request, reply) => {
-         console.log("inside opportunity insert");
- 
-         try {
-             let result = await opportunitydata(request.body)
-             if (result) {
-                 reply.send("New Opportuntiy with id: " + result + " inserted successfully")
- 
-             }
- 
-           
-             else {
-                 reply.status(404 ).send("No Data Inserted")
-             }
- 
-         }
-         catch (e) {
-             reply.send(e);
-         }
- 
-     })
- 
- 
-     fastify.post('/api/leadInsert', async (request, reply) => {
-         console.log("inside lead insert")
-         try {
-             let result = await Leaddata(request.body)
-             if (result) {
-                 await reply.send("New Lead with id: " + result + " inserted successfully")
-             }
-            
-             else {
-                 reply.status(404 ).send("No Data Inserted")
-             }
- 
- 
-         }
-         catch (e) {
-             reply.send(e);
-         }
- 
-     })
- 
-     fastify.post('/api/inventoryInsert', async (request, reply) => {
-         console.log("inside inventory insert ")
- 
-         try {
-             let result = await propertydata(request.body)
-             if (result) {
-             reply.send("New Inventory  with id: " + result + " inserted successfully")
-             }
-             else {
-                 reply.status(404 ).send("No Data Inserted")
-             }
-         }
-         catch (e) {
-             reply.send(e.message);
-         }
- 
-     })
- 
-     fastify.post('/api/userInsert', async (request, reply) => {
-         console.log("user insert  ")
-         try {
-             let result = await Userdata(request.body)
-             reply.send("New user  with id: " + result + " inserted successfully")
-         }
-         catch (e) {
-             reply.send(e.message);
-         }
-     })
+        console.log("accountInsert Route called")
+        console.log("request status code "+reply.statuscode);
+        try {
+            console.log("inside account insert try ");
+            let result = await Accountdata(request.body)
+            console.log("result length " + result);
+            if (result) {
+                reply.send("New account with id: " + result + " inserted successfully")
+            }
+            else {
+                reply.status(404 ).send("No Data Inserted")
+            }
+        }
+        catch (e) {
+            console.log("inside Account Catch block");
+            reply.send(e)
+        }
+    })
+    fastify.post('/api/contactInsert', async (request, reply) => {
+        console.log("contact insert ");
+        try {
+            let result = await Contactdata(request)
+            if (result) {
+            reply.send("New Contact with id: " + result + " inserted successfully")
+            }
+            else {
+                reply.status(404 ).send("No Data Inserted")
+            }
+        }
+        catch (e) {
+            reply.send(e);
+        }
+    })
+    fastify.post('/api/opportunityInsert', async (request, reply) => {
+        console.log("inside opportunity insert");
+        try {
+        let result = await opportunitydata(request.body)
+        if (result) {
+                reply.send("New Opportuntiy with id: " + result + " inserted successfully")
+            }
+            else {
+                reply.status(404 ).send("No Data Inserted")
+            }
+        }
+        catch (e) {
+            reply.send(e);
+        }
+        })
+        fastify.post('/api/leadInsert', async (request, reply) => {
+            console.log("inside lead insert")
+            try {
+            let result = await Leaddata(request.body)
+            if (result) {
+            await reply.send("New Lead with id: " + result + " inserted successfully")
+        }
+                else {
+                reply.status(404 ).send("No Data Inserted")
+        }
+        }
+        catch (e) {
+            reply.send(e);
+        }
+        })
+        fastify.post('/api/inventoryInsert', async (request, reply) => {
+            console.log("inside inventory insert ")
+            try {
+                let result = await propertydata(request.body)
+                if (result) {
+                reply.send("New Inventory  with id: " + result + " inserted successfully")
+                }
+                else {
+                reply.status(404 ).send("No Data Inserted")
+            }
+    }
+            catch (e) {
+            reply.send(e.message);
+    }
+        })
+        fastify.post('/api/userInsert', async (request, reply) => {
+            console.log("user insert  ")
+            try {
+            let result = await Userdata(request.body)
+            reply.send("New user  with id: " + result + " inserted successfully")
+        }
+        catch (e) {
+        reply.send(e.message);
+        }
+        })
  */
 
 
@@ -1014,76 +976,66 @@ function getdatafromreact(fastify, options, done) {
 
 
     /*   fastify.post('/api/editAccount', async (request, reply) => {
-           console.log("inside updae Account");
-           console.log("Query " + JSON.stringify(request.body))
-           try {
-               let result = await updateAccount(request.body);
-               reply.send("Account Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-   
-       })
-   
-       fastify.post('/api/editContact', async (request, reply) => {
-           console.log("inside updae Contact");
-           try {
-               let result = await updateContact(request.body);
-               reply.send("Contact Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-   
-       })
-   
-   
-       fastify.post('/api/editLead', async (request, reply) => {
-           console.log("inside updae Account");
-           try {
-               let result = await updateLead(request.body);
-               reply.send("Lead Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-   
-       })
-   
-       fastify.post('/api/editOpportunity', async (request, reply) => {
-           console.log("inside update Opportuntiy");
-           try {
-               let result = await updateOpportunity(request.body);
-               reply.send("Opportunity Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-       })
-   
-   
-       fastify.post('/api/editInventory', async (request, reply) => {
-           console.log("inside update Inventory");
-           try {
-               let result = await updateProperty(request.body);
-               reply.send("Inventory Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-       })
-   
-       fastify.post('/api/editUser', async (request, reply) => {
-           console.log("inside update user");
-           try {
-               let result = await updateUser(request.body);
-               reply.send("user Updated Successfully")
-           }
-           catch (e) {
-               reply.send(e.message)
-           }
-       })*/
+            console.log("inside updae Account");
+            console.log("Query " + JSON.stringify(request.body))
+            try {
+            let result = await updateAccount(request.body);
+            reply.send("Account Updated Successfully")
+            }
+            catch (e) {
+            reply.send(e.message)
+            }
+        })
+        fastify.post('/api/editContact', async (request, reply) => {
+            console.log("inside updae Contact");
+            try {
+            let result = await updateContact(request.body);
+            reply.send("Contact Updated Successfully")
+            }
+            catch (e) {
+            reply.send(e.message)
+        }
+        })
+        fastify.post('/api/editLead', async (request, reply) => {
+            console.log("inside updae Account");
+            try {
+            let result = await updateLead(request.body);
+            reply.send("Lead Updated Successfully")
+            }
+            catch (e) {
+            reply.send(e.message)
+            }
+        })
+        fastify.post('/api/editOpportunity', async (request, reply) => {
+        console.log("inside update Opportuntiy");
+        try {
+            let result = await updateOpportunity(request.body);
+            reply.send("Opportunity Updated Successfully")
+        }
+        catch (e) {
+            reply.send(e.message)
+        }
+        })
+        fastify.post('/api/editInventory', async (request, reply) => {
+            console.log("inside update Inventory");
+            try {
+            let result = await updateProperty(request.body);
+            reply.send("Inventory Updated Successfully")
+        }
+        catch (e) {
+        reply.send(e.message)
+        }
+        })
+        fastify.post('/api/editUser', async (request, reply) => {
+            console.log("inside update user");
+            try {
+            let result = await updateUser(request.body);
+            reply.send("user Updated Successfully")
+            }
+            catch (e) {
+            reply.send(e.message)
+        }
+    })*/
 
     done();
 

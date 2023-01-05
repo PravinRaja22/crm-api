@@ -16,7 +16,7 @@ async function getOpportunityInventorylookup(inventoryId) {
 getOpportunityInventorylookup().catch(console.error);
 async function getOpportunityDatas(client,inventoryId) {
     console.log("inside functionality inventory id "+inventoryId);
-    const cursor = await client.db("CRM").collection("Opportunity").find({InventoryId :new RegExp('^' + inventoryId)})
+    const cursor = await client.db("CRM").collection("Opportunity Inventory").find({InventoryId :new RegExp('^' + inventoryId)})
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
