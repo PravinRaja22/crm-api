@@ -16,7 +16,7 @@ const { getContact } = require('../model/Contact/getContact')
 const { getLead } = require('../model/Lead/getLead')
 const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
-const { getOpportunityInventory} = require('../model/Opportunity/opportunityInventory')
+const { getOpportunityInventory } = require('../model/Opportunity/opportunityInventory')
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
@@ -80,12 +80,12 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-    fastify.post('/api/dataloaderAccount', {preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log(request.file.filename);
         try {
 
-        
+
 
             console.log("inside upload file data loader Account ");
             console.log('data loader Account  data  ' + JSON.stringify(request.file.filename));
@@ -354,6 +354,34 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
+
+    fastify.post('/api/UpsertJnOppInventory', async (request, reply) => {
+        console.log("upsert junction object opp inventory route called " + JSON.stringify(request.body))
+        try {
+            console.log("upsert junction object try ");
+            let result = await upsertTask(request.body)
+            console.log("result length junction object " + result);
+            if (result) {
+                reply.send(result)
+            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside task upsert  Catch block ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+
+
+
+
+
+
+
+
     fastify.post('/api/accounts', async (request, reply) => {
         try {
             let result = await getAccountdata();
@@ -366,7 +394,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    
+
 
     fastify.post('/api/getAccountbyInventory', async (request, reply) => {
         console.log("inside get inventories by account id ");
@@ -452,22 +480,17 @@ function getdatafromreact(fastify, options, done) {
         if (request.query.searchKey) {
             try {
                 let result = await leadName(request.query.searchKey);
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside lead lookup name  Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }
         else {
             try {
                 let result = await leadName();
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside lead lookup name  Catch block ", e);
@@ -590,6 +613,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/leads', async (request, reply) => {
         try {
+            console.log("inside leads data");
             let result = await getLead();
             reply.send(result)
         }
@@ -611,12 +635,6 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-
-
-
-
-
-
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
@@ -628,9 +646,6 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-
-
-
     fastify.post('/api/getInventoriesbyOppid', async (request, reply) => {
         console.log("inside get inventories by opp id ");
         console.log("Inside Task get Inventories by opp id  Router " + request.query.searchId)

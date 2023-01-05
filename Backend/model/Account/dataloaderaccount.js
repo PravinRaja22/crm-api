@@ -26,13 +26,8 @@ async function dataloaderAccount(request) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
-                //  names.push(5,6)
-                //  values.push(formatDate,formatDate)
-               // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-
-
         }
         toObject(objdata, objvalues)
         //  console.log("data loader array "+JSON.stringify(dataloaderarray));
