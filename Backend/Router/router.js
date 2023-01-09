@@ -1,6 +1,6 @@
 const { upsertAccount } = require('../model/Account/upsertAccount')
 const { upsertContact } = require('../model/Contact/upsertContact')
-const { upsertLead } = require('../model/nodemailer/upsertLead')
+const { upsertLead } = require('../model/Lead/upsertLead')
 const { upsertOpportunity } = require('../model/Opportunity/upsertOpportunity')
 const { upsertUser } = require('../model/User/upsertUser')
 const { upsertProperty } = require('../model/Inventory Management/upsertInventorymanagement')
@@ -52,6 +52,9 @@ function getdatafromreact(fastify, options, done) {
 
 
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
+
+
+
 
 
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
@@ -568,6 +571,24 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await getFiles();
 
+            reply.send(result)
+
+
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+    
+    fastify.post('/api/preview-file', async (request, reply) => {
+        console.log("inside preview file");
+        console.log(request.query.searchId);
+
+        try {
+            console.log("inside preview file");
+            let result = await getEachFiles(request.query.searchId);
             reply.send(result)
 
 

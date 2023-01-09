@@ -1,4 +1,6 @@
 const { MongoClient } = require('mongodb');
+var ObjectId = require('mongodb').ObjectId;
+
 async function getEachFiles(fileId) {
     const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(url);
@@ -15,12 +17,13 @@ async function getEachFiles(fileId) {
     }
 }
 getEachFiles().catch
-async function getindividualdata(client) {
+async function getindividualdata(client,fileId) {
 
     try{
-        const cursor = await client.db("CRM").collection("Files").find()
+        const cursor = await client.db("CRM").collection("Files").find({ _id: ObjectId(fileId) })
         const results = await cursor.toArray();
         if (results.length > 0) {
+            console.log("individual file is : "+results);
             return JSON.stringify(results)
         }
         else {

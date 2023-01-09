@@ -8,7 +8,6 @@ async function dataloaderAccount(request) {
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
-        let requestfile={};
         console.log("Before for loop");
         request.forEach(function(variable){
             console.log("inside for loop before adding date ",variable);
