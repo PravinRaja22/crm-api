@@ -1,9 +1,7 @@
 
 const {MongoClient } = require('mongodb')
 async function insertFile(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
-    //    const url = process.env.MONGODB_URL;
-//    console.log("process data "+ process.env.MONGODB_URL);
+const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
 console.log("inside functions "+request.file.path);
 test =request.file.path
 console.log("test ",test);
@@ -40,30 +38,5 @@ async function insertFiledata(client,newContact){
     const result = await client.db("CRM").collection("Files").insertOne(newContact);
     console.log("inserted records "+JSON.stringify(result));
     return result;
-   // console.log(`New file created with the following id : ${result.insertedId}`);
 }
 module.exports = {insertFile}
-// const mongoose = require('mongoose');
-// mongoose
-//   .connect(
-//     'mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority'
-//   )
-//   .then((result) => {
-//     console.log('connected to mongo database');
-//   })
-//   .catch((err) => {
-//     console.log('error connecting to database', err.message);
-//   });
-//   const personSchema = new mongoose.Schema({
-//       name: String,
-//       number: Number,
-//       photo: String
-//   })
-//   personSchema.set('toJSON', {
-//     transform: (document, returnedObj) => {
-//       returnedObj.id = returnedObj._id.toString();
-//       delete returnedObj._id;
-//       delete returnedObj.__v;
-//     },
-//   });
-//   module.exports = mongoose.model('Person', personSchema)

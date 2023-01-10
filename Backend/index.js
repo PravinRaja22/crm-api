@@ -1,10 +1,18 @@
 const fastify = require('fastify')({ logger: false })
+const path = require('path')
+
 // const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
 // });
 //fastify.register(fileUpload)
+fastify.register(require('@fastify/static'), {
+    root: path.join(__dirname, 'uploads'),
+    prefix: '/uploads/'
+  })
 const Multer = require ('fastify-multer')
+console.log('test data found')
+console.log(path.join(__dirname, 'uploads'));
 // fastify.register(require('./model/plugin/mongodb'))
 // fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
 // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});

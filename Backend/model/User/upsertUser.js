@@ -34,8 +34,9 @@ async function upsertUser(request) {
     //     }
     //    let result =  await updatesiglerecord(client,request._id,updatedatas)
     //    return result
-       let data =  await updatesiglerecord(client,request._id,updatedatas)
-       return data
+    
+    let data =  await updatesiglerecord(client,request._id,updatedatas)
+    return data
     } 
     catch (e) {
         console.error(e);

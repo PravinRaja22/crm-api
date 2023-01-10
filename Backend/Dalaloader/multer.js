@@ -1,6 +1,3 @@
-
-const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
-
 const Multer = require('fastify-multer')
 const path = require('path')
 const csvtojson = require('csvtojson')

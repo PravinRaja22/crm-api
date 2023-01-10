@@ -49,14 +49,14 @@ function getdatafromreact(fastify, options, done) {
 
 
     //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
-
+    fastify.post("/images", (req, res) => {
+        console.log('inside images');
+        console.log('2023-01-10T09-30-57.169Z-wall.jpg');
+        //res.send("Got it")
+       res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
+      });
 
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
-
-
-
-
-
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
         console.log(request.file.filename);
@@ -80,6 +80,7 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
+
     fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log(request.file.filename);
@@ -103,7 +104,6 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-
 
     fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
@@ -227,7 +227,6 @@ function getdatafromreact(fastify, options, done) {
     })
     fastify.post('/api/UpsertContact', async (request, reply) => {
         console.log("upsert route called")
-
         console.log("request body " + JSON.stringify(request.body))
         console.log("request query " + JSON.stringify(request.query))
         console.log("file upload datas " + request);
@@ -371,13 +370,6 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-
-
-
-
-
-
-
     fastify.post('/api/accounts', async (request, reply) => {
         try {
             let result = await getAccountdata();
@@ -426,13 +418,10 @@ function getdatafromreact(fastify, options, done) {
             console.log("inside else statemeent for account name router");
             try {
                 let result = await getAccountName();
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside lookup account name view Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }
@@ -445,27 +434,20 @@ function getdatafromreact(fastify, options, done) {
         if (request.query.searchKey) {
             try {
                 let result = await propertyName(request.query.searchKey);
-
                 reply.send(result)
-
-
             }
             catch (e) {
                 console.log("inside inventory lookup name  Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }
         else {
             try {
                 let result = await propertyName();
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside inventory lookup name  Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }
@@ -542,13 +524,10 @@ function getdatafromreact(fastify, options, done) {
         else {
             try {
                 let result = await getUserName();
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside user lookup name  Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }
@@ -556,10 +535,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
-
             reply.send(result)
-
-
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -570,10 +546,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/files', async (request, reply) => {
         try {
             let result = await getFiles();
-
             reply.send(result)
-
-
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -599,29 +572,18 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
+
     fastify.post('/api/download', async (request, reply) => {
         console.log("inside download id ");
         console.log(request.query.searchKey);
         try {
             let result = await getEachFiles(request.query.searchKey);
-
             reply.send(result)
-
-
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
             reply.send("Error " + e.message)
         }
-        // try {
-        //   const file = await File.findById(req.params.id);
-        //   res.set({
-        //     'Content-Type': file.file_mimetype
-        //   });
-        //   res.sendFile(path.join(__dirname, '..', file.file_path));
-        // } catch (error) {
-        //   res.status(400).send('Error while downloading file. Try again later.');
-        // }
     });
 
 
