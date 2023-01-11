@@ -1,3 +1,4 @@
+var fs = require('fs')
 const { upsertAccount } = require('../model/Account/upsertAccount')
 const { upsertContact } = require('../model/Contact/upsertContact')
 const { upsertLead } = require('../model/Lead/upsertLead')
@@ -42,19 +43,52 @@ const { getOpportunityInventory } = require('../model/opportunity_inventory/geto
 const { deleteOpportunityInventory } = require ('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
 const accountSchema = require('../model/schema/accountSchema')
+const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dalaloader/multer')
+const { sendEmail} = require('../Email/nodemailer')
 
 function getdatafromreact(fastify, options, done) {
-
-
     //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
+    
+  fastify.post("/api/email",async (request,reply)=>{
+    console.log(request.body);
+    try{
+        console.log("inside the try of the email sender");
+        let emailresult = await sendEmail();
+        reply.send('Mail sent successfully')
+    }
+    catch(e){
+        res.send('error ' + e.message)
+
+    }
+  })
+
+
+
+
+
+
+
     fastify.post("/images", (req, res) => {
+
+        // const readStream = fs.createReadStream('uploads/2023-01-10T09-30-57.169Z-wall.jpg');
+        // res.writeHead(200, {
+        //     'Content-Type': 'application/pdf',
+        //     'Content-Disposition': 'attachment; filename=2023-01-10T09-30-57.169Z-wall.jpg',
+        //     'Content-Transfer-Encoding': 'Binary'
+        // });
+        // readStream.on('open', function () {
+        //     // This just pipes the read stream to the response object (which goes to the client)
+        //     readStream.pipe(res);
+        //   });
+        //   readStream.on('error', function(err) {
+        //     res.send(err);
+        //   });
         console.log('inside images');
         console.log('2023-01-10T09-30-57.169Z-wall.jpg');
-        //res.send("Got it")
-       res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
-      });
+        res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
+        });
 
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
@@ -127,10 +161,6 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-
-
-
-
     fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file datas ");
         // console.log(request.file.filename);

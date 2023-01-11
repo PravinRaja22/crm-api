@@ -6,10 +6,10 @@ const path = require('path')
 //     limits: { fileSize: 50 * 1024 * 1024 },
 // });
 //fastify.register(fileUpload)
-fastify.register(require('@fastify/static'), {
-    root: path.join(__dirname, 'uploads'),
-    prefix: '/uploads/'
-  })
+// fastify.register(require('@fastify/static'), {
+//     root: path.join(__dirname, 'uploads'),
+//     prefix: 'uploads'
+//   })
 const Multer = require ('fastify-multer')
 console.log('test data found')
 console.log(path.join(__dirname, 'uploads'));
