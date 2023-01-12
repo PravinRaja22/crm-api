@@ -63,15 +63,17 @@ fastify.post("/api/email",async (request,reply)=>{
     }
 })
 
-fastify.post("/api/bulkemail",async (request,reply)=>{
+fastify.post("/api/bulkemail",{ preHandler: fieldsUpload },async (request,reply)=>{
     console.log(request.body);
+    console.log("request file ", request.file);
+
     try{
         console.log("inside the try of the email sender");
-        let emailresult = await bulkemail(request.body);
+        let emailresult = await bulkemail(request);
         reply.send('Mail sent successfully')
     }
     catch(e){
-        res.send('error ' + e.message)
+        reply.send('error ' + e.message)
     }
 })
     fastify.post("/images", (request, reply) => {

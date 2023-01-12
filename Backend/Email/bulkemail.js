@@ -5,65 +5,71 @@ async function bulkemail(request) {
     console.log(request);
     console.log("after bulk  email list is "
     );
-    let subject = request.subject;
-    let Body = request.htmlBody;
-    console.log('Subject is : '+subject);
-    console.log('Body is : '+Body);
-    let emailarray=[]
-    let namearray=[]
-    request.recordsData.forEach(getemails => {
-    console.log(getemails.email);
-    emailarray.push(getemails.email)
-    namearray.push(getemails.firstName)
-})
-console.log('Email array is : ',JSON.stringify(emailarray));
-let mailtransporter = nodemailer.createTransport({
-    service:"gmail",
-    auth:{
-        user:"venkatpravin24@gmail.com",
-        pass:"qttgtlvmsmwqwxvo"
-    }
-})
-console.log("Arry length is : "+emailarray.length)
-let details;
-//const filepath = path.join(__dirname, '../uploads/2023-01-10T09-30-57.169Z-wall.jpg')
-const filepath = path.join(__dirname, '../uploads/2022-12-30T08-56-15.519Z-Node JS Fundamentals.docx')
-console.log("File Path is : "+filepath)
-if(emailarray.length > 1){
+    let subject = request.body.subject;
+    let Body = request.body.htmlBody;
+    let attachmentname = request.file.filename
+    console.log('Subject is : ' + subject);
+    console.log('Body is : ' + Body);
+    console.log('file name  is : ' + attachmentname);
+
+    let emailarray = []
+    let namearray = []
+    //console.log(request.body.recordsData);
+    let arrayfiledata = request.body.recordsData;
+    console.log(arrayfiledata);
+        JSON.parse(arrayfiledata).forEach(getemails => {
+        console.log(getemails.email);
+        emailarray.push(getemails.email)
+        namearray.push(getemails.firstName)
+    })
+    console.log('Email array is : ', JSON.stringify(emailarray));
+    let mailtransporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "venkatpravin24@gmail.com",
+            pass: "qttgtlvmsmwqwxvo"
+        }
+    })
+    console.log("Arry length is : " + emailarray.length)
+    let details;
+    //const filepath = path.join(__dirname, '../uploads/2023-01-10T09-30-57.169Z-wall.jpg')
+    const filepath = path.join(__dirname, '../uploads/' + attachmentname)
+    console.log("File Path is : " + filepath)
+    if (emailarray.length > 1) {
         details = {
-        bcc:JSON.stringify(emailarray),
-        subject:subject,
-        text:Body,
-        attachments:[
-            {filename:'Node JS Fundamentals.docx',path:filepath}
-                    ]
+            bcc: JSON.stringify(emailarray),
+            subject: subject,
+            text: Body,
+            attachments: [
+                { filename:attachmentname, path: filepath }
+            ]
+        }
+
+    }
+    else {
+
+        details = {
+            to:JSON.stringify(emailarray),
+            //to: email,
+            subject: subject,
+            text: Body,
+            attachments: [
+                { path: filepath }
+            ]
+        }
+
     }
 
-}
-else{
-    
-     details = {
-        to:JSON.stringify(emailarray),
-      //  to:request.email,
-        subject:subject,
-        text:Body,
-        attachments:[
-            {path:filepath}
-                    ]
-    }
-
-}
-
-mailtransporter.sendMail(details,(err)=>{
-    if(err){
-        console.log("inside if");
-        console.log(err.message);
-        return err.message;
-    }
-    else{
-        console.log("inside else of node mailer");
-        return "Email sent successfully";
-    }
-})
+    mailtransporter.sendMail(details, (err) => {
+        if (err) {
+            console.log("inside if");
+            console.log(err.message);
+            return err.message;
+        }
+        else {
+            console.log("inside else of node mailer");
+            return "Email sent successfully";
+        }
+    })
 };
-module.exports = {bulkemail}
+module.exports = { bulkemail }
