@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 async function sendEmail(request) {
     let subject = request.subject;
     let Body = request.htmlBody;
-    let toEmail = request.emailRec.email
+    let toEmail = request.recordsdata.email
     let mailtransporter = nodemailer.createTransport({
     service:"gmail",
     auth:{
@@ -10,15 +10,16 @@ async function sendEmail(request) {
         pass:"qttgtlvmsmwqwxvo"
     }
 })
-// console.log('node mailer attachments '+path.join(__dirname, '../uploads'));
-// const filepath = path.join(__dirname, '../uploads')
+
+const filepath = path.join(__dirname, '../uploads/' + attachmentname)
+console.log("File Path is : " + filepath)
 let details = {
     to:toEmail,
     subject:subject,
     text:Body,
-    // attachments:[
-    //     {filename:'2023-01-10T12-03-37.375Z-node js logs imp.png',path:filepath}
-    //             ]
+    attachments: [
+        { filename:attachmentname, path: filepath }
+    ]
 }
 mailtransporter.sendMail(details,(err)=>{
     if(err){

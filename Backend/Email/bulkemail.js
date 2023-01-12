@@ -17,11 +17,32 @@ async function bulkemail(request) {
     //console.log(request.body.recordsData);
     let arrayfiledata = request.body.recordsData;
     console.log(arrayfiledata);
+    console.log(Array.isArray(arrayfiledata));
+    let objectarray =[];
+    if(Array.isArray(arrayfiledata)){
         JSON.parse(arrayfiledata).forEach(getemails => {
-        console.log(getemails.email);
-        emailarray.push(getemails.email)
-        namearray.push(getemails.firstName)
-    })
+            console.log(getemails.email);
+            emailarray.push(getemails.email)
+            namearray.push(getemails.firstName)
+        })
+
+    }
+    else{
+        console.log("inside else of not array");
+        console.log('Email is : '+arrayfiledata.email);
+         objectarray.push(arrayfiledata)
+         console.log(objectarray);
+         JSON.stringify(objectarray).forEach(getemail =>{
+            console.log("inside else array");
+            console.log(getemail.email);
+
+         })
+
+    }
+  
+
+
+
     console.log('Email array is : ', JSON.stringify(emailarray));
     let mailtransporter = nodemailer.createTransport({
         service: "gmail",

@@ -51,7 +51,7 @@ const { bulkemail } = require('../Email/bulkemail')
 function getdatafromreact(fastify, options, done) {
 //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
     
-fastify.post("/api/email",async (request,reply)=>{
+fastify.post("/api/email",{ preHandler: fieldsUpload },async (request,reply)=>{
     console.log(request.body);
     try{
         console.log("inside the try of the email sender");
