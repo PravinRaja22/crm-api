@@ -74,11 +74,12 @@ fastify.post("/api/bulkemail",async (request,reply)=>{
         res.send('error ' + e.message)
     }
 })
-    fastify.post("/images", (req, res) => {
+    fastify.post("/images", (request, reply) => {
         console.log('inside images');
         console.log('2023-01-10T09-30-57.169Z-wall.jpg');
         //res.send("Data based ")
-      res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
+        let imageurl =request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
+        reply.send(imageurl)
         });
 
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
