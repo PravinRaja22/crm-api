@@ -3,7 +3,8 @@ const path = require('path')
 async function bulkemail(request) {
     console.log("Before Bulk email list is ");
     console.log(request);
-    console.log("after bulk  email list is ");
+    console.log("after bulk  email list is "
+    );
     let subject = request.subject;
     let Body = request.htmlBody;
     console.log('Subject is : '+subject);
@@ -25,17 +26,16 @@ let mailtransporter = nodemailer.createTransport({
 })
 console.log("Arry length is : "+emailarray.length)
 let details;
-const filepath = path.join(__dirname, '../uploads/2023-01-10T09-30-57.169Z-wall.jpg')
+//const filepath = path.join(__dirname, '../uploads/2023-01-10T09-30-57.169Z-wall.jpg')
+const filepath = path.join(__dirname, '../uploads/2022-12-30T08-56-15.519Z-Node JS Fundamentals.docx')
 console.log("File Path is : "+filepath)
-
 if(emailarray.length > 1){
-
-     details = {
+        details = {
         bcc:JSON.stringify(emailarray),
         subject:subject,
         text:Body,
         attachments:[
-            {path:filepath}
+            {filename:'Node JS Fundamentals.docx',path:filepath}
                     ]
     }
 
@@ -47,9 +47,9 @@ else{
       //  to:request.email,
         subject:subject,
         text:Body,
-        // attachments:[
-        //     {filename:'2023-01-10T12-03-37.375Z-node js logs imp.png',path:filepath}
-        //             ]
+        attachments:[
+            {path:filepath}
+                    ]
     }
 
 }
