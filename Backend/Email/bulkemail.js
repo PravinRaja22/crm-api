@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+const path = require('path')
 async function bulkemail(request) {
     console.log("Before Bulk email list is ");
     console.log(request);
@@ -24,21 +25,26 @@ let mailtransporter = nodemailer.createTransport({
 })
 console.log("Arry length is : "+emailarray.length)
 let details;
+const filepath = path.join(__dirname, '../uploads/2023-01-10T09-30-57.169Z-wall.jpg')
+console.log("File Path is : "+filepath)
+
 if(emailarray.length > 1){
 
      details = {
         bcc:JSON.stringify(emailarray),
         subject:subject,
         text:Body,
-        // attachments:[
-        //     {filename:'2023-01-10T12-03-37.375Z-node js logs imp.png',path:filepath}
-        //             ]
+        attachments:[
+            {path:filepath}
+                    ]
     }
 
 }
 else{
+    
      details = {
         to:JSON.stringify(emailarray),
+      //  to:request.email,
         subject:subject,
         text:Body,
         // attachments:[

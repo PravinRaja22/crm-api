@@ -80,6 +80,7 @@ fastify.post("/api/bulkemail",async (request,reply)=>{
         //res.send("Data based ")
         let imageurl =request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
         reply.send(imageurl)
+        //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
         });
 
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
