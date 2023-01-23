@@ -39,52 +39,81 @@ const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
 const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
 const { upsertOpportunityInventory } = require('../model/opportunity_inventory/upsertoppinv')
 const { getOpportunityInventory } = require('../model/opportunity_inventory/getoppinv')
-const { deleteOpportunityInventory } = require ('../model/opportunity_inventory/deleteoppinv.js')
+const { deleteOpportunityInventory } = require('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
 const accountSchema = require('../model/schema/accountSchema')
 const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dalaloader/multer')
-const { sendEmail} = require('../Email/nodemailer')
 const { bulkemail } = require('../Email/bulkemail')
+const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 
 function getdatafromreact(fastify, options, done) {
-//fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
-    
-fastify.post("/api/email",{ preHandler: fieldsUpload },async (request,reply)=>{
-    console.log(request.body);
-    try{
-        console.log("inside the try of the email sender");
-        let emailresult = await sendEmail(request.body);
-        reply.send('Mail sent successfully')
-    }
-    catch(e){
-        res.send('error ' + e.message)
-    }
-})
+    //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
-fastify.post("/api/bulkemail",{ preHandler: fieldsUpload },async (request,reply)=>{
-    console.log(request.body);
-    console.log("request file ", request.file);
+    // fastify.post("/api/email",{ preHandler: fieldsUpload },async (request,reply)=>{
+    //     console.log(request.body);
+    //     try{
+    //         console.log("inside the try of the email sender");
+    //         let emailresult = await sendEmail(request.body);
+    //         reply.send('Mail sent successfully')
+    //     }
+    //     catch(e){
+    //         res.send('error ' + e.message)
+    //     }
+    // })
 
-    try{
-        console.log("inside the try of the email sender");
-        let emailresult = await bulkemail(request);
-        reply.send('Mail sent successfully')
-    }
-    catch(e){
-        reply.send('error ' + e.message)
-    }
-})
+    fastify.post("/api/bulkemail", { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("bulk email test");
+        console.log(request.body);
+      //  console.log("request file ", request.file);
+
+        try {
+            console.log("inside the try of the email sender");
+            let emailresult = await bulkemail(request);
+            reply.send('Mail sent successfully')
+        }
+        catch (e) {
+            reply.send('error ' + e.message)
+        }
+    })
+
+
+
+    fastify.post("/api/bulkewhatsapp", { preHandler: fieldsUpload },(request, reply) => {
+        console.log("bulk email test");
+        console.log(request.body.recordsData);
+        //  console.log("request file ", request.file);
+        let body = request.body.subject;
+        let phonenumber;
+        JSON.parse(request.body.recordsData).forEach(async (number) => {
+            phonenumber = "91" + number.phone;
+            
+            console.log("array of Phone number is : " + phonenumber);
+            console.log("inside send mesage initial stage");
+            var data =getTextMessageInput('918870339850', body);
+            console.log("data is : " + data);
+            sendMessage(data)
+                .then(function (resdata) {
+                    console.log("inside the send message of then : " + data);
+                    reply.send("Message sent successfully")
+                })
+                .catch(function (error) {
+                    //console.log(error);
+                    console.log(error.response);
+                    reply.send(error);
+                    return;
+                });
+        });
+    })
     fastify.post("/images", (request, reply) => {
         console.log('inside images');
         console.log('2023-01-10T09-30-57.169Z-wall.jpg');
         //res.send("Data based ")
-        let imageurl =request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
+        let imageurl = request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
         reply.send(imageurl)
         //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
-        });
-
+    });
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
@@ -580,7 +609,7 @@ fastify.post("/api/bulkemail",{ preHandler: fieldsUpload },async (request,reply)
         }
     })
 
-    
+
     fastify.post('/api/preview-file', async (request, reply) => {
         console.log("inside preview file");
         console.log(request.query.searchId);
