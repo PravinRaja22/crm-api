@@ -36,10 +36,10 @@ async function bulkemail(request) {
             }
 
 let mailtransporter = nodemailer.createTransport({
-            service: "gmail",
+            service: process.env.GMAIL,
             auth: {
-                user: "venkatpravin24@gmail.com",
-                pass: "qttgtlvmsmwqwxvo"
+                user: process.env.FROMEMAILID,
+                pass: process.env.PASSWORD,
             }
         })
 
