@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function getOpportunityLead(leadId) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         console.log("Lead Id for Opportunity  "+leadId);

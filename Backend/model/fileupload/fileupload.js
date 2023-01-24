@@ -1,7 +1,7 @@
 
 const {MongoClient } = require('mongodb')
 async function insertFile(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
 console.log("inside functions "+request.file.path);
 var test =request.file.path
 console.log("test ",test);

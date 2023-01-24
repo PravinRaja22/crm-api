@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function dataloaderAccount(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("data loader testing data for Account  " + JSON.stringify(request));
     let d = new Date();

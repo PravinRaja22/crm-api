@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 async function getOpportunityInventory() {
     //filter the data based on the bedrooms bathroom and beds
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("inside get opp inventory");
     try {

@@ -18,6 +18,7 @@ const { getOpportunity } = require('../model/Opportunity/getOpportunity')
 const { getProperty } = require('../model/Inventory Management/getInventoryManagement')
 const { getOpportunityInventorylookup } = require('../model/Opportunity/opportunityInventory')
 const { getInventoryOpportunityjn } = require('../model/Inventory Management/inventoryopportunity')
+const { getAccountscontact } = require('../model/Contact/getAccountscontact');
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
@@ -597,6 +598,18 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+    fastify.post('/api/getContactsbyAccountId', async (request, reply) => {
+        try {
+            let result = await getAccountscontact(request.query.searchId);
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("error block in contact view  page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
 
     fastify.post('/api/files', async (request, reply) => {
         try {

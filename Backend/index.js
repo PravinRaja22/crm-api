@@ -1,6 +1,6 @@
 const fastify = require('fastify')({ logger: false })
 const path = require('path')
-
+const dotenv = require("dotenv").config();
 // const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },

@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertOpportunity(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("opportunity daate outside if "+request.closeDate);
     console.log('close date is : '+request.closeDate);
