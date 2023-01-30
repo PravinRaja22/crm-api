@@ -15,7 +15,7 @@ async function getOpportunityInventorylookup(oppid) {
         await client.close();
     }
 }
-getOpportunityInventorylookup().catch(console.error);
+//getOpportunityInventorylookup().catch(console.error);
 async function getOpportunityDatas(client,oppid) {
     var InventoryId = []
     console.log("inside functionality inventory id "+oppid);

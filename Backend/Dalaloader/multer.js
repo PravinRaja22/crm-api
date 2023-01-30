@@ -22,9 +22,13 @@ var storage = Multer.diskStorage({
 
 var upload = Multer({
     storage: storage,
+    
 })
 
 let fieldsUpload = upload.single('file')
+
+
+
 
 // const uploadFile = async (req, res) => {
 //     console.log("inside upload fuile");

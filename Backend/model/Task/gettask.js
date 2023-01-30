@@ -14,7 +14,7 @@ async function getTask() {
         await client.close();
     }
 }
-getTask().catch(console.error);
+//getTask().catch(console.error);
 async function getDatas(client) {
 
     let queryobj = ([

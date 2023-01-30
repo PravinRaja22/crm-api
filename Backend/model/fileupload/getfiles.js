@@ -12,9 +12,8 @@ async function getFiles() {
         await client.close();
     }
 }
-getFiles().catch
+//getFiles().catch(console.error)
 async function getfiledata(client) {
-
     try{
         const cursor = await client.db("CRM").collection("Files").find()
         const results = await cursor.toArray();

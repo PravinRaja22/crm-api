@@ -14,7 +14,7 @@ async function leadTask(leadId) {
         await client.close();
     }
 }
-leadTask().catch(console.error);
+//leadTask().catch(console.error);
 async function leadtaskDatas(client,leadid) {
     console.log("Lead task datas "+leadid);
     const cursor = await client.db("CRM").collection("Task").find({LeadId : new RegExp('^' + leadid)})

@@ -14,7 +14,7 @@ async function  getUserName(request) {
         await client.close();
     }
 }
-getUserName().catch(console.error);
+//getUserName().catch(console.error);
 async function getDatas(client, userName) {
     if(userName){
         console.log("inside if statement of user names")

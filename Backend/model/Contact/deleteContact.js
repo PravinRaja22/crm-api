@@ -34,7 +34,7 @@ async function deleteContact(dataid) {
         await client.close();
     }
 }
-deleteContact().catch(console.error);
+//deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
 const results = await client.db("CRM").collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})

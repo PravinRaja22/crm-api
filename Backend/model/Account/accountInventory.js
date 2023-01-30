@@ -13,7 +13,7 @@ async function getAccountInventory(inventoryId) {
         await client.close();
     }
 }
-getAccountInventory().catch(console.error);
+//getAccountInventory().catch(console.error);
 async function getAccountDatas(client,inventoryId) {
     console.log("inside functionality inventory id "+inventoryId);
     const cursor = await client.db("CRM").collection("Account").find({InventoryId :new RegExp('^' + inventoryId)})

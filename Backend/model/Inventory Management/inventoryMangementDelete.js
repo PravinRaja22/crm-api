@@ -36,7 +36,7 @@ async function deleteProperty(dataid) {
         await client.close();
     }
 }
-deleteProperty().catch(console.error);
+//deleteProperty().catch(console.error);
 async function deleteDatas(client, deletepropertydata) {
     const results = await client.db("CRM").collection("Inventory Management").deleteOne({ _id: ObjectId(deletepropertydata) })
     if (results) {

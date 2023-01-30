@@ -13,7 +13,7 @@ async function deleteTask(dataid) {
         await client.close();
     }
 }
-deleteTask().catch(console.error);
+//deleteTask().catch(console.error);
 async function deleteDatas(client, deleteTaskdata) {
     const results = await client.db("CRM").collection("Task").deleteOne({ _id: ObjectId(deleteTaskdata) })
     if (results) {

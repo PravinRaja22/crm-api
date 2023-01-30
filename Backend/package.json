@@ -15,6 +15,7 @@
     "@fastify/mongodb": "^6.1.0",
     "@fastify/static": "^6.6.0",
     "@vercel/node": "^2.8.3",
+    "axios": "^1.2.4",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.0.3",
     "fastify": "^4.10.2",

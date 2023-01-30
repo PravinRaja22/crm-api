@@ -14,7 +14,7 @@ async function opportunityTask(oppId) {
         await client.close();
     }
 }
-opportunityTask().catch(console.error);
+//opportunityTask().catch(console.error);
 async function opportunitytaskDatas(client,oppid) {
     console.log("opportunity task datas "+oppid);
     const cursor = await client.db("CRM").collection("Task").find({OpportunityId :new RegExp('^' + oppid)})

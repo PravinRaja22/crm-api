@@ -37,7 +37,7 @@ async function getAccountdata() {
         await client.close();
     }
 }
-getAccountdata().catch(console.error);
+//getAccountdata().catch(console.error);
 async function getDatas(client) {
 
     let queryobj = ([

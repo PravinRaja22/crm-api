@@ -38,7 +38,8 @@
 
 
 
-(console.error);const { MongoClient } = require('mongodb');
+(console.error);const { chownSync } = require('fs');
+const { MongoClient } = require('mongodb');
 async function getContact() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -52,7 +53,7 @@ async function getContact() {
         await client.close();
     }
 }
-getContact().catch
+//getContact().catch(console.error)
 async function getDatas(client) {
     let queryobj = ([
         {

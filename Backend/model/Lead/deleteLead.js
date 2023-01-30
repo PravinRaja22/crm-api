@@ -15,7 +15,7 @@ async function deleteLead(dataid) {
         await client.close();
     }
 }
-deleteLead().catch(console.error);
+//deleteLead().catch(console.error);
 async function deleteDatas(client,deleteleaddata)
 {
 const results = await client.db("CRM").collection("Lead").deleteOne({_id:ObjectId(deleteleaddata)})

@@ -16,7 +16,7 @@ async function getEachFiles(fileId) {
         await client.close();
     }
 }
-getEachFiles().catch
+//getEachFiles().catch(console.error)
 async function getindividualdata(client,fileId) {
 
     try{

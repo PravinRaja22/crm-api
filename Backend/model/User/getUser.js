@@ -30,7 +30,7 @@ async function getUser() {
         await client.close();
     }
 }
-getUser().catch(console.error);
+//getUser().catch(console.error);
 async function getDatas(client) {
     const cursor = await client.db("CRM").collection("User").find({})
     const results = await cursor.toArray();

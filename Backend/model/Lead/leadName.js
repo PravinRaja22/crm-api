@@ -13,7 +13,7 @@ async function leadName(request) {
         await client.close();
     }
 }
-leadName().catch(console.error);
+//leadName().catch(console.error);
 async function getDatas(client, leadname) {
     if (leadname) {
         const cursor = await client.db("CRM").collection("Lead").find({ firstName: new RegExp('^' + leadname) })

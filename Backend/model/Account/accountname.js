@@ -48,7 +48,7 @@ async function getAccountName(request) {
         await client.close();
     }
 }
-getAccountName().catch(console.error);
+//getAccountName().catch(console.error);
 async function getDatas(client, accNames) {
     if(accNames){
         console.log("inside if statement of accnames")

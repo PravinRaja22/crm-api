@@ -24,7 +24,7 @@ function getTextMessageInput(recipient, text) {
         recipient_type: "individual",
         to: recipient,
         type: "text",
-        text: {
+        "text": {
             body: text,
         },
     });

@@ -67,7 +67,7 @@ async function dataloaderLead(request) {
         await client.close();
     }
 }
-dataloaderLead().catch(console.error);
+//dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client, insertdatas) {
     const result = await client.db("CRM").collection("Lead").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));

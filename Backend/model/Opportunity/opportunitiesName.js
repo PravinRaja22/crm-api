@@ -14,7 +14,7 @@ async function  getopportunityName(request) {
         await client.close();
     }
 }
-getopportunityName().catch(console.error);
+//getopportunityName().catch(console.error);
 async function getDatas(client, oppName) {
     if(oppName){
         console.log("inside if statement of accnames")

@@ -15,7 +15,7 @@ async function getAccountscontact(accid) {
         await client.close();
     }
 }
-getAccountscontact().catch(console.error);
+//getAccountscontact().catch(console.error);
 async function getOpportunityDatas(client, accid) {
     console.log("inside functionality Account id " + accid);
     const cursor = await client.db("CRM").collection("Contact").find({ AccountId: new RegExp('^' + accid) })

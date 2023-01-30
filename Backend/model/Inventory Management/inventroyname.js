@@ -13,7 +13,7 @@ async function propertyName(request) {
         await client.close();
     }
 }
-propertyName().catch(console.error);
+//propertyName().catch(console.error);
 async function getDatas(client, propname) {
     if (propname) {
         console.log("inside property if ");

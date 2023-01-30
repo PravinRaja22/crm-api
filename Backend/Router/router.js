@@ -47,6 +47,7 @@ const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dalaloader/multer')
 const { bulkemail } = require('../Email/bulkemail')
+const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 
 function getdatafromreact(fastify, options, done) {
@@ -67,11 +68,14 @@ function getdatafromreact(fastify, options, done) {
     fastify.post("/api/bulkemail", { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("bulk email test");
         console.log(request.body);
-      //  console.log("request file ", request.file);
+        //  console.log("request file ", request.file);
 
         try {
             console.log("inside the try of the email sender");
             let emailresult = await bulkemail(request);
+            let insertemailresult = await insertEmail(request);
+            console.log("request is : " + requst);
+            console.log('insert email result is : ' + insertemailresult);
             reply.send('Mail sent successfully')
         }
         catch (e) {
@@ -81,7 +85,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post("/api/bulkewhatsapp", { preHandler: fieldsUpload },(request, reply) => {
+    fastify.post("/api/bulkewhatsapp", { preHandler: fieldsUpload }, (request, reply) => {
         console.log("bulk email test");
         console.log(request.body.recordsData);
         //  console.log("request file ", request.file);
@@ -89,10 +93,10 @@ function getdatafromreact(fastify, options, done) {
         let phonenumber;
         JSON.parse(request.body.recordsData).forEach(async (number) => {
             phonenumber = "91" + number.phone;
-            
+
             console.log("array of Phone number is : " + phonenumber);
             console.log("inside send mesage initial stage");
-            var data =getTextMessageInput('918870339850', body);
+            var data = getTextMessageInput('918870339850', body);
             console.log("data is : " + data);
             sendMessage(data)
                 .then(function (resdata) {
@@ -139,6 +143,26 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
+    fastify.post('/api/generatePreview', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("Inside Generate Preview");
+
+        console.log(request.file.filename);
+        try {
+            const files = request.file.filename
+            const csvfilepath = 'uploads/' + files
+           await  csvtojson()
+                .fromFile(csvfilepath)
+                .then((jsonobj) => {
+                console.log(jsonobj);             
+                reply.send(jsonobj)
+                })
+        }
+        catch (e) {
+            reply.send('error ' + e.message)
+        }
+        //  console.log("after exot pf try catch "+csvoutput);
+
+    })
 
     fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
@@ -160,7 +184,7 @@ function getdatafromreact(fastify, options, done) {
                 })
         }
         catch (e) {
-            res.send('error ' + e.message)
+            reply.send('error ' + e.message)
         }
     });
 

@@ -45,7 +45,7 @@ async function upsertUser(request) {
         await client.close();
     }
 }
-upsertUser().catch(console.error);
+//upsertUser().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     //update single record
     const result = await client.db("CRM").collection("User").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});

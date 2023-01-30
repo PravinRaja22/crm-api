@@ -56,7 +56,7 @@ async function getOpportunity() {
         await client.close();
     }
 }
-getOpportunity().catch(console.error);
+//getOpportunity().catch(console.error);
 async function getDatas(client) {
     let queryobj = ([
         {

@@ -139,7 +139,7 @@ async function upsertAccount(request) {
         await client.close();
     }
 }
-upsertAccount().catch(console.error);
+//upsertAccount().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
     const result = await client.db("CRM").collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });

@@ -43,7 +43,7 @@ async function dataloaderAccount(request) {
         await client.close();
     }
 }
-dataloaderAccount().catch(console.error);
+//dataloaderAccount().catch(console.error);
 async function insertDataloaderAccount(client, insertdatas) {
     const result = await client.db("CRM").collection("Account").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));

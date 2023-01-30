@@ -13,7 +13,7 @@ async function getOpportunityLead(leadId) {
         await client.close();
     }
 }
-getOpportunityLead().catch(console.error);
+//getOpportunityLead().catch(console.error);
 async function getOpportunityDatas(client,leadId) {
     console.log("inside functionality Lead id "+leadId);
     const cursor = await client.db("CRM").collection("Opportunity").find({LeadId :new RegExp('^' + leadId)})

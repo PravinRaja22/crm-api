@@ -43,7 +43,7 @@ async function dataloaderOpportuntiy(request) {
         await client.close();
     }
 }
-dataloaderOpportuntiy().catch(console.error);
+//dataloaderOpportuntiy().catch(console.error);
 async function insertDataloaderOpportunity(client, insertdatas) {
     const result = await client.db("CRM").collection("Opportunity").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));

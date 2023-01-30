@@ -151,7 +151,7 @@ console.log("REQUEST ID "+request._id);
         await client.close();
     }
 }
-upsertContact().catch(console.error);
+//upsertContact().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     console.log("id inside function "+id);
     console.log("functionality inside data "+JSON.stringify(updatedatas));

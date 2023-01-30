@@ -38,7 +38,7 @@ async function deleteAccount(dataid) {
         await client.close();
     }
 }
-deleteAccount().catch(console.error);
+//deleteAccount().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
     const results = await client.db("CRM").collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
     if (results) {

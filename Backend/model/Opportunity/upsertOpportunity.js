@@ -116,7 +116,7 @@ console.log("inside else of epoch time");
         await client.close();
     }
 }
-upsertOpportunity().catch(console.error);
+//upsertOpportunity().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     const result = await client.db("CRM").collection("Opportunity").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {

@@ -13,7 +13,7 @@ async function deleteOpportunity(dataid) {
         await client.close();
     }
 }
-deleteOpportunity().catch(console.error);
+//deleteOpportunity().catch(console.error);
 async function deleteDatas(client,deleteOpportunitydata)
 {
     const results = await client.db("CRM").collection("Opportunity").deleteOne({ _id: ObjectId(deleteOpportunitydata) })

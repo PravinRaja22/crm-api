@@ -29,7 +29,7 @@ async function getLead(){
         await client.close();
     }
 }
-getLead().catch(console.error);
+//getLead().catch(console.error);
 async function getDatas(client)
 {
 const cursor = await client.db("CRM").collection("Lead").find({})

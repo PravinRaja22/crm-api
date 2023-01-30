@@ -33,7 +33,7 @@ console.log("path file ",pathfil);
         await client.close();
     }
 }
-insertFile().catch(console.error);
+//insertFile().catch(console.error);
 
 async function insertFiledata(client,newContact){
     const result = await client.db("CRM").collection("Files").insertOne(newContact);

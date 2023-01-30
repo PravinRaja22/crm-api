@@ -14,7 +14,7 @@ async function deleteOpportunityInventory(dataid) {
         await client.close();
     }
 }
-deleteOpportunityInventory().catch(console.error);
+//deleteOpportunityInventory().catch(console.error);
 async function deleteDatas(client,deleteOpportunitydata)
 {
     const results = await client.db("CRM").collection("Opportunity Inventory").deleteOne({ _id: ObjectId(deleteOpportunitydata) })

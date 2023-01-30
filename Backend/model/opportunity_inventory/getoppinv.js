@@ -14,7 +14,7 @@ async function getOpportunityInventory() {
         await client.close();
     }
 }
-getOpportunityInventory().catch(console.error);
+//getOpportunityInventory().catch(console.error);
 async function getDatas(client) {
 
     let queryobj = ([

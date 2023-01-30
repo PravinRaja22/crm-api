@@ -10,8 +10,10 @@ fastify.register(require('@fastify/static'), {
     root: path.join(__dirname, 'uploads'),
    // prefix: 'uploads'
   })
+ // const dbconnect = require('./Database/mongodb')
+//fastify.register(dbconnect)
+
 const Multer = require ('fastify-multer')
-console.log('test data found')
 console.log(path.join(__dirname, 'uploads'));
 // fastify.register(require('./model/plugin/mongodb'))
 // fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});

@@ -106,7 +106,7 @@ async function upsertProperty(request) {
         await client.close();
     }
 }
-upsertProperty().catch(console.error);
+//upsertProperty().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
     const result = await client.db("CRM").collection("Inventory Management").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {

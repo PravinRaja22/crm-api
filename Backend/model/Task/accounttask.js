@@ -14,7 +14,7 @@ async function accountTask(accId) {
         await client.close();
     }
 }
-accountTask().catch(console.error);
+//accountTask().catch(console.error);
 async function accounttaskDatas(client,accid) {
     console.log("account task datas "+accid);
     const cursor = await client.db("CRM").collection("Task").find({AccountId : new RegExp('^' + accid)})

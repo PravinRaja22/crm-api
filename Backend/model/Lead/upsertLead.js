@@ -47,7 +47,7 @@ async function upsertLead(request) {
         await client.close();
     }
 }
-upsertLead().catch(console.error);
+//upsertLead().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
     //update single record
     const result = await client.db("CRM").collection("Lead").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });

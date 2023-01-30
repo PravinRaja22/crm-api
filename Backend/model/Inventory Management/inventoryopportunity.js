@@ -15,7 +15,7 @@ async function getInventoryOpportunityjn(invid) {
         await client.close();
     }
 }
-getInventoryOpportunityjn().catch(console.error);
+//getInventoryOpportunityjn().catch(console.error);
 async function getOpportunityDatas(client,invid) {
     var OpportunityId =[]
     console.log("inside functionality inventory id "+invid);

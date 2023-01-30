@@ -16,7 +16,7 @@ async function deleteUser(dataid) {
         await client.close();
     }
 }
-deleteUser().catch(console.error);
+//deleteUser().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
     const results = await client.db("CRM").collection("User").deleteOne({ _id: ObjectId(deleteaccountdata) })
     if (results) {
