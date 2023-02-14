@@ -22,7 +22,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function deleteContact(dataid) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -34,7 +34,7 @@ async function deleteContact(dataid) {
         await client.close();
     }
 }
-deleteContact().catch(console.error);
+//deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
 const results = await client.db("CRM").collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})

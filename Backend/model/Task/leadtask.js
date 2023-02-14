@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function leadTask(leadId) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("incoming id of the lead task "+leadId);
     try {
@@ -14,7 +14,7 @@ async function leadTask(leadId) {
         await client.close();
     }
 }
-leadTask().catch(console.error);
+//leadTask().catch(console.error);
 async function leadtaskDatas(client,leadid) {
     console.log("Lead task datas "+leadid);
     const cursor = await client.db("CRM").collection("Task").find({LeadId : new RegExp('^' + leadid)})

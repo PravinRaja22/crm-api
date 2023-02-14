@@ -59,7 +59,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertProperty(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -106,7 +106,7 @@ async function upsertProperty(request) {
         await client.close();
     }
 }
-upsertProperty().catch(console.error);
+//upsertProperty().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
     const result = await client.db("CRM").collection("Inventory Management").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {

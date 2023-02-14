@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 async function leadName(request) {
     let leadname = request
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -13,7 +13,7 @@ async function leadName(request) {
         await client.close();
     }
 }
-leadName().catch(console.error);
+//leadName().catch(console.error);
 async function getDatas(client, leadname) {
     if (leadname) {
         const cursor = await client.db("CRM").collection("Lead").find({ firstName: new RegExp('^' + leadname) })

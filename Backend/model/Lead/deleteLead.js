@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function deleteLead(dataid) {
     //filter the data based on the bedrooms bathroom and beds
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -15,7 +15,7 @@ async function deleteLead(dataid) {
         await client.close();
     }
 }
-deleteLead().catch(console.error);
+//deleteLead().catch(console.error);
 async function deleteDatas(client,deleteleaddata)
 {
 const results = await client.db("CRM").collection("Lead").deleteOne({_id:ObjectId(deleteleaddata)})

@@ -1,10 +1,11 @@
 
 const { MongoClient } = require('mongodb');
 async function main() {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url ='mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority';
     const client = new MongoClient(url);
     try {
         await client.connect();
+        console.log("inside delete function ")
         await deleteManyrecored(client)
     }
     catch (e) {
@@ -16,7 +17,7 @@ async function main() {
 }
 main().catch(console.error);
 async function deleteManyrecored(client){
-    const result = await client.db("CRM").collection("Account").deleteMany();
+    const result = await client.db("CRM").collection("Email").deleteMany();
     console.log(result);
     console.log(`${result.deletedCount} documents deleted in the Database`);
 }

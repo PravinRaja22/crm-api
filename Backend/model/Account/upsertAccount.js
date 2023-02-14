@@ -70,7 +70,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertAccount(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -139,7 +139,7 @@ async function upsertAccount(request) {
         await client.close();
     }
 }
-upsertAccount().catch(console.error);
+//upsertAccount().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
     const result = await client.db("CRM").collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });

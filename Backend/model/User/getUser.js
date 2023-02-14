@@ -18,7 +18,7 @@
 
 const { MongoClient } = require('mongodb');
 async function getUser() {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -30,7 +30,7 @@ async function getUser() {
         await client.close();
     }
 }
-getUser().catch(console.error);
+//getUser().catch(console.error);
 async function getDatas(client) {
     const cursor = await client.db("CRM").collection("User").find({})
     const results = await cursor.toArray();

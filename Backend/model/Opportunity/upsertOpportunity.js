@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertOpportunity(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("opportunity daate outside if "+request.closeDate);
     console.log('close date is : '+request.closeDate);
@@ -116,7 +116,7 @@ console.log("inside else of epoch time");
         await client.close();
     }
 }
-upsertOpportunity().catch(console.error);
+//upsertOpportunity().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     const result = await client.db("CRM").collection("Opportunity").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {

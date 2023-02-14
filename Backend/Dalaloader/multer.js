@@ -1,9 +1,6 @@
-
-const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
-
 const Multer = require('fastify-multer')
 const path = require('path')
-const csvtojson = require('csvtojson')
+//const csvtojson = require('csvtojson')
 var storage = Multer.diskStorage({
     destination: (req, file, cb) => {
         const ROOT_PATH = __dirname
@@ -12,6 +9,7 @@ var storage = Multer.diskStorage({
         console.log("inside destination folder " + JSON.stringify(file));
        // cb(null, path.dirname(ROOT_PATH))
         cb(null,'uploads')
+        
 
     },
     filename: (req, file, cb) => {
@@ -24,9 +22,13 @@ var storage = Multer.diskStorage({
 
 var upload = Multer({
     storage: storage,
+    
 })
 
 let fieldsUpload = upload.single('file')
+
+
+
 
 // const uploadFile = async (req, res) => {
 //     console.log("inside upload fuile");

@@ -1,54 +1,42 @@
 const { MongoClient } = require('mongodb');
-async function getContact() {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+var ObjectId = require('mongodb').ObjectId;
+async function upsertOpportunityInventory(request) {
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
-        let data = await getDatas(client)
-        return data;
-    } catch (e) {
+        let objdata = Object.keys(request);
+        let objvalues = Object.values(request);
+        let result = {};
+        function toObject(names, values) {
+            for (let i = 0; i < names.length; i++)
+                if (names[i] != '_id') {
+                    result[names[i]] = values[i];
+                    console.log('inside upsert Opportunity inventory junction ' + result);
+                }
+        }
+        toObject(objdata, objvalues)
+        let data = await updatesiglerecord(client,request._id,result)
+        return data
+    } 
+    catch (e) {
         console.error(e);
-    } finally {
+    } 
+    finally {
         await client.close();
     }
 }
-getContact().catch(console.error);
-async function getDatas(client) {
-    let queryobj = ([
-        {
-            $lookup:
-            {
-                from: 'Account',
-                let: { "searchId": { $toObjectId: "$AccountId" } },
-                pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
-                ],
-                as: 'Accountdetails'
-            }
-        }
-    ])
-    try{
-        const cursor = await client.db("CRM").collection("Inventory Management").aggregate(queryobj)
-        const results = await cursor.toArray();
-        if (results.length > 0) {
-            results.forEach((datearray)=>{
-                console.log("date field "+datearray.date);
-                if(datearray.date){
-                    var utcSeconds = datearray.date;
-                    var d = new Date(utcSeconds);
-                    console.log(d.toISOString().split('T')[0]) 
-                    datearray.date = d.toISOString().split('T')[0]
-                    console.log("resutles of contact data "+JSON.stringify(results));
-                }
-            });
-            return JSON.stringify(results)
-        }
-        else {
-            console.log("no data found");
-        }
+//upsertOpportunityInventory().catch(console.error);
+async function updatesiglerecord(client,id,updatedatas){
+    const result = await client.db("CRM").collection("Opportunity Inventory").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
+    if (result.upsertedCount > 0) {
+        return `Record inserted with the id ${result.upsertedId}`
+
     }
-    catch(e){
-        return e.message
+
+    else {
+        return `Opportunity  Updated Succesfully`
     }
 }
-module.exports = { getContact }
+
+module.exports={upsertOpportunityInventory}

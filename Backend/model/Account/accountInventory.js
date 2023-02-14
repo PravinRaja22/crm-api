@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function getAccountInventory(inventoryId) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         console.log("Inventory Id for Account  "+inventoryId);
@@ -13,7 +13,7 @@ async function getAccountInventory(inventoryId) {
         await client.close();
     }
 }
-getAccountInventory().catch(console.error);
+//getAccountInventory().catch(console.error);
 async function getAccountDatas(client,inventoryId) {
     console.log("inside functionality inventory id "+inventoryId);
     const cursor = await client.db("CRM").collection("Account").find({InventoryId :new RegExp('^' + inventoryId)})

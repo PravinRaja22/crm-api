@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function dataloaderLead(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("data loader testing data " + JSON.stringify(request));
     let d = new Date();
@@ -49,14 +49,8 @@ async function dataloaderLead(request) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
-                //  names.push(5,6)
-                //  values.push(formatDate,formatDate)
-               // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-            
-
-
         }
         toObject(objdata, objvalues)
         //  console.log("data loader array "+JSON.stringify(dataloaderarray));
@@ -73,7 +67,7 @@ async function dataloaderLead(request) {
         await client.close();
     }
 }
-dataloaderLead().catch(console.error);
+//dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client, insertdatas) {
     const result = await client.db("CRM").collection("Lead").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));

@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 async function  getUserName(request) {
     
     let userName = request
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -14,7 +14,7 @@ async function  getUserName(request) {
         await client.close();
     }
 }
-getUserName().catch(console.error);
+//getUserName().catch(console.error);
 async function getDatas(client, userName) {
     if(userName){
         console.log("inside if statement of user names")

@@ -36,7 +36,7 @@ const { MongoClient } = require('mongodb');
 async function getAccountName(request) {
     
     let accountName = request
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -48,7 +48,7 @@ async function getAccountName(request) {
         await client.close();
     }
 }
-getAccountName().catch(console.error);
+//getAccountName().catch(console.error);
 async function getDatas(client, accNames) {
     if(accNames){
         console.log("inside if statement of accnames")

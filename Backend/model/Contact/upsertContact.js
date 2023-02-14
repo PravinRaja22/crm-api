@@ -63,7 +63,7 @@ const { keys } = require('lodash');
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function upsertContact(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("inside funnctiolity "+JSON.stringify(request));
 
@@ -151,7 +151,7 @@ console.log("REQUEST ID "+request._id);
         await client.close();
     }
 }
-upsertContact().catch(console.error);
+//upsertContact().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
     console.log("id inside function "+id);
     console.log("functionality inside data "+JSON.stringify(updatedatas));

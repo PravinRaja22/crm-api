@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function getOpportunityLead(leadId) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         console.log("Lead Id for Opportunity  "+leadId);
@@ -13,7 +13,7 @@ async function getOpportunityLead(leadId) {
         await client.close();
     }
 }
-getOpportunityLead().catch(console.error);
+//getOpportunityLead().catch(console.error);
 async function getOpportunityDatas(client,leadId) {
     console.log("inside functionality Lead id "+leadId);
     const cursor = await client.db("CRM").collection("Opportunity").find({LeadId :new RegExp('^' + leadId)})

@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function getFiles() {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -12,9 +12,8 @@ async function getFiles() {
         await client.close();
     }
 }
-getFiles().catch
+//getFiles().catch(console.error)
 async function getfiledata(client) {
-
     try{
         const cursor = await client.db("CRM").collection("Files").find()
         const results = await cursor.toArray();

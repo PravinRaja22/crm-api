@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function dataloaderAccount(request) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("data loader testing data for Account  " + JSON.stringify(request));
     let d = new Date();
@@ -8,7 +8,6 @@ async function dataloaderAccount(request) {
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
-        let requestfile={};
         console.log("Before for loop");
         request.forEach(function(variable){
             console.log("inside for loop before adding date ",variable);
@@ -26,13 +25,8 @@ async function dataloaderAccount(request) {
             console.log("keys inside to Objeccts " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
-                //  names.push(5,6)
-                //  values.push(formatDate,formatDate)
-               // result.push(dates)
                 result[names[i]] = values[i];
                 console.log("final results "+JSON.stringify(result));
-
-
         }
         toObject(objdata, objvalues)
         //  console.log("data loader array "+JSON.stringify(dataloaderarray));
@@ -49,7 +43,7 @@ async function dataloaderAccount(request) {
         await client.close();
     }
 }
-dataloaderAccount().catch(console.error);
+//dataloaderAccount().catch(console.error);
 async function insertDataloaderAccount(client, insertdatas) {
     const result = await client.db("CRM").collection("Account").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));

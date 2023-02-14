@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 async function getTask() {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -14,7 +14,7 @@ async function getTask() {
         await client.close();
     }
 }
-getTask().catch(console.error);
+//getTask().catch(console.error);
 async function getDatas(client) {
 
     let queryobj = ([

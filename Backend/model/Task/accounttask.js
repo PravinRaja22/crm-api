@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 async function accountTask(accId) {
-    const url = "mongodb+srv://smartcrm:smart123@cluster0.rbvicx9.mongodb.net/?retryWrites=true&w=majority";
+    const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("incoming id of the opportunity task "+accId);
     try {
@@ -14,7 +14,7 @@ async function accountTask(accId) {
         await client.close();
     }
 }
-accountTask().catch(console.error);
+//accountTask().catch(console.error);
 async function accounttaskDatas(client,accid) {
     console.log("account task datas "+accid);
     const cursor = await client.db("CRM").collection("Task").find({AccountId : new RegExp('^' + accid)})
