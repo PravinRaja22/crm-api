@@ -5,7 +5,7 @@ async function dataloaderOpportuntiy(request) {
     const client = new MongoClient(url);
     console.log("data loader testing data for opportunity  " + JSON.stringify(request));
     let d = new Date();
-    const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+    const formatDate = [ d.getMonth() + 1,d.getDate(), d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
     var someDate=new Date(formatDate);
     var someDate1 = someDate.getTime();
     try {

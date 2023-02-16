@@ -5,7 +5,7 @@ async function dataloaderLead(request) {
     const client = new MongoClient(url);
     console.log("data loader testing data " + JSON.stringify(request));
     let d = new Date();
-    const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+    const formatDate = [ d.getMonth() + 1,d.getDate(),, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
     // console.log("Before size");
     // console.log("After size");
 
