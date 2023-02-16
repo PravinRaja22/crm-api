@@ -39,6 +39,12 @@ async function dataloaderLead(request) {
             console.log("inside for loop before adding date lead insert data loader",variable);
             variable.createdDate=someDate1
             variable.modifiedDate=someDate1
+            if(variable.firstName && variable.lastName){
+                variable.fullName=variabl.firstName+' '+variabl.lastName
+            }
+            else if(variable.firstName){
+                variable.fullName = variable.firstName
+            }
             console.log("inside for loop after adding date lead insert data loader ",variable);
 
         });

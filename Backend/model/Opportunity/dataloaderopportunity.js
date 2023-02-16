@@ -15,6 +15,7 @@ async function dataloaderOpportuntiy(request) {
             console.log("inside for loop before adding date ",variable);
             variable.createdDate=someDate1
             variable.modifiedDate=someDate1
+            
             console.log("inside for loop after adding date  ",variable);
 
         });
