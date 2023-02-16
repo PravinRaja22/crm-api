@@ -4,15 +4,17 @@ async function dataloaderAccount(request) {
     const client = new MongoClient(url);
     console.log("data loader testing data for Account  " + JSON.stringify(request));
     let d = new Date();
-    const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+    const formatDate = [d.getMonth() + 1,d.getDate(),d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+    var someDate=new Date(formatDate);
+    var someDate1 = someDate.getTime();
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
         console.log("Before for loop");
         request.forEach(function(variable){
             console.log("inside for loop before adding date ",variable);
-            variable.createdDate=formatDate
-            variable.modifiedDate=formatDate
+            variable.createdDate=someDate1
+            variable.modifiedDate=someDate1
             console.log("inside for loop after adding date  ",variable);
 
         });

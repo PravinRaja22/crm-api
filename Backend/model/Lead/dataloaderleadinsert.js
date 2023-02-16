@@ -29,14 +29,16 @@ async function dataloaderLead(request) {
     //         };
     //         dataloaderarray.push(updatedatas)
     //     });
+    var someDate=new Date(formatDate);
+    var someDate1 = someDate.getTime();
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
 
         request.forEach(function(variable){
             console.log("inside for loop before adding date lead insert data loader",variable);
-            variable.createdDate=formatDate
-            variable.modifiedDate=formatDate
+            variable.createdDate=someDate1
+            variable.modifiedDate=someDate1
             console.log("inside for loop after adding date lead insert data loader ",variable);
 
         });
