@@ -44,6 +44,7 @@ async function dataloaderLead(request) {
             }
             else if(variable.firstName){
                 variable.fullName = variable.firstName
+                
             }
             console.log("inside for loop after adding date lead insert data loader ",variable);
 
