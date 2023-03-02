@@ -758,6 +758,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/getLeadsbyOppid', async (request, reply) => {
         console.log("inside get lead by opp id ");
         console.log("Inside Task get lead by opp id  Router " + request.query.searchId)
+       
         try {
             let result = await getOpportunityLead(request.query.searchId)
             return result;

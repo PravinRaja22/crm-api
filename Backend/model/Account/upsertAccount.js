@@ -1,3 +1,4 @@
+
 // const { ObjectId } = require('@fastify/mongodb')
 // const fastify = require('fastify')({ logger: false })
 // fastify.register(require('../plugin/mongodb'))

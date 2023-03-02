@@ -5,7 +5,7 @@ async function dataloaderLead(request) {
     const client = new MongoClient(url);
     console.log("data loader testing data " + JSON.stringify(request));
     let d = new Date();
-    const formatDate = [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+    const formatDate = [ d.getMonth() + 1,d.getDate(),, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
     // console.log("Before size");
     // console.log("After size");
 
@@ -29,14 +29,23 @@ async function dataloaderLead(request) {
     //         };
     //         dataloaderarray.push(updatedatas)
     //     });
+    var someDate=new Date(formatDate);
+    var someDate1 = someDate.getTime();
     try {
         await client.connect();
         console.log("Request data "+JSON.stringify(request));
 
         request.forEach(function(variable){
             console.log("inside for loop before adding date lead insert data loader",variable);
-            variable.createdDate=formatDate
-            variable.modifiedDate=formatDate
+            variable.createdDate=someDate1
+            variable.modifiedDate=someDate1
+            if(variable.firstName && variable.lastName){
+                variable.fullName=variabl.firstName+' '+variabl.lastName
+            }
+            else if(variable.firstName){
+                variable.fullName = variable.firstName
+                
+            }
             console.log("inside for loop after adding date lead insert data loader ",variable);
 
         });
