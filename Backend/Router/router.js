@@ -32,9 +32,9 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-const { getEachFiles } = require('../model/fileupload/individualfile')
-const { insertFile } = require('../model/fileupload/fileupload')
-const { getFiles } = require('../model/fileupload/getfiles')
+const { getEachFiles } = require('../model/Inventory Management/fileupload/individualfile')
+const { insertFile } = require('../model/Inventory Management/fileupload/fileupload')
+const { getFiles } = require('../model/Inventory Management/fileupload/getfiles')
 const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
 const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
 const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
@@ -49,7 +49,6 @@ const { fieldsUpload, Multer } = require('../Dalaloader/multer')
 const { bulkemail } = require('../Email/bulkemail')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
-
 function getdatafromreact(fastify, options, done) {
     //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
@@ -73,7 +72,7 @@ function getdatafromreact(fastify, options, done) {
         try {
             console.log("inside the try of the email sender");
             let emailresult = await bulkemail(request);
-            let insertemailresult = await insertEmail(request);
+
             console.log("request is : " + requst);
             console.log('insert email result is : ' + insertemailresult);
             reply.send('Mail sent successfully')
@@ -111,14 +110,14 @@ function getdatafromreact(fastify, options, done) {
                 });
         });
     })
-    fastify.post("/images", (request, reply) => {
-        console.log('inside images');
-        console.log('2023-01-10T09-30-57.169Z-wall.jpg');
+    // fastify.post("/images", (request, reply) => {
+    //     console.log('inside images');
+    //     console.log('2023-01-10T09-30-57.169Z-wall.jpg');
         //res.send("Data based ")
-        let imageurl = request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
-        reply.send(imageurl)
+        // let imageurl = request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
+        // reply.send(imageurl)
         //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
-    });
+    //});
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
