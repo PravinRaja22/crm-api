@@ -82,7 +82,7 @@ async function upsertmultiplerecord(client, insertdatas) {
     insertdatas.forEach(e=>{
         console.log(e.appoinmentDate)
         let d = new Date(e.appoinmentDate);
-        const formatDate = [ d.getMonth() + 1,d.getDate(),, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+        const formatDate = [ d.getMonth() + 1,d.getDate(), d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
         console.log('format Date is '+formatDate)
         var someDate=new Date(formatDate);
         var utcdate = someDate.getTime();
