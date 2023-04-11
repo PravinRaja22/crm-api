@@ -451,6 +451,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/accounts', async (request, reply) => {
         try {
+            console.log("inside account get")
             let result = await getAccountdata();
             reply.send(result)
         }
