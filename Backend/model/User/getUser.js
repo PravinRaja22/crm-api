@@ -68,14 +68,14 @@ async function getDatas(client,request) {
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
-        return "No User Found for this Email Id"
+        return "Password or UserName is Wrong.Please Enter correct Details"
 
     }
     else{
         let checkkpassword =await hashValidator(request.body.password,existingUser.password)
         console.log(checkkpassword)
         if(!checkkpassword){
-            return 'Password is Invalid'
+            return "Password or UserName is Wrong.Please Enter correct Details"
         }
         else{
             console.log("inside password is correct")

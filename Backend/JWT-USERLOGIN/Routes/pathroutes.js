@@ -26,7 +26,7 @@ authRoutes.post('/signup', async (req, res) => {
 })
 authRoutes.post("/signin", async (req, res) => {
     try {
-        const existingUser = await user.findOne({ email: req.body.email });
+        const existingUser = await user.findOne({ email: req.body.userName });
         if (!existingUser) {
             res.send("No User Found for this Email Id")
         }
@@ -35,7 +35,7 @@ authRoutes.post("/signin", async (req, res) => {
             if (!checkPassword) {
                 res.send("password id Invalid")
             }else{
-                const token= await tokenGenerator(existingUser.email)
+                const token= await tokenGenerator(existingUser.userName)
                 console.log("jwt token",token)
                 res.cookie("jwt",token)
                 res.send(token)
