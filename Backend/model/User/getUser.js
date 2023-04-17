@@ -68,23 +68,24 @@ async function getDatas(client,request) {
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
-        return "Password or UserName is Wrong.Please Enter correct Details"
-
+        return {status:"failure",
+                 content:"Password or UserName is Wrong.Please Enter correct Details"}
     }
     else{
         let checkkpassword =await hashValidator(request.body.password,existingUser.password)
         console.log(checkkpassword)
         if(!checkkpassword){
-            return "Password or UserName is Wrong.Please Enter correct Details"
+            return {status:"failure",
+                     content:"Password or UserName is Wrong.Please Enter correct Details"}
         }
         else{
             console.log("inside password is correct")
-
             const token= await tokenGenerator(existingUser.userName)
             console.log("jwt token",token)
             // res.cookie("jwt",token)
             // res.send(token)
-            return token
+            return {status:"success",
+                    content:token}
         }
 
     }
