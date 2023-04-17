@@ -21,6 +21,7 @@ const { getInventoryOpportunityjn } = require('../model/Inventory Management/inv
 const { getAccountscontact } = require('../model/Contact/getAccountscontact');
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
 const { getUser } = require('../model/User/getUser')
+const { getSingleUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
 const { opportunityTask } = require('../model/Task/opportunitytask')
@@ -63,6 +64,54 @@ function getdatafromreact(fastify, options, done) {
     //         res.send('error ' + e.message)
     //     }
     // })
+
+
+
+fastify.post('/api/signin',async(request,reply)=>{
+
+    try {
+      
+        console.log("inside sigin page get")
+        console.log(request.body)
+        let result = await getSingleUser(request);
+        console.log('token is ')
+        console.log('token is ')
+        console.log(result)
+        reply.send(result)
+
+        }
+    
+    catch (error) {
+        console.log("inside catch ", error);
+    }
+
+})
+
+fastify.post('/api/signup',async(request,reply)=>{
+
+
+    try {
+
+
+        console.log("sign up body is ")
+        console.log(request.body)
+        let data = await upsertUser(request)  
+        reply.send('Sign Up done SuccesFully ')
+     
+    } catch (error) {
+        console.log("error in sign up page "+error.message)
+    }
+
+})
+
+
+
+
+
+
+
+
+
 
     fastify.post("/api/bulkemail", { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("bulk email test");
@@ -191,6 +240,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside upload file data loader Account");
         console.log(request.file.filename);
         try {
+            console.log("test")
             console.log("inside upload file data loader opportunity ");
             console.log('data loader opportunity  data  ' + JSON.stringify(request.file.filename));
             const files = request.file.filename
@@ -209,6 +259,13 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
+    fastify.get('/api/testpage',async(request,reply)=>{
+        reply.send("testpage")
+    })
+
+    fastify.get('/',async(request,reply)=>{
+        reply.send({message:"App initiated"})
+    })
 
     fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file datas ");

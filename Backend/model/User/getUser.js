@@ -17,6 +17,8 @@
 // module.exports = {getUser}
 
 const { MongoClient } = require('mongodb');
+const { hashValidator } = require("../../helpers/hashing")
+const{tokenGenerator} = require('../../helpers/jwttoken')
 async function getUser() {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -42,6 +44,53 @@ async function getDatas(client) {
         console.log("no data found");
     }
 }
+
+
+async function getSingleUser(request) {
+    const url =process.env.MONGODBURL;
+    const client = new MongoClient(url);
+    try {
+        await client.connect();
+        console.log("inside get user ")
+        console.log(request.body)
+         let data = await getDatas(client,request)
+         return data;
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+//getUser().catch(console.error);
+async function getDatas(client,request) {
+    console.log("inside get Datas")
+    const existingUser = await client.db("CRM").collection("User").findOne({ email: request.body.email })
+    console.log(existingUser)
+    if(!existingUser){
+        console.log("inside not the existing user")
+        return "No User Found for this Email Id"
+
+    }
+    else{
+        let checkkpassword =await hashValidator(request.body.password,existingUser.password)
+        console.log(checkkpassword)
+        if(!checkkpassword){
+            return 'Password is Invalid'
+        }
+        else{
+            console.log("inside password is correct")
+
+            const token= await tokenGenerator(existingUser.email)
+            console.log("jwt token",token)
+            // res.cookie("jwt",token)
+            // res.send(token)
+            return token
+        }
+
+    }
+ 
+}
+
 module.exports = { 
-    getUser
+    getUser,getSingleUser
  }
