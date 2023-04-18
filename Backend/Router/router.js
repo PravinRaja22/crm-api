@@ -298,7 +298,7 @@ fastify.post('/api/signup',async(request,reply)=>{
         try {
             console.log("inside try upload file  datas ");
             console.log("request body ", request.body);
-            console.log("request file ", request.file);
+            console.log("request file ", request.files);
             console.log("after request file");
             let result = await insertFile(request)
             reply.send(result)

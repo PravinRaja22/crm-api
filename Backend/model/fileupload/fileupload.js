@@ -2,8 +2,11 @@
 const {MongoClient } = require('mongodb')
 async function insertFile(request) {
     const url = process.env.MONGODBURL;
-console.log("inside functions "+request.file.path);
-var test =request.file.path
+console.log("inside functions "+request.files);
+request.files.forEach((e)=>{
+    console.log(e.path);
+})
+var test =request.files
 console.log("test ",test);
 console.log(test.substr(89,200));
 const pathfil = test.substr(89,200);
@@ -13,7 +16,7 @@ console.log("path file ",pathfil);
 // console.log("inside file protocol "+request.headers.host);
 // console.log("Files "+request.file.filename);
     const client = new MongoClient(url);
-    console.log(request.file);
+    console.log(request.files);
     try {
         //Connecting to DB
         await client.connect();
