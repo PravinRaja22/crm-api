@@ -4,7 +4,9 @@ async function insertFile(request) {
     const url = process.env.MONGODBURL;
 console.log("inside functions "+request.files);
 request.files.forEach((e)=>{
-    console.log(e.path);
+    console.log('inside for each');
+
+    console.log(e);
 })
 var test =request.files
 console.log("test ",test);
