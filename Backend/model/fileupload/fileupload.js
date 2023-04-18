@@ -37,9 +37,9 @@ console.log("path file ",pathfil);
 }
 //insertFile().catch(console.error);
 
-// async function insertFiledata(client,newContact){
-//     const result = await client.db("CRM").collection("Files").insertOne(newContact);
-//     console.log("inserted records "+JSON.stringify(result));
-//     return result;
-// }
+async function insertFiledata(client,newContact){
+    const result = await client.db("CRM").collection("Files").insertOne(newContact);
+    console.log("inserted records "+JSON.stringify(result));
+    return result;
+}
 module.exports = {insertFile}

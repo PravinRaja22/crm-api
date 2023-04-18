@@ -33,9 +33,11 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-const { getEachFiles } = require('../model/Inventory Management/fileupload/individualfile')
-const { insertFile } = require('../model/Inventory Management/fileupload/fileupload')
-const { getFiles } = require('../model/Inventory Management/fileupload/getfiles')
+
+const { getEachFiles } = require('../model/fileupload/individualfile')
+const { insertFile } = require('../model/fileupload/fileupload')
+const { getFiles } = require('../model/fileupload/getfiles')
+
 const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
 const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
 const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
@@ -47,7 +49,8 @@ const accountSchema = require('../model/schema/accountSchema')
 const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dataloader/multer')
-const { bulkemail } = require('../Email/bulkemail')
+const { gmail } = require('../Email/gmail')
+const {outlookemail} = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 function getdatafromreact(fastify, options, done) {
@@ -120,13 +123,35 @@ fastify.post('/api/signup',async(request,reply)=>{
 
         try {
             console.log("inside the try of the email sender");
-            let emailresult = await bulkemail(request);
+            let emailresult = await gmail(request);
 
-            console.log("request is : " + requst);
-            console.log('insert email result is : ' + insertemailresult);
-            reply.send('Mail sent successfully')
+           // console.log("request is : " + requst);
+           // console.log('insert email result is : ' + insertemailresult);
+
+            reply.send(emailresult)
         }
         catch (e) {
+            
+            reply.send('error ' + e.message)
+        }
+    })
+
+    fastify.post("/api/outlookemail", { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("outllook email test");
+        console.log(request.body);
+        //  console.log("request file ", request.file);
+
+        try {
+            console.log("inside the try of the outlook sender");
+            let emailresult = await outlookemail(request);
+
+           // console.log("request is : " + requst);
+           // console.log('insert email result is : ' + insertemailresult);
+           
+            reply.send(emailresult)
+        }
+        catch (e) {
+            
             reply.send('error ' + e.message)
         }
     })

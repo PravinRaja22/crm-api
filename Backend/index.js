@@ -23,8 +23,8 @@ fastify.register(require('./Router/router'))
 fastify.register(require('@fastify/cors'))
 const start = async () => {
     try {
-        await fastify.listen({ port:90}, () => {
-            console.log(`connected successfully to Port No :90`)
+        await fastify.listen({ port:8080}, () => {
+            console.log(`connected successfully to Port No :8080`)
         })
     }
     catch (error)
