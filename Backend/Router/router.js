@@ -381,15 +381,15 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     fastify.post('/api/deletefile', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside delete file datas ");
         try {
-            
-            let result = await deleteFile(request.body)
+            console.log("id is "+request.query.code)
+            let result = await deleteFile(request.query.code)
             if(result){
                 reply.send({status:"success",
                 content:"File Deleted Successfully"})
             }
           
         } catch (error) {
-            reply.status(400).send('Error while deleting file. Try again later.');
+            reply.send('Error while deleting file. Try again later.');
         }
     })
 
