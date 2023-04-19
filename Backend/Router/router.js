@@ -100,7 +100,7 @@ fastify.post('/api/signup',async(request,reply)=>{
 
         console.log("sign up body is ")
         console.log(request.body)
-        let data = await upsertUser(request)  
+        let data = await upsertUser(request.body)  
         reply.send('Sign Up done SuccesFully ')
      
     } catch (error) {

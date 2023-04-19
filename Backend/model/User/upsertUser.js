@@ -8,11 +8,11 @@ async function upsertUser(request) {
     const client = new MongoClient(url);
     try {
         console.log("inside upsert user is ")
-        console.log(request.body)
+        console.log(request)
 
-        const hashPassword = await hashGenerate(request.body.password)
+        const hashPassword = await hashGenerate(request.password)
         console.log(hashPassword);
-        request.body.password = hashPassword
+        request.password = hashPassword
         await client.connect();
 
         let objdata = Object.keys(request);
@@ -26,9 +26,9 @@ async function upsertUser(request) {
                 }
         }
         toObject(objdata, objvalues)
-        console.log(request.body)
-        console.log(request.body._id,"id")
-        let data = await upsertSingleRecord(client, request.body._id, result.body)
+        console.log(request)
+        console.log(request._id,"id")
+        let data = await upsertSingleRecord(client, request._id, result)
         return data
     }
     catch (e) {
@@ -41,13 +41,15 @@ async function upsertUser(request) {
 //upsertUser().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
+    console.log("upsert single user "+id)
+    console.log("upsert data is "+upsertdatas)
     const result = await client.db("CRM").collection("User").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
     }
     else {
-        return `Account Updated Succesfully`
+        return `User Updated Succesfully`
     }
 }
 
