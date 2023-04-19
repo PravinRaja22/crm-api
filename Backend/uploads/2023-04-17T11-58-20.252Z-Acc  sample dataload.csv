@@ -1,0 +1,11 @@
+accountName,rating,accountNumber,phone,type
+testAcc 1,Hot,10001,9988224400,Prospect
+testAcc 2,Hot,10002,9988224400,Prospect
+testAcc 3,Hot,10003,9988224400,Prospect
+testAcc 4,Hot,10004,9988224400,Prospect
+testAcc 5,Warm,10004,9988224400,Prospect
+testAcc 6,Warm,10005,9988224400,Customer - Direct
+testAcc 7,Cold,10006,9988224400,Customer - Direct
+testAcc 8,Cold,10007,9988224400,Customer - Direct
+testAcc 9,Cold,10008,9988224400,Prospect
+testAcc 10,Cold,10009,9988224400,Prospect

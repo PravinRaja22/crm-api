@@ -27,7 +27,8 @@ async function upsertUser(request) {
         }
         toObject(objdata, objvalues)
         console.log(result.body)
-        let data = await updatesiglerecord(client, request._id, result.body)
+        console.log(result.body._id,"id")
+        let data = await updatesiglerecord(client, result.body._id, result.body)
         return data
     }
     catch (e) {
@@ -41,7 +42,10 @@ async function upsertUser(request) {
 async function updatesiglerecord(client, id, updatedatas) {
     //update single record
     console.log("inside upser user record")
-    const result = await client.db("CRM").collection("User").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
+    console.log('id is ', id)
+    console.log('updatedatas ',updatedatas)
+    console.log(ObjectId(id))
+    const result = await client.db("CRM").collection("User").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, {upsert: true});
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
 
