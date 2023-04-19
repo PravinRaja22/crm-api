@@ -33,11 +33,10 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-const  {deleteFile}= require('../model/fileupload/deletefile')
+const {deleteFile}= require('../model/fileupload/deletefile')
 const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
-
 const { dataloaderLead } = require('../model/Lead/dataloaderleadinsert')
 const { dataloaderAccount } = require('../model/Account/dataloaderaccount')
 const { dataloaderOpportuntiy } = require('../model/Opportunity/dataloaderopportunity')
@@ -47,7 +46,7 @@ const { deleteOpportunityInventory } = require('../model/opportunity_inventory/d
 const csvtojson = require('csvtojson')
 
 const accountSchema = require('../model/schema/accountSchema')
-const nodemailer = require('nodemailer')
+//const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dataloader/multer')
 const { gmail } = require('../Email/gmail')
@@ -106,7 +105,9 @@ fastify.post('/api/signup',async(request,reply)=>{
         console.log("sign up body is ")
         console.log(request.body)
         let data = await upsertUser(request.body)  
-        reply.send('Sign Up done SuccesFully ')
+        reply.send({  status :'success', 
+                      content:'Sign Up done SuccesFully'
+                   })
      
     } catch (error) {
         console.log("error in sign up page "+error.message)
