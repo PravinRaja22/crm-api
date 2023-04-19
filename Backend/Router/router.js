@@ -85,11 +85,11 @@ fastify.post('/api/signin',async(request,reply)=>{
         if(result.status == "success")
         {
             console.log("inside if condtition")
-            reply.status(200).send(result.content)
+            reply.send(result.content)
         }
         else if(result.status =='failure'){
             console.log("inside else if condition")
-            reply.status(400).send(result.content)
+            reply.send(result.content)
  
         }
         }
