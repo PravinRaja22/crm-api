@@ -33,7 +33,7 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-
+const  {deleteFile}= require('../model/fileupload/deletefile')
 const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
@@ -45,6 +45,7 @@ const { upsertOpportunityInventory } = require('../model/opportunity_inventory/u
 const { getOpportunityInventory } = require('../model/opportunity_inventory/getoppinv')
 const { deleteOpportunityInventory } = require('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
+
 const accountSchema = require('../model/schema/accountSchema')
 const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
@@ -80,14 +81,22 @@ fastify.post('/api/signin',async(request,reply)=>{
         console.log(request.body)
         let result = await getSingleUser(request);
         console.log('token is ')
-        console.log('token is ')
         console.log(result)
-        reply.send(result)
-
+        if(result.status == "success")
+        {
+            console.log("inside if condtition")
+            reply.status(200).send(result.content)
+        }
+        else if(result.status =='failure'){
+            console.log("inside else if condition")
+            reply.status(400).send(result.content)
+ 
+        }
         }
     
     catch (error) {
         console.log("inside catch ", error);
+        reply.status(400).send(error.message)
     }
 
 })
@@ -118,7 +127,13 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Check sign up user  ")
         console.log(request.body)
         let data = await getSignUpPageUser(request)  
-        reply.send(data)
+        if(data.status =="success"){
+            reply.status(200).send(data)
+
+        }
+        else if(data.status =="failure"){
+            reply.status(400).send(data)
+        }
      
     } catch (error) {
         console.log("error in sign up page "+error.message)
@@ -325,6 +340,8 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             reply.status(400).send('Error while uploading file. Try again later.');
         }
     }
+
+ 
         // (error, req, res, next) => {
         //     if (error) {
         //         reply.status(500).send(error.message);
@@ -343,9 +360,23 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         //     reply.send("Error " + e.message)
         // }
     )
-
-
+    
     // })
+
+    fastify.post('/api/deletefile', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("inside delete file datas ");
+        try {
+            
+            let result = await deleteFile(request.body)
+            if(result){
+                reply.send({status:"success",
+                content:"File Deleted Successfully"})
+            }
+          
+        } catch (error) {
+            reply.status(400).send('Error while deleting file. Try again later.');
+        }
+    })
 
     // fastify.get('/api/uploadfile',{ preHandler: fieldsUpload },async(request,reply)=>{
     //     console.log("inside upload file get datas  ");

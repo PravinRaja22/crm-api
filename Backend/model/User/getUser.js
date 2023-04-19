@@ -119,7 +119,7 @@ async function getSignUpPageUserlist(client,request) {
                  content:"No user available with the given userName"}
     }
     else{
-        return existingUser
+        return {status :"success",content:existingUser}
 
     }
  
