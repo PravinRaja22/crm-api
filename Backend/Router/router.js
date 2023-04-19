@@ -85,28 +85,24 @@ fastify.post('/api/signin',async(request,reply)=>{
         if(result.status == "success")
         {
             console.log("inside if condtition")
-            reply.send(result.content)
+            reply.send(result)
         }
         else if(result.status =='failure'){
             console.log("inside else if condition")
-            reply.send(result.content)
+            reply.send(result)
  
         }
         }
     
     catch (error) {
         console.log("inside catch ", error);
-        reply.status(400).send(error.message)
+        reply.send(error.message)
     }
 
 })
 
 fastify.post('/api/signup',async(request,reply)=>{
-
-
     try {
-
-
         console.log("sign up body is ")
         console.log(request.body)
         let data = await upsertUser(request.body)  
@@ -119,20 +115,16 @@ fastify.post('/api/signup',async(request,reply)=>{
 })
 
 fastify.post('/api/checkSignUpUser',async(request,reply)=>{
-
-
     try {
-
-
         console.log("Check sign up user  ")
         console.log(request.body)
         let data = await getSignUpPageUser(request)  
         if(data.status =="success"){
-            reply.status(200).send(data)
+            reply.send(data)
 
         }
         else if(data.status =="failure"){
-            reply.status(400).send(data)
+            reply.send(data)
         }
      
     } catch (error) {
