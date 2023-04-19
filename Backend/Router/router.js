@@ -56,22 +56,7 @@ const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 const {otpVerification} = require('../Email/otpverificationgmail')
 
 function getdatafromreact(fastify, options, done) {
-    //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
-
-    // fastify.post("/api/email",{ preHandler: fieldsUpload },async (request,reply)=>{
-    //     console.log(request.body);
-    //     try{
-    //         console.log("inside the try of the email sender");
-    //         let emailresult = await sendEmail(request.body);
-    //         reply.send('Mail sent successfully')
-    //     }
-    //     catch(e){
-    //         res.send('error ' + e.message)
-    //     }
-    // })
     let generatedotp;
-
-
     fastify.post("/api/generateOTP",async  (request,reply) => {
 
         try {
@@ -101,6 +86,8 @@ function getdatafromreact(fastify, options, done) {
             }
           
         } catch (error) {
+            console.log("inside  generate otp error page")
+            reply.send(error.message)
             
         }
       
