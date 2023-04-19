@@ -5,18 +5,12 @@ async function insertFile(request) {
 console.log("inside functions "+request.files);
 request.files.forEach((e)=>{
     console.log('inside for each');
-
-    console.log(e);
+console.log("request protocol is ==>> ")
+console.log(request.protocol + '://' + request.headers.host + '/'+ e.filename);
+e.fileUrl=request.protocol + '://' + request.headers.host + '/'+ e.filename
 })
-var test =request.files
-console.log("test ",test);
-console.log(test.substr(89,200));
-const pathfil = test.substr(89,200);
-console.log("path file ",pathfil);
-// var ret = test.replace('C:\Users\Cloud\OneDrive - Cloud Desk Technology\Documents\GitHub\crm-backend-api\crm-api','')
-// console.log("after removed path ",ret);
-// console.log("inside file protocol "+request.headers.host);
-// console.log("Files "+request.file.filename);
+    var test =request.files
+    console.log("test ",test);
     const client = new MongoClient(url);
     console.log(request.files);
     try {
@@ -32,8 +26,7 @@ console.log("path file ",pathfil);
         // })
         // console.log("result "+JSON.stringify(data));
 
-        console.log(request.protocol + '://' + request.headers.host + '/'+ request.file.filename);
-        return request.protocol + '://' + request.headers.host + '/'+ request.file.filename;
+       let data = await insertFiledata(client,request.files)
     } catch (e) {
         console.error(e);
     } finally {
@@ -43,7 +36,7 @@ console.log("path file ",pathfil);
 //insertFile().catch(console.error);
 
 async function insertFiledata(client,newContact){
-    const result = await client.db("CRM").collection("Files").insertOne(newContact);
+    const result = await client.db("CRM").collection("Files").insertMany(newContact);
     console.log("inserted records "+JSON.stringify(result));
     return result;
 }
