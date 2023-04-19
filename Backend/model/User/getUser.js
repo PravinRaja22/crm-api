@@ -53,7 +53,7 @@ async function getSingleUser(request) {
         await client.connect();
         console.log("inside get user ")
         console.log(request.body)
-         let data = await getDatas(client,request)
+         let data = await getDataslist(client,request)
          return data;
     } catch (e) {
         console.error(e);
@@ -62,7 +62,7 @@ async function getSingleUser(request) {
     }
 }
 //getUser().catch(console.error);
-async function getDatas(client,request) {
+async function getDataslist(client,request) {
     console.log("inside get Datas")
     const existingUser = await client.db("CRM").collection("User").findOne({ userName: request.body.userName })
     console.log(existingUser)
@@ -92,6 +92,41 @@ async function getDatas(client,request) {
  
 }
 
+
+async function getSignUpPageUser(request) {
+    const url =process.env.MONGODBURL;
+    const client = new MongoClient(url);
+    try {
+        await client.connect();
+        console.log("inside get user ")
+        console.log(request.body)
+         let data = await getSignUpPageUserlist(client,request)
+         return data;
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+//getUser().catch(console.error);
+async function getSignUpPageUserlist(client,request) {
+    console.log("inside get Datas")
+    const existingUser = await client.db("CRM").collection("User").findOne({ userName: request.body.userName })
+    console.log(existingUser)
+    if(!existingUser){
+        console.log("inside not the existing user")
+        return {status:"failure",
+                 content:"No user available with the given userName"}
+    }
+    else{
+        return existingUser
+
+    }
+ 
+}
+
+
+
 module.exports = { 
-    getUser,getSingleUser
+    getUser,getSingleUser,getSignUpPageUser
  }

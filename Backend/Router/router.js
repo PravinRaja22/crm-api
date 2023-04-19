@@ -20,7 +20,7 @@ const { getOpportunityInventorylookup } = require('../model/Opportunity/opportun
 const { getInventoryOpportunityjn } = require('../model/Inventory Management/inventoryopportunity')
 const { getAccountscontact } = require('../model/Contact/getAccountscontact');
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
-const { getUser } = require('../model/User/getUser')
+const { getUser,getSignUpPageUser } = require('../model/User/getUser')
 const { getSingleUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
@@ -53,6 +53,8 @@ const { gmail } = require('../Email/gmail')
 const {outlookemail} = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
+
+
 function getdatafromreact(fastify, options, done) {
     //fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFile);
 
@@ -100,6 +102,23 @@ fastify.post('/api/signup',async(request,reply)=>{
         console.log(request.body)
         let data = await upsertUser(request)  
         reply.send('Sign Up done SuccesFully ')
+     
+    } catch (error) {
+        console.log("error in sign up page "+error.message)
+    }
+
+})
+
+fastify.post('/api/checkSignUpUser',async(request,reply)=>{
+
+
+    try {
+
+
+        console.log("Check sign up user  ")
+        console.log(request.body)
+        let data = await getSignUpPageUser(request)  
+        reply.send(data)
      
     } catch (error) {
         console.log("error in sign up page "+error.message)
