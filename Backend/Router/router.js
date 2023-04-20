@@ -177,7 +177,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
            // console.log("request is : " + requst);
            // console.log('insert email result is : ' + insertemailresult);
 
-            reply.send({status:'success',content:'emailresult'})
+            reply.send(emailresult)
         }
         catch (e) {
             
@@ -197,7 +197,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
            // console.log("request is : " + requst);
            // console.log('insert email result is : ' + insertemailresult);
            
-            reply.send({status:"success",content:emailresult})
+            reply.send(emailresult)
         }
         catch (e) {
             
@@ -258,7 +258,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
                 .then((jsonobj) => {
                     console.log('data format ' + JSON.stringify(jsonobj));
                     let result = dataloaderLead(jsonobj)
-                    return {status:'success',content:"success"};
+                    return "success";
                 })
         }
         catch (e) {
@@ -276,7 +276,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                 console.log(jsonobj);             
-                reply.send({status:"success",content:jsonobj})
+                reply.send(jsonobj)
                 })
         }
         catch (e) {
@@ -302,7 +302,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
                 .then((jsonobj) => {
                     console.log('data format Account ' + JSON.stringify(jsonobj));
                     let result = dataloaderAccount(jsonobj)
-                    return {status:'success',content:"success"};
+                    return "success";
                 })
         }
         catch (e) {
@@ -326,7 +326,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
                 .then((jsonobj) => {
                     console.log('data format opportunity ' + JSON.stringify(jsonobj));
                     let result = dataloaderOpportuntiy(jsonobj)
-                    return {status:'success',content:"success"};
+                    return "success";
                 })
         }
         catch (e) {
@@ -350,7 +350,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("request file ", request.files);
             console.log("after request file");
             let result = await insertFile(request)
-            reply.send({status:"success",content:result})
+            reply.send(result)
         } catch (error) {
             reply.send('Error while uploading file. Try again later.');
         }
@@ -440,7 +440,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("upsert account try ");
             let result = await upsertAccount(request.body)
             if (result) {
-                reply.send({status:"success",content:result})
+                reply.send(result)
             }
             else {
                 reply.status(404).send("No Data Inserted or updated")
@@ -461,10 +461,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertContact(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content:result})
+                reply.send(result)
             }
             else {
-                reply.status(404).send({status:"failure",content:"No Data Inserted or updated"})
+                reply.status(404).send("No Data Inserted or updated")
             }
         }
         catch (e) {
@@ -481,11 +481,11 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertProperty(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content:result})
+                reply.send(result)
             }
             else {
 
-                reply.send({status:"failure",content:"No data inserted or updated"})
+                reply.send("No data inserted or updated")
 
             }
 
@@ -507,10 +507,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertLead(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             else {
-                reply.send({status:"failure",content:"No Data Inserted or updated"})
+                reply.send("No Data Inserted or updated")
             }
         }
         catch (e) {
@@ -527,10 +527,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertOpportunity(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             else {
-                reply.send({status:"failure",content:"No Data Inserted or updated"})
+                reply.send("No Data Inserted or updated")
             }
         }
         catch (e) {
@@ -566,10 +566,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertTask(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             else {
-                reply.send({status:"failure",content:"No Data Inserted or updated"})
+                reply.send("No Data Inserted or updated")
             }
         }
         catch (e) {
@@ -586,10 +586,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertOpportunityInventory(request.body)
             console.log("result length junction object " + result);
             if (result) {
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             else {
-                reply.send({status:"failure",content:"No Data Inserted or updated"})
+                reply.send("No Data Inserted or updated")
             }
         }
         catch (e) {
@@ -603,7 +603,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             console.log("inside account get")
             let result = await getAccountdata();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("inside Account view Catch block ", e);
@@ -619,7 +619,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside  get Inventories by acc id  Router " + request.query.searchId)
         try {
             let result = await getAccountInventory(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -634,7 +634,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             try {
                 let result = await getAccountName(request.query.searchKey);
 
-                reply.send({status:"success",content: result})
+                reply.send(result)
 
 
             }
@@ -648,7 +648,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("inside else statemeent for account name router");
             try {
                 let result = await getAccountName();
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside lookup account name view Catch block ", e);
@@ -664,7 +664,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         if (request.query.searchKey) {
             try {
                 let result = await propertyName(request.query.searchKey);
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside inventory lookup name  Catch block ", e);
@@ -674,7 +674,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         else {
             try {
                 let result = await propertyName();
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside inventory lookup name  Catch block ", e);
@@ -688,7 +688,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         if (request.query.searchKey) {
             try {
                 let result = await leadName(request.query.searchKey);
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside lead lookup name  Catch block ", e);
@@ -698,7 +698,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         else {
             try {
                 let result = await leadName();
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside lead lookup name  Catch block ", e);
@@ -713,7 +713,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             try {
                 let result = await getopportunityName(request.query.searchKey);
 
-                reply.send({status:"success",content: result})
+                reply.send(result)
 
             }
             catch (e) {
@@ -726,7 +726,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             try {
                 let result = await getopportunityName();
 
-                reply.send({status:"success",content: result})
+                reply.send( result)
 
             }
             catch (e) {
@@ -742,7 +742,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             try {
                 let result = await getUserName(request.query.searchKey);
 
-                reply.send({status:"success",content: result})
+                reply.send(result)
 
             }
             catch (e) {
@@ -754,7 +754,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         else {
             try {
                 let result = await getUserName();
-                reply.send({status:"success",content: result})
+                reply.send(result)
             }
             catch (e) {
                 console.log("inside user lookup name  Catch block ", e);
@@ -765,7 +765,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     fastify.post('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -776,7 +776,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     fastify.post('/api/getContactsbyAccountId', async (request, reply) => {
         try {
             let result = await getAccountscontact(request.query.searchId);
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -788,7 +788,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     fastify.post('/api/files', async (request, reply) => {
         try {
             let result = await getFiles();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -804,7 +804,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             console.log("inside preview file");
             let result = await getEachFiles(request.query.searchId);
-            reply.send({status:"success",content: result})
+            reply.send(result)
 
 
         }
@@ -820,7 +820,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log(request.query.searchKey);
         try {
             let result = await getEachFiles(request.query.searchKey);
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in contact view  page ", e);
@@ -833,7 +833,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             console.log("inside leads data");
             let result = await getLead();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
@@ -845,7 +845,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("opportuntiy try");
             let result = await getOpportunity();
             console.log("opportunity result ", result);
-            reply.send({status:"success",content: result})
+            reply.send(result)
 
         }
         catch (e) {
@@ -857,7 +857,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("inventory management datas test")
         try {
             let result = await getProperty();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in Inventory view  page ", e);
@@ -869,7 +869,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("get opportuunity inventorty")
         try {
             let result = await getOpportunityInventory();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in Inventory view  page ", e);
@@ -882,7 +882,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside  get Inventories by opp id  Router " + request.query.searchId)
         try {
             let result = await getOpportunityInventorylookup(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -896,7 +896,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside  get Opportunity by Inv id  Router " + request.query.searchId)
         try {
             let result = await getInventoryOpportunityjn(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -911,7 +911,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
        
         try {
             let result = await getOpportunityLead(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -924,7 +924,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("inventory management datas test")
         try {
             let result = await getUser();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -936,7 +936,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside Task Router")
         try {
             let result = await getTask();
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -948,7 +948,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside Task lead Router " + request.query.searchId)
         try {
             let result = await leadTask(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -960,7 +960,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside Task Account Router " + request.query.searchId)
         try {
             let result = await accountTask(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -972,7 +972,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Inside Task Opportunity Router " + request.query.searchId)
         try {
             let result = await opportunityTask(request.query.searchId)
-            reply.send({status:"success",content: result})
+            reply.send(result)
         }
         catch (e) {
             console.log("error block in users view  page ", e);
@@ -986,10 +986,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteAccount(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Account Deleted Successfully"})
+                reply.send("Account Deleted Successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1003,9 +1003,9 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteContact(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Contact Deleted Successfully"})            }
+                reply.send("Contact Deleted Successfully")            }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1018,10 +1018,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteOpportunity(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Opportunity deleted successfully"})
+                reply.send("Opportunity deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1034,10 +1034,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteLead(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Lead deleted successfully"})
+                reply.send("Lead deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1052,10 +1052,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteProperty(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Property deleted successfully"})
+                reply.send("Property deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1070,10 +1070,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteUser(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"User deleted successfully"})
+                reply.send("User deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1086,10 +1086,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteTask(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"Task deleted successfully"})
+                reply.send("Task deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
@@ -1103,10 +1103,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteOpportunityInventory(request.query.code);
             if (result) {
-                reply.send({status:"success",content:"oppinventory deleted successfully"})
+                reply.send("oppinventory deleted successfully")
             }
             else {
-                reply.send({status:"failure",content:"No data deleted"})
+                reply.send("No data deleted")
             }
         }
         catch (e) {
