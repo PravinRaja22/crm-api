@@ -65,8 +65,8 @@ function getdatafromreact(fastify, options, done) {
                 generatedotp = Math.floor(1000 + Math.random() * 9000);
                 console.log("otp is "+generatedotp)
                 let emailresult = await otpVerification(request,generatedotp);
-             
-                     reply.send("OTP sent Successfuly")
+                console.log(emailresult)
+                reply.send("OTP sent Successfuly")
               
             }
             else if (request.body.otp){
@@ -142,13 +142,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         console.log("Check sign up user  ")
         console.log(request.body)
         let data = await getSignUpPageUser(request)  
-        if(data.status =="success"){
-            reply.send({status:"success",content:data})
-
-        }
-        else if(data.status =="failure"){
-            reply.send({status:"failure",content:data})
-        }
+            reply.send(data)
      
     } catch (error) {
         console.log("error in sign up page "+error.message)
