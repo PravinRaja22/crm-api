@@ -69,14 +69,16 @@ async function getDataslist(client,request) {
     if(!existingUser){
         console.log("inside not the existing user")
         return {status:"failure",
-                 content:"Password or UserName is Wrong.Please Enter correct Details"}
+                 content:"Password or UserName is Wrong.Please Enter correct Details"
+                 }
     }
     else{
         let checkkpassword =await hashValidator(request.body.password,existingUser.password)
         console.log(checkkpassword)
         if(!checkkpassword){
             return {status:"failure",
-                     content:"Password or UserName is Wrong.Please Enter correct Details"}
+                     content:"Password or UserName is Wrong.Please Enter correct Details"
+                    }
         }
         else{
             console.log("inside password is correct")
@@ -85,7 +87,8 @@ async function getDataslist(client,request) {
             // res.cookie("jwt",token)
             // res.send(token)
             return {status:"success",
-                    content:token}
+                    content:token,
+                     userDetails:existingUser}
         }
 
     }
