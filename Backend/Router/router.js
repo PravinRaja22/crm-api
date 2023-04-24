@@ -825,9 +825,25 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
 
     fastify.post('/api/leads', async (request, reply) => {
         try {
-            console.log("inside leads data");
-            let result = await getLead();
-            reply.send(result)
+            console.log(request.query.month)
+          if(!request.query){
+                console.log("inside leads data");
+                let result = await getLead();
+                reply.send(result)
+
+           }
+
+            else if(request.query){
+                console.log("else if")
+                console.log(request.query.month)
+             let result=await getLead(request.query.month)
+            //     console.log("inside else if of query "+request.query)
+            //     console.log("inside leads data");
+            //    // let result = await getLead();
+                reply.send(result)
+
+            }
+          
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
