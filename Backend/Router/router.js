@@ -20,7 +20,7 @@ const { getOpportunityInventorylookup } = require('../model/Opportunity/opportun
 const { getInventoryOpportunityjn } = require('../model/Inventory Management/inventoryopportunity')
 const { getAccountscontact } = require('../model/Contact/getAccountscontact');
 const { getOpportunityLead } = require('../model/Opportunity/opportunityLead.js')
-const { getUser,getSignUpPageUser } = require('../model/User/getUser')
+const { getUser, getSignUpPageUser } = require('../model/User/getUser')
 const { getSingleUser } = require('../model/User/getUser')
 const { getTask } = require('../model/Task/gettask.js')
 const { leadTask } = require('../model/Task/leadtask')
@@ -33,7 +33,7 @@ const { deleteProperty } = require('../model/Inventory Management/inventoryMange
 const { deleteUser } = require('../model/User/delelteUser')
 const { deleteTask } = require('../model/Task/deleteTask')
 const { deleteContact } = require('../model/Contact/deleteContact')
-const {deleteFile}= require('../model/fileupload/deletefile')
+const { deleteFile } = require('../model/fileupload/deletefile')
 const { getEachFiles } = require('../model/fileupload/individualfile')
 const { insertFile } = require('../model/fileupload/fileupload')
 const { getFiles } = require('../model/fileupload/getfiles')
@@ -50,105 +50,105 @@ const accountSchema = require('../model/schema/accountSchema')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dataloader/multer')
 const { gmail } = require('../Email/gmail')
-const {outlookemail} = require('../Email/outlook')
+const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
-const {otpVerification} = require('../Email/otpverificationgmail')
+const { otpVerification } = require('../Email/otpverificationgmail')
 
 function getdatafromreact(fastify, options, done) {
     let generatedotp;
-    fastify.post("/api/generateOTP",async  (request,reply) => {
+    fastify.post("/api/generateOTP", async (request, reply) => {
 
         try {
-            if(!request.body.otp){
+            if (!request.body.otp) {
                 console.log("inside generate otp")
                 generatedotp = Math.floor(1000 + Math.random() * 9000);
-                console.log("otp is "+generatedotp)
-                let emailresult = await otpVerification(request,generatedotp);
+                console.log("otp is " + generatedotp)
+                let emailresult = await otpVerification(request, generatedotp);
                 console.log(emailresult)
                 reply.send("OTP sent Successfuly")
-              
+
             }
-            else if (request.body.otp){
-                if(request.body.otp == generatedotp){
+            else if (request.body.otp) {
+                if (request.body.otp == generatedotp) {
                     console.log("inside otp is correct")
-                    console.log("inputted otp is "+request.body.otp)
-                    console.log("genrated otp is "+generatedotp)
-                    reply.send({status:"success",content:"Entered otp is correct"})
+                    console.log("inputted otp is " + request.body.otp)
+                    console.log("genrated otp is " + generatedotp)
+                    reply.send({ status: "success", content: "Entered otp is correct" })
                 }
-                else{
+                else {
                     console.log("inside otp is incorrect")
-                    console.log("inputted otp is "+request.body.otp)
-                    console.log("genrated otp is "+generatedotp)
-                    reply.send({status:"failure",content:"please enter correct OTP"})
+                    console.log("inputted otp is " + request.body.otp)
+                    console.log("genrated otp is " + generatedotp)
+                    reply.send({ status: "failure", content: "please enter correct OTP" })
                 }
 
             }
-          
+
         } catch (error) {
             console.log("inside  generate otp error page")
             reply.send(error.message)
-            
+
         }
-      
-       
-        })
 
-fastify.post('/api/signin',async(request,reply)=>{
 
-    try {
-      
-        console.log("inside sigin page get")
-        console.log(request.body)
-        let result = await getSingleUser(request);
-        console.log('token is ')
-        console.log(result)
-        if(result.status == "success")
-        {
-            console.log("inside if condtition")
-            reply.send(result)
+    })
+
+    fastify.post('/api/signin', async (request, reply) => {
+
+        try {
+
+            console.log("inside sigin page get")
+            console.log(request.body)
+            let result = await getSingleUser(request);
+            console.log('token is ')
+            console.log(result)
+            if (result.status == "success") {
+                console.log("inside if condtition")
+                reply.send(result)
+            }
+            else if (result.status == 'failure') {
+                console.log("inside else if condition")
+                reply.send(result)
+
+            }
         }
-        else if(result.status =='failure'){
-            console.log("inside else if condition")
-            reply.send(result)
- 
+
+        catch (error) {
+            console.log("inside catch ", error);
+            reply.send(error.message)
         }
+
+    })
+
+    fastify.post('/api/signup', async (request, reply) => {
+        try {
+            console.log("sign up body is ")
+            console.log(request.body)
+            let data = await upsertUser(request.body)
+            reply.send({
+                status: 'success',
+                content: 'Sign Up done SuccesFully'
+            })
+
+        } catch (error) {
+            console.log("error in sign up page " + error.message)
         }
-    
-    catch (error) {
-        console.log("inside catch ", error);
-        reply.send(error.message)
-    }
 
-})
+    })
 
-fastify.post('/api/signup',async(request,reply)=>{
-    try {
-        console.log("sign up body is ")
-        console.log(request.body)
-        let data = await upsertUser(request.body)  
-        reply.send({  status :'success', 
-                      content:'Sign Up done SuccesFully'
-                   })
-     
-    } catch (error) {
-        console.log("error in sign up page "+error.message)
-    }
-
-})
-
-fastify.post('/api/checkSignUpUser',async(request,reply)=>{
-    try {
-        console.log("Check sign up user  ")
-        console.log(request.body)
-        let data = await getSignUpPageUser(request)  
+    fastify.post('/api/checkSignUpUser', async (request, reply) => {
+        try {
+            console.log("Check sign up user  ")
+            console.log(request.body)
+            let data = await getSignUpPageUser(request)
             reply.send(data)
-     
-    } catch (error) {
-        console.log("error in sign up page "+error.message)
-    }
 
-})
+        } catch (error) {
+            console.log("error in sign up page " + error.message)
+        }
+
+    })
 
 
 
@@ -168,13 +168,13 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("inside the try of the email sender");
             let emailresult = await gmail(request);
 
-           // console.log("request is : " + requst);
-           // console.log('insert email result is : ' + insertemailresult);
+            // console.log("request is : " + requst);
+            // console.log('insert email result is : ' + insertemailresult);
 
             reply.send(emailresult)
         }
         catch (e) {
-            
+
             reply.send('error ' + e.message)
         }
     })
@@ -188,13 +188,13 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("inside the try of the outlook sender");
             let emailresult = await outlookemail(request);
 
-           // console.log("request is : " + requst);
-           // console.log('insert email result is : ' + insertemailresult);
-           
+            // console.log("request is : " + requst);
+            // console.log('insert email result is : ' + insertemailresult);
+
             reply.send(emailresult)
         }
         catch (e) {
-            
+
             reply.send('error ' + e.message)
         }
     })
@@ -230,10 +230,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     // fastify.post("/images", (request, reply) => {
     //     console.log('inside images');
     //     console.log('2023-01-10T09-30-57.169Z-wall.jpg');
-        //res.send("Data based ")
-        // let imageurl = request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
-        // reply.send(imageurl)
-        //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
+    //res.send("Data based ")
+    // let imageurl = request.protocol + '://' + request.headers.host + '/uploads/2023-01-10T11-55-08.191Z-node js logs imp.png'
+    // reply.send(imageurl)
+    //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
     //});
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
@@ -247,7 +247,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("files " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile " + csvfilepath);
-           await csvtojson()
+            await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                     console.log('data format ' + JSON.stringify(jsonobj));
@@ -266,11 +266,11 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             const files = request.file.filename
             const csvfilepath = 'uploads/' + files
-           await  csvtojson()
+            await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
-                console.log(jsonobj);             
-                reply.send(jsonobj)
+                    console.log(jsonobj);
+                    reply.send(jsonobj)
                 })
         }
         catch (e) {
@@ -291,7 +291,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("Accounts " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile Accounts " + csvfilepath);
-           await csvtojson()
+            await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                     console.log('data format Account ' + JSON.stringify(jsonobj));
@@ -315,7 +315,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             console.log("opportunity " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile opportunity " + csvfilepath);
-           await csvtojson()
+            await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                     console.log('data format opportunity ' + JSON.stringify(jsonobj));
@@ -327,12 +327,12 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             res.send('error ' + e.message)
         }
     });
-    fastify.get('/api/testpage',async(request,reply)=>{
+    fastify.get('/api/testpage', async (request, reply) => {
         reply.send("testpage")
     })
 
-    fastify.get('/',async(request,reply)=>{
-        reply.send({message:"App initiated"})
+    fastify.get('/', async (request, reply) => {
+        reply.send({ message: "App initiated" })
     })
 
     fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
@@ -350,7 +350,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         }
     }
 
- 
+
         // (error, req, res, next) => {
         //     if (error) {
         //         reply.status(500).send(error.message);
@@ -369,19 +369,21 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         //     reply.send("Error " + e.message)
         // }
     )
-    
+
     // })
 
     fastify.post('/api/deletefile', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside delete file datas ");
         try {
-            console.log("id is "+request.query.code)
+            console.log("id is " + request.query.code)
             let result = await deleteFile(request.query.code)
-            if(result){
-                reply.send({status:"success",
-                content:"File Deleted Successfully"})
+            if (result) {
+                reply.send({
+                    status: "success",
+                    content: "File Deleted Successfully"
+                })
             }
-          
+
         } catch (error) {
             reply.send('Error while deleting file. Try again later.');
         }
@@ -541,10 +543,10 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             let result = await upsertUser(request.body)
             console.log("result length " + result);
             if (result) {
-                reply.send({status:"success",content: result})
+                reply.send({ status: "success", content: result })
             }
             else {
-                reply.send({status:"failure",content:"No Data Inserted or updated"})
+                reply.send({ status: "failure", content: "No Data Inserted or updated" })
             }
         }
         catch (e) {
@@ -720,7 +722,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
             try {
                 let result = await getopportunityName();
 
-                reply.send( result)
+                reply.send(result)
 
             }
             catch (e) {
@@ -825,22 +827,26 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
 
     fastify.post('/api/leads', async (request, reply) => {
         try {
-            console.log(request.query)
-        //   if(request.query == null ){
-        //         console.log("inside leads data");
-        //         let result = await getLead();
-        //         reply.send(result)
-
-        //    }
-
-        //     else if(request.query){
-                console.log("else if")
-                console.log(request.query.month)
-                let result=await getLead(request.query.month)
+            console.log()
+            if (Object.keys(request.query).length === 0) {
+                console.log("inside leads data");
+                let result = await getLead();
                 reply.send(result)
 
-           // }
-          
+            }
+            else {
+                if (request.query.month) {
+                    console.log("else if")
+                    console.log(request.query.month)
+                    let result = await getLead(request.query.month)
+                    reply.send(result)
+
+                }
+
+
+
+            }
+
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
@@ -915,7 +921,7 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
     fastify.post('/api/getLeadsbyOppid', async (request, reply) => {
         console.log("inside get lead by opp id ");
         console.log("Inside Task get lead by opp id  Router " + request.query.searchId)
-       
+
         try {
             let result = await getOpportunityLead(request.query.searchId)
             reply.send(result)
@@ -1010,7 +1016,8 @@ fastify.post('/api/checkSignUpUser',async(request,reply)=>{
         try {
             let result = await deleteContact(request.query.code);
             if (result) {
-                reply.send("Contact Deleted Successfully")            }
+                reply.send("Contact Deleted Successfully")
+            }
             else {
                 reply.send("No data deleted")
             }
