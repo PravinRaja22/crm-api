@@ -132,7 +132,7 @@ console.log("outside of the functionality "+JSON.stringify(result));
     //     console.log("JSON ",JSON.stringify(updatedatas));
     //     if(request.Account)
     //     {
-    //         let data = await updatesiglerecord(client,request._id,updatedatas)
+    //         let data = await (client,request._id,updatedatas)
     //         return data;
     //     }
     //     else{

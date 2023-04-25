@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 async function leadName(request) {
     let leadname = request
+    console.log("lead name "+leadName)
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -16,7 +17,9 @@ async function leadName(request) {
 //leadName().catch(console.error);
 async function getDatas(client, leadname) {
     if (leadname) {
-        const cursor = await client.db("CRM").collection("Lead").find({ firstName: new RegExp('^' + leadname) })
+        console.log("inside if lead name")
+        console.log(leadName)
+        const cursor = await client.db("CRM").collection("Lead").find({ fullName: new RegExp('^' + leadname) })
         const results = await cursor.toArray();
         let ledName = []
         if (results.length > 0) {

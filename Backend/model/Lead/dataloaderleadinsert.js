@@ -78,6 +78,20 @@ async function dataloaderLead(request) {
 }
 //dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client, insertdatas) {
+    console.log("inside upsert multiple record lead object "+insertdatas);
+    insertdatas.forEach(e=>{
+        console.log(e.appoinmentDate)
+        let d = new Date(e.appoinmentDate);
+        const formatDate = [ d.getMonth() + 1,d.getDate(), d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+        console.log('format Date is '+formatDate)
+        var someDate=new Date(formatDate);
+        var utcdate = someDate.getTime();
+        console.log("utc date is "+utcdate)
+        e.appoinmentDate=utcdate;
+        console.log('appointment date is '+e.appoinmentDate);
+        console.log(e)
+
+    })
     const result = await client.db("CRM").collection("Lead").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
 }

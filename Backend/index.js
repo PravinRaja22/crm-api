@@ -1,7 +1,7 @@
 const fastify = require('fastify')({ logger: false })
 const path = require('path')
 const dotenv = require("dotenv").config();
-// const fileUpload = require('fastify-file-upload')
+//  const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
 // });
@@ -10,6 +10,10 @@ fastify.register(require('@fastify/static'), {
     root: path.join(__dirname, 'uploads'),
    // prefix: 'uploads'
   })
+
+//   fastify.register(fileUpload, {
+//     limits: { fileSize: 50 * 1024 * 1024 },
+//   });
  // const dbconnect = require('./Database/mongodb')
 //fastify.register(dbconnect)
 
@@ -23,14 +27,15 @@ fastify.register(require('./Router/router'))
 fastify.register(require('@fastify/cors'))
 const start = async () => {
     try {
-        await fastify.listen({ port: 4000 }, () => {
-            console.log("connected to port successfully")
+        await fastify.listen({ port:8080}, () => {
+            console.log(`connected successfully to Port No :8080`)
         })
     }
-    catch (error) {
+    catch (error)
+        {
         fastify.log.error(error)
         process.exit(1)
     }
 }
-start();
 
+start();

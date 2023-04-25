@@ -1,9 +1,7 @@
 const nodemailer = require('nodemailer')
 const path = require('path')
-async function bulkemail(request) {
-    console.log("Before Bulk email list is ");
-   // console.log(request);
-    console.log("after bulk  email list is ");
+async function gmail(request) {
+ 
     let subject = request.body.subject;
     let Body = request.body.htmlBody;
     let emailId=request.body.emailId
@@ -25,6 +23,8 @@ async function bulkemail(request) {
             console.log('file name  is : ' + attachmentname);
             const filepath = path.join(__dirname, '../uploads/' + attachmentname)
             console.log("File Path is : " + filepath)
+            console.log("inside with file attachment")
+
                 details = {
                     to:emailId,
                     subject: subject,
@@ -36,17 +36,21 @@ async function bulkemail(request) {
             }
 
 let mailtransporter = nodemailer.createTransport({
-            service: process.env.GMAIL,
+    //GMAIL SERVICE
+        service: process.env.GMAIL,
             auth: {
+               
+        
+               // Gmail authentication
                 user: process.env.FROMEMAILID,
                 pass: process.env.PASSWORD,
-            }
-        })
+            },
 
-        mailtransporter.sendMail(details, (err) => {
+        })
+        mailtransporter.sendMail  (details, async (err) => {
             if (err) {
-                console.log("inside if");
-                console.log(err.message);
+                console.log("inside error of send mail");
+                console.log(err);
                 return err.message;
             }
             else {
@@ -55,7 +59,7 @@ let mailtransporter = nodemailer.createTransport({
             }
         })
     };
-    module.exports = { bulkemail }
+    module.exports = { gmail }
 
 //     let emailarray = []
 //     let namearray = []

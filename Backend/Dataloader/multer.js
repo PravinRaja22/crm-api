@@ -1,6 +1,7 @@
 const Multer = require('fastify-multer')
 const path = require('path')
 //const csvtojson = require('csvtojson')
+let fileMaxSize = 50 * 1024 * 1024;
 var storage = Multer.diskStorage({
     destination: (req, file, cb) => {
         const ROOT_PATH = __dirname
@@ -22,10 +23,11 @@ var storage = Multer.diskStorage({
 
 var upload = Multer({
     storage: storage,
+    limits: { fileSize: fileMaxSize }
     
 })
 
-let fieldsUpload = upload.single('file')
+let fieldsUpload = upload.array('file')
 
 
 
