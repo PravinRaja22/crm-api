@@ -1,25 +1,8 @@
-// const fastify = require('fastify')({logger :false})
-// fastify.register(require('../plugin/mongodb'))
-// fastify.after(error => error ? console.log(error):"plugin loaded successfully");
-// fastify.ready(error => error ? console.log(error):"All plugin loaded successfully");
-// async function getUser(){
-//     console.log("inside get User of mongo db");
-//     const userCollection = await fastify.mongo.client.db('CRM').collection('User')
-//     let results =await  userCollection.find().toArray();
-//     if (results.length > 0) {
-//                 // console.log(results);
-//                 return results
-//             }
-//             else {
-//                 return "No data found";
-//             }
-// }
-// module.exports = {getUser}
-
 const { MongoClient } = require('mongodb');
 const { hashValidator } = require("../../helpers/hashing")
 const{tokenGenerator} = require('../../helpers/jwttoken')
 async function getUser() {
+    console.log("role inside get user is "+role)
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -127,6 +110,48 @@ async function getSignUpPageUserlist(client,request) {
     }
  
 }
+
+async function getRolebasedUser(role){
+
+    const url =process.env.MONGODBURL;
+    const client = new MongoClient(url);
+    try {
+        await client.connect();
+        console.log("inside get user ")
+        console.log(role)
+         let data = await getRolebasedUserId(client,role)
+         return data;
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+
+
+}
+
+// async function getRolebasedUserId(client,role) {
+//     console.log("inside get Datas")
+//     if(role == 'admin'){
+//         const UserId = await client.db("CRM").collection("User").find()
+  
+//     }
+//     else if (){
+
+//     }
+//     const UserId = await client.db("CRM").collection("User").find({ role:role})
+//     const results = await UserId.toArray();
+//     if(results.length>0){
+//         console.log("result of Id")
+//         return {status:"failure",
+//                  content:"No user available with the given userName"}
+//     }
+//     else{
+//         return {status :"success",content:existingUser}
+
+//     }
+ 
+// }
 
 
 

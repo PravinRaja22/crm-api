@@ -335,7 +335,11 @@ function getdatafromreact(fastify, options, done) {
         reply.send({ message: "App initiated" })
     })
 
-    fastify.post('/api/uploadfile', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/uploadfile', { preHandler: (request, reply, done)=>{
+        console.log("testing")
+        console.log(request.url);
+        fieldsUpload(request, reply, done);
+     }}, async (request, reply) => {
         console.log("inside upload file datas ");
         // console.log(request.file.filename);
         try {
@@ -681,8 +685,10 @@ function getdatafromreact(fastify, options, done) {
 
 
     fastify.post('/api/LeadsbyName', async (request, reply) => {
+        console.log(request.query)
         if (request.query.searchKey) {
             try {
+                console.log("inside leads by name")
                 let result = await leadName(request.query.searchKey);
                 reply.send(result)
             }
@@ -869,6 +875,8 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
+            console.log(request.query.role)
+            let userdata = await getUser(request.query.role)
             let result = await getProperty();
             reply.send(result)
         }
