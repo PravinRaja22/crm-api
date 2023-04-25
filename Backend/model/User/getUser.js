@@ -111,24 +111,24 @@ async function getSignUpPageUserlist(client,request) {
  
 }
 
-async function getRolebasedUser(role){
+// async function getRolebasedUser(role){
 
-    const url =process.env.MONGODBURL;
-    const client = new MongoClient(url);
-    try {
-        await client.connect();
-        console.log("inside get user ")
-        console.log(role)
-         let data = await getRolebasedUserId(client,role)
-         return data;
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+//     const url =process.env.MONGODBURL;
+//     const client = new MongoClient(url);
+//     try {
+//         await client.connect();
+//         console.log("inside get user ")
+//         console.log(role)
+//          let data = await getRolebasedUserId(client,role)
+//          return data;
+//     } catch (e) {
+//         console.error(e);
+//     } finally {
+//         await client.close();
+//     }
 
 
-}
+// }
 
 // async function getRolebasedUserId(client,role) {
 //     console.log("inside get Datas")

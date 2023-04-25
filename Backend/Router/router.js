@@ -876,7 +876,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inventory management datas test")
         try {
             console.log(request.query.role)
-            let userdata = await getUser(request.query.role)
+          //  let userdata = await getUser(request.query.role)
             let result = await getProperty();
             reply.send(result)
         }
