@@ -238,12 +238,12 @@ function getdatafromreact(fastify, options, done) {
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
-        console.log(request.file.filename);
+        console.log(request.files.filename);
         try {
             console.log("inside upload file data loader ");
-            console.log('data loader files file data  ' + JSON.stringify(request.file.filename));
-            console.log('body ' + JSON.stringify(request.file.filename));
-            const files = request.file.filename
+            console.log('data loader files file data  ' + JSON.stringify(request.files[0].filename));
+            console.log('body ' + JSON.stringify(request.files[0].filename));
+            const files = request.files[0].filename
             console.log("files " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile " + csvfilepath);
@@ -261,11 +261,12 @@ function getdatafromreact(fastify, options, done) {
     });
     fastify.post('/api/generatePreview', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("Inside Generate Preview");
-
-        console.log(request.file.filename);
+        console.log(request.files);
+        console.log(request.files[0].filename);
         try {
-            const files = request.file.filename
+            const files = request.files[0].filename
             const csvfilepath = 'uploads/' + files
+        console.log("object " +csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
@@ -282,12 +283,12 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
-        console.log(request.file.filename);
+        console.log(request.files.filename);
         try {
             console.log("inside upload file data loader Account ");
-            console.log('data loader Account  data  ' + JSON.stringify(request.file.filename));
-            console.log('body Account ' + JSON.stringify(request.file.filename));
-            const files = request.file.filename
+            console.log('data loader Account  data  ' + JSON.stringify(request.files[0].filename));
+            console.log('body Account ' + JSON.stringify(request.files[0].filename));
+            const files = request.files[0].filename
             console.log("Accounts " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile Accounts " + csvfilepath);
@@ -306,12 +307,12 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
-        console.log(request.file.filename);
+        console.log(request.files[0].filename);
         try {
             console.log("test")
             console.log("inside upload file data loader opportunity ");
-            console.log('data loader opportunity  data  ' + JSON.stringify(request.file.filename));
-            const files = request.file.filename
+            console.log('data loader opportunity  data  ' + JSON.stringify(request.files[0].filename));
+            const files = request.files[0].filename
             console.log("opportunity " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
             console.log("csvfile opportunity " + csvfilepath);
@@ -875,7 +876,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
-            console.log(request.query.role)
+            // console.log(request.query.role)
           //  let userdata = await getUser(request.query.role)
             let result = await getProperty();
             reply.send(result)
