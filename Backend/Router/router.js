@@ -136,12 +136,19 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
 
 
 fastify.post('/api/signout',async(request,reply)=>{
-    console.log("inisde signout")
-    console.log(request.cookies)
-    reply.clearCookie('jwt',{path:'../'})
-  
-        console.log("inside if statement")
+    try {
+
+        console.log("inisde signout")
+        console.log(request.cookies)
+        reply.clearCookie('jwt',{path:'../'})
         reply.send("Logged Out Successfully")
+        
+    } catch (error) {
+        console.log("error in logout")
+        reply.send(error.message)
+        
+    }
+  
    
 })
 
@@ -353,7 +360,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             res.send('error ' + e.message)
         }
     });
-    fastify.get('/api/testpage', async (request, reply) => {
+    fastify.get('/api/testpage',{preHandler:authVerify}, async (request, reply) => {
         reply.send("testpage")
     })
 
@@ -898,7 +905,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/inventories', async (request, reply) => {
+    fastify.post('/api/inventories',{preHandler:authVerify}, async (request, reply) => {
         console.log("inventory management datas test")
         try {
             // console.log(request.query.role)
