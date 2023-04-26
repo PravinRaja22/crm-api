@@ -44,7 +44,7 @@ const { upsertOpportunityInventory } = require('../model/opportunity_inventory/u
 const { getOpportunityInventory } = require('../model/opportunity_inventory/getoppinv')
 const { deleteOpportunityInventory } = require('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
-
+const { authVerify } = require('../helpers/authverify')
 const accountSchema = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
@@ -56,6 +56,14 @@ const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 const { otpVerification } = require('../Email/otpverificationgmail')
 
 function getdatafromreact(fastify, options, done) {
+  
+
+fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
+    console.log(reply.getHeader('set-cookie'))
+    console.log("inside protected route is ")
+})
+
+
     let generatedotp;
     fastify.post("/api/generateOTP", async (request, reply) => {
 
@@ -102,7 +110,10 @@ function getdatafromreact(fastify, options, done) {
             console.log(request.body)
             let result = await getSingleUser(request);
             console.log('token is ')
-            console.log(result)
+            console.log(result.content)
+             
+            reply.setCookie('jwt', result.content)
+            
             if (result.status == "success") {
                 console.log("inside if condtition")
                 reply.send(result)
@@ -120,6 +131,20 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
+
+
+
+
+fastify.post('/api/signout',async(request,reply)=>{
+    console.log("inisde signout")
+    console.log(request.cookies)
+    reply.clearCookie('jwt',{path:'../'})
+  
+        console.log("inside if statement")
+        reply.send("Logged Out Successfully")
+   
+})
+
 
     fastify.post('/api/signup', async (request, reply) => {
         try {

@@ -66,9 +66,12 @@ async function getDataslist(client,request) {
         else{
             console.log("inside password is correct")
             const token= await tokenGenerator(existingUser.userName)
-            console.log("jwt token",token)
-            // res.cookie("jwt",token)
+            console.log("jwt token after checking user is ",token)
+            
+                    // res.cookie("jwt",token)
             // res.send(token)
+
+            console.log("jwt token", token)
             return {status:"success",
                     content:token,
                      userDetails:existingUser}

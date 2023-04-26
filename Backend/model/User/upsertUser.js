@@ -15,6 +15,7 @@ async function upsertUser(request) {
         request.password = hashPassword
         await client.connect();
 
+        
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = {};

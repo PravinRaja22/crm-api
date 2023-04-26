@@ -1,6 +1,10 @@
 const fastify = require('fastify')({ logger: false })
 const path = require('path')
 const dotenv = require("dotenv").config();
+fastify.register(require('@fastify/cookie'))
+fastify.register(require('@fastify/jwt'), {
+    secret: 'supersecret'
+  })// const fastifyjwt=  require('@fastify/jwt')
 //  const fileUpload = require('fastify-file-upload')
 // fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
@@ -10,6 +14,7 @@ fastify.register(require('@fastify/static'), {
     root: path.join(__dirname, 'uploads'),
    // prefix: 'uploads'
   })
+
 
 //   fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
@@ -25,6 +30,7 @@ console.log(path.join(__dirname, 'uploads'));
 fastify.register(Multer.contentParser);
 fastify.register(require('./Router/router'))
 fastify.register(require('@fastify/cors'))
+
 const start = async () => {
     try {
         await fastify.listen({ port:8080}, () => {
