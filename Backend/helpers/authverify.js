@@ -12,7 +12,6 @@ let authVerify = async (req, res, next) => {
         const valid = await tokenValidator(jwt)
         console.log("Valid ", valid);
         if (valid) {
-            
             console.log("inside valid")
             next()
         } else {

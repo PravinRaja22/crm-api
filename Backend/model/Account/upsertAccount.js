@@ -79,6 +79,8 @@ async function upsertAccount(request) {
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = {};
+
+        
     
         function toObject(names, values) {
             for (let i = 0; i < names.length; i++)
