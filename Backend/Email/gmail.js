@@ -8,18 +8,21 @@ async function gmail(request) {
     console.log('Email id is : '+emailId);
     console.log('Subject is : ' + subject);
     console.log('Body is : ' + Body);
-
-    if(!request.file){
-        console.log("else of file name");
-            details = {
-                to:emailId,
-                subject: subject,
-                text: Body,
-            }
+console.log(request.files)
+if(request.files.lenngth < 0){
+                    console.log("else of file name");
+                        details = {
+                            to:emailId,
+                            subject: subject,
+                            text: Body,
+                        }
 }
-   else if(request.file.filename){
+ else if(request.files.lenngth > 0)
         console.log("inside file name");
-            let attachmentname = request.file.filename
+        console.log(request.files)
+        request.files.forEach(e => {
+            console.log(e)
+            let attachmentname = e.filename
             console.log('file name  is : ' + attachmentname);
             const filepath = path.join(__dirname, '../uploads/' + attachmentname)
             console.log("File Path is : " + filepath)
@@ -33,8 +36,10 @@ async function gmail(request) {
                         {filename:attachmentname, path: filepath }
                     ]
                 }
-            }
-
+        })
+           
+            
+  
 let mailtransporter = nodemailer.createTransport({
     //GMAIL SERVICE
         service: process.env.GMAIL,
