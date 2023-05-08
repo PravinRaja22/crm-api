@@ -16,7 +16,7 @@ async function getOpportunityLead(leadId) {
 //getOpportunityLead().catch(console.error);
 async function getOpportunityDatas(client,leadId) {
     console.log("inside functionality Lead id "+leadId);
-    const cursor = await client.db("CRM").collection("Opportunity").find({LeadId :new RegExp('^' + leadId)})
+    const cursor = await client.db(process.env.DB).collection("Opportunity").find({LeadId :new RegExp('^' + leadId)})
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);

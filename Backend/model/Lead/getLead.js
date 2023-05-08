@@ -4,7 +4,7 @@
 // fastify.ready(error => error ? console.log(error) : "All plugin loaded successfully");
 // async function getLead() {
 //     console.log("inside get Lead of mongo db");
-//     const leadCollection = await fastify.mongo.client.db('CRM').collection('Lead')
+//     const leadCollection = await fastify.mongo.client.db('process.env.DB').collection('Lead')
 //     let results = await leadCollection.find().toArray();
 //     if (results.length > 0) {
 //         console.log(results);
@@ -40,12 +40,12 @@ async function getDatas(client,month)
     let cursor;
     if(month == null){
         console.log("inside if")
-         cursor = await client.db("CRM").collection("Lead").find().sort({createdDate:-1})
+         cursor = await client.db(process.env.DB).collection("Lead").find().sort({createdDate:-1})
 
     }
     else {
         console.log("inside else")
-         cursor = await client.db("CRM").collection("Lead").find({month:month})
+         cursor = await client.db(process.env.DB).collection("Lead").find({month:month})
 
     }
 const results = await cursor.toArray();

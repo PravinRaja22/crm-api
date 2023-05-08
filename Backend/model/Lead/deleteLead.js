@@ -18,7 +18,7 @@ async function deleteLead(dataid) {
 //deleteLead().catch(console.error);
 async function deleteDatas(client,deleteleaddata)
 {
-const results = await client.db("CRM").collection("Lead").deleteOne({_id:ObjectId(deleteleaddata)})
+const results = await client.db(process.env.DB).collection("Lead").deleteOne({_id:ObjectId(deleteleaddata)})
     if(results){
        return JSON.stringify(results)
 }  

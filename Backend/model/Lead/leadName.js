@@ -19,7 +19,7 @@ async function getDatas(client, leadname) {
     if (leadname) {
         console.log("inside if lead name")
         console.log(leadName)
-        const cursor = await client.db("CRM").collection("Lead").find({ fullName: new RegExp('^' + leadname) })
+        const cursor = await client.db(process.env.DB).collection("Lead").find({ fullName: new RegExp('^' + leadname) })
         const results = await cursor.toArray();
         let ledName = []
         if (results.length > 0) {
@@ -37,7 +37,7 @@ async function getDatas(client, leadname) {
         }
     }
     else {
-        const cursor = await client.db("CRM").collection("Lead").find().limit(5)
+        const cursor = await client.db(process.env.DB).collection("Lead").find().limit(5)
         const results = await cursor.toArray();
         let ledName = []
         if (results.length > 0) {

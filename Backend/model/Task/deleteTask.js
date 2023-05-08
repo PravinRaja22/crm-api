@@ -15,7 +15,7 @@ async function deleteTask(dataid) {
 }
 //deleteTask().catch(console.error);
 async function deleteDatas(client, deleteTaskdata) {
-    const results = await client.db("CRM").collection("Task").deleteOne({ _id: ObjectId(deleteTaskdata) })
+    const results = await client.db(process.env.DB).collection("Task").deleteOne({ _id: ObjectId(deleteTaskdata) })
     if (results) {
         return JSON.stringify(results)
     }

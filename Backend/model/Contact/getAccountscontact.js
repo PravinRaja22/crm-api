@@ -19,7 +19,7 @@ async function getAccountscontact(accid) {
 //getAccountscontact().catch(console.error);
 async function getOpportunityDatas(client, accid) {
     console.log("inside functionality Account id " + accid);
-    const cursor = await client.db("CRM").collection("Contact").find({ AccountId: new RegExp('^' + accid) })
+    const cursor = await client.db(process.env.DB).collection("Contact").find({ AccountId: new RegExp('^' + accid) })
     const results = await cursor.toArray();
     console.log(results);
     if (results.length > 0) {

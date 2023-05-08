@@ -19,7 +19,7 @@ async function getInventoryOpportunityjn(invid) {
 async function getOpportunityDatas(client,invid) {
     var OpportunityId =[]
     console.log("inside functionality inventory id "+invid);
-    const cursor = await client.db("CRM").collection("Opportunity").find({InventoryId :new RegExp('^' + invid)})
+    const cursor = await client.db(process.env.DB).collection("Opportunity").find({InventoryId :new RegExp('^' + invid)})
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
@@ -36,7 +36,7 @@ async function getOpportunityDatas(client,invid) {
         console.log("outside block "+JSON.stringify(OpportunityId));
         console.log("data base check");
         console.log("after data base check");
-        const cursorI = await client.db("CRM").collection("Opportunity").find({_id :{$in:OpportunityId}})
+        const cursorI = await client.db(process.env.DB).collection("Opportunity").find({_id :{$in:OpportunityId}})
         const resultsI = await cursorI.toArray();
         console.log('result'+resultsI);
         if (resultsI.length > 0) {

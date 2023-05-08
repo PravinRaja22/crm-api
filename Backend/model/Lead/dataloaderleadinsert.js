@@ -92,7 +92,7 @@ async function upsertmultiplerecord(client, insertdatas) {
         console.log(e)
 
     })
-    const result = await client.db("CRM").collection("Lead").insertMany(insertdatas);
+    const result = await client.db(process.env.DB).collection("Lead").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
 }
 module.exports = { dataloaderLead }

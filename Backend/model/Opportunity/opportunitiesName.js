@@ -18,7 +18,7 @@ async function  getopportunityName(request) {
 async function getDatas(client, oppName) {
     if(oppName){
         console.log("inside if statement of accnames")
-        const cursor = await client.db("CRM").collection("Opportunity").find({ opportunityName: new RegExp('^'+oppName)})
+        const cursor = await client.db(process.env.DB).collection("Opportunity").find({ opportunityName: new RegExp('^'+oppName)})
         const results = await cursor.toArray();
         let oppname = []
         if (results.length > 0) {
@@ -38,7 +38,7 @@ async function getDatas(client, oppName) {
     }
     else {
         console.log("inside account name test");
-        const cursor = await client.db("CRM").collection("Opportunity").find().limit(5)
+        const cursor = await client.db(process.env.DB).collection("Opportunity").find().limit(5)
         const results = await cursor.toArray();
         let oppname = []
         if (results.length > 0) {

@@ -6,7 +6,7 @@
 // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 // async function upsertAccount(request) {
 //     let results
-//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     const accountCollection = await fastify.mongo.client.db('process.env.DB').collection('Account')
 //     let upsertdatas = {
 //         PropertyId: request.Inventory,
 //         accountName: request.accountName,
@@ -143,7 +143,7 @@ async function upsertAccount(request) {
 //upsertAccount().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
-    const result = await client.db("CRM").collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
+    const result = await client.db(process.env.DB).collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`

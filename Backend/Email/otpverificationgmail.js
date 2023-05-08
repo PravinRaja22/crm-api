@@ -3,7 +3,7 @@ const path = require('path')
 async function otpVerification(request,otp) {
  
     let subject = "OTP Verification Code";
-    let Body = "Your otp code to signup clouddesk CRM tool is  " +otp;
+    let Body = "Your otp code to signup clouddesk process.env.DB tool is  " +otp;
     let emailId=request.body.emailId
     console.log('Email id is : '+emailId);
     console.log('Subject is : ' + subject);

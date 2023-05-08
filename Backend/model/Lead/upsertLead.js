@@ -50,7 +50,7 @@ async function upsertLead(request) {
 //upsertLead().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
     //update single record
-    const result = await client.db("CRM").collection("Lead").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
+    const result = await client.db(process.env.DB).collection("Lead").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
     }

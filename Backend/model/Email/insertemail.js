@@ -46,7 +46,7 @@ async function insertEmail(request) {
 
 async function upsertmutiipleRecord(client, insertdatas) {
 console.log("inside multiple insert Emails are are : "+JSON.stringify(insertdatas));
-    const result = await client.db("CRM").collection("Email").insertMany(insertdatas);
+    const result = await client.db(process.env.DB).collection("Email").insertMany(insertdatas);
     console.log(JSON.stringify(result));
     console.log('inserted count of file is : '+JSON.stringify(result.insertedCount));
 

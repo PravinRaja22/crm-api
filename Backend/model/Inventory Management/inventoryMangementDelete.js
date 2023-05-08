@@ -6,7 +6,7 @@
 // async function deleteProperty(deleteInventorydata){
 //     console.log("inside Delete Inventory  of mongo db");
 //     console.log("Inventory id is : ",deleteInventorydata);
-//     const inventoyCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
+//     const inventoyCollection = await fastify.mongo.client.db('process.env.DB').collection('Inventory Management')
 //     let results =await  inventoyCollection.deleteOne({ _id: ObjectId(deleteInventorydata) });
 //     if (results) {
 //                 console.log('inside if of delete Inventory');
@@ -38,7 +38,7 @@ async function deleteProperty(dataid) {
 }
 //deleteProperty().catch(console.error);
 async function deleteDatas(client, deletepropertydata) {
-    const results = await client.db("CRM").collection("Inventory Management").deleteOne({ _id: ObjectId(deletepropertydata) })
+    const results = await client.db(process.env.DB).collection("Inventory Management").deleteOne({ _id: ObjectId(deletepropertydata) })
     if (results) {
         return JSON.stringify(results)
     }

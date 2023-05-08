@@ -28,7 +28,7 @@
 //                     }
 //                 }
 //             ])
-//     const opportunityCollection = await fastify.mongo.client.db('CRM').collection('Opportunity')
+//     const opportunityCollection = await fastify.mongo.client.db('process.env.DB').collection('Opportunity')
 //     let results =await  opportunityCollection.aggregate(queryobj).toArray();
 //     if(results.length >0){
 //                 return JSON.stringify(results)
@@ -82,7 +82,7 @@ async function getDatas(client) {
             }
         }
     ])
-    const cursor = await client.db("CRM").collection("Opportunity").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Opportunity").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
         //converting epoch time to ist

@@ -36,7 +36,7 @@ e.fileUrl=request.protocol + '://' + request.headers.host + '/'+ e.filename
 //insertFile().catch(console.error);
 
 async function insertFiledata(client,newContact){
-    const result = await client.db("CRM").collection("Files").insertMany(newContact);
+    const result = await client.db(process.env.DB).collection("Files").insertMany(newContact);
     console.log("inserted records "+JSON.stringify(result));
     return result;
 }

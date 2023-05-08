@@ -4,7 +4,7 @@
 // fastify.ready(error => error ? console.log(error) : "All plugin loaded successfully");
 // async function getProperty() {
 //     console.log("inside get inventory of mongo db");
-//     const inventoryCollection = await fastify.mongo.client.db('CRM').collection('Inventory Management')
+//     const inventoryCollection = await fastify.mongo.client.db('process.env.DB').collection('Inventory Management')
 //     let results = await inventoryCollection.find().toArray();
 //     if (results.length > 0) {
 //         console.log(results);
@@ -33,7 +33,7 @@ async function getProperty() {
 }
 //getProperty().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("Inventory Management").find()
+    const cursor = await client.db(process.env.DB).collection("Inventory Management").find()
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);

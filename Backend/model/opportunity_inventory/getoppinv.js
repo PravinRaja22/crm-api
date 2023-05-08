@@ -41,7 +41,7 @@ async function getDatas(client) {
             }
         }
     ])
-    const cursor = await client.db("CRM").collection("Opportunity Inventory").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Opportunity Inventory").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
         return JSON.stringify(results)

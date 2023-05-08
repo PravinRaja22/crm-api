@@ -6,7 +6,7 @@
 // async function deleteContact(deletecontactdata){
 //     console.log("inside Delete Contact  of mongo db");
 //     console.log("deleted Contact id is : ",deletecontactdata);
-//     const contactCollection = await fastify.mongo.client.db('CRM').collection('Contact')
+//     const contactCollection = await fastify.mongo.client.db('process.env.DB').collection('Contact')
 //     let results =await  contactCollection.deleteOne({ _id: ObjectId(deletecontactdata)});
 //     if (results){
 //                 console.log('Inside if of Delete contact fastify');
@@ -37,7 +37,7 @@ async function deleteContact(dataid) {
 //deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
-const results = await client.db("CRM").collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
+const results = await client.db(process.env.DB).collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
     if(results){
        return JSON.stringify(results)
 }  

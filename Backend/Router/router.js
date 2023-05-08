@@ -962,7 +962,7 @@ fastify.post('/api/signout',async(request,reply)=>{
     })
 
     fastify.post('/api/Users', async (request, reply) => {
-        console.log("inventory management datas test")
+        console.log("Inside get user page ")
         try {
             let result = await getUser();
             reply.send(result)

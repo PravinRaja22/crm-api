@@ -104,7 +104,8 @@ async function getDatas(client) {
             }
         }
     ])
-    const cursor = await client.db("CRM").collection("Task").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Task").aggregate(queryobj)
+    console.log(process.env.DB)
     const results = await cursor.toArray();
     if (results.length > 0) {
         //converting epoch time to ist

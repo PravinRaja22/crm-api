@@ -2,7 +2,6 @@ const { MongoClient } = require('mongodb');
 const { hashValidator } = require("../../helpers/hashing")
 const{tokenGenerator} = require('../../helpers/jwttoken')
 async function getUser() {
-    console.log("role inside get user is "+role)
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -17,7 +16,7 @@ async function getUser() {
 }
 //getUser().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db("CRM").collection("User").find({})
+    const cursor = await client.db(process.env.DB).collection("User").find({})
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
@@ -47,7 +46,7 @@ async function getSingleUser(request) {
 //getUser().catch(console.error);
 async function getDataslist(client,request) {
     console.log("inside get Datas")
-    const existingUser = await client.db("CRM").collection("User").findOne({ userName: request.body.userName })
+    const existingUser = await client.db(process.env.DB).collection("User").findOne({ userName: request.body.userName })
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
@@ -100,7 +99,7 @@ async function getSignUpPageUser(request) {
 //getUser().catch(console.error);
 async function getSignUpPageUserlist(client,request) {
     console.log("inside get Datas")
-    const existingUser = await client.db("CRM").collection("User").findOne({ userName: request.body.userName })
+    const existingUser = await client.db(process.env.DB).collection("User").findOne({ userName: request.body.userName })
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
@@ -136,13 +135,13 @@ async function getSignUpPageUserlist(client,request) {
 // async function getRolebasedUserId(client,role) {
 //     console.log("inside get Datas")
 //     if(role == 'admin'){
-//         const UserId = await client.db("CRM").collection("User").find()
+//         const UserId = await client.db(process.env.DB).collection("User").find()
   
 //     }
 //     else if (){
 
 //     }
-//     const UserId = await client.db("CRM").collection("User").find({ role:role})
+//     const UserId = await client.db(process.env.DB).collection("User").find({ role:role})
 //     const results = await UserId.toArray();
 //     if(results.length>0){
 //         console.log("result of Id")
