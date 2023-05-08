@@ -113,7 +113,8 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             console.log(result.content)
              
             reply.setCookie('jwt', result.content)
-            
+            console.log("cookies are =>>>>>>>")
+            console.log(request.cookies)
             if (result.status == "success") {
                 console.log("inside if condtition")
                 reply.send(result)
@@ -634,6 +635,8 @@ fastify.post('/api/signout',async(request,reply)=>{
 
     fastify.post('/api/accounts', async (request, reply) => {
         try {
+            console.log("headers are")
+            console.log(request.headers.token)
             console.log("inside account get")
             let result = await getAccountdata();
             reply.send(result)
@@ -905,7 +908,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/inventories',{preHandler:authVerify}, async (request, reply) => {
+    fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             // console.log(request.query.role)

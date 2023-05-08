@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 const { hashValidator } = require("../../helpers/hashing")
 const{tokenGenerator} = require('../../helpers/jwttoken')
 async function getUser() {
-    console.log("role inside get user is "+role)
+  //  console.log("role inside get user is "+role)
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
