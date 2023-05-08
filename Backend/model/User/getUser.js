@@ -2,6 +2,7 @@ const { MongoClient } = require('mongodb');
 const { hashValidator } = require("../../helpers/hashing")
 const{tokenGenerator} = require('../../helpers/jwttoken')
 async function getUser() {
+
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {

@@ -112,8 +112,14 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             console.log('token is ')
             console.log(result.content)
             reply.setCookie('jwt', result.content)
-            reply.send(result)     
-        }
+            
+            if (result.status == "success") {
+                console.log("inside if condtition")
+                reply.send(result)
+            }
+            else if (result.status == 'failure') {
+                console.log("inside else if condition")
+                reply.send(result)
 
         catch (error) {
             console.log("inside catch ", error);
@@ -621,6 +627,8 @@ fastify.post('/api/signout',async(request,reply)=>{
 
     fastify.post('/api/accounts', async (request, reply) => {
         try {
+            console.log("headers are")
+            console.log(request.headers.token)
             console.log("inside account get")
             let result = await getAccountdata();
             reply.send(result)

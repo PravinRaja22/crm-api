@@ -4,6 +4,7 @@ let authVerify = async (req, res, next) => {
     console.log("inside token validator funciton");
    // console.log("cookie ", req.getHeader('set-cookie'));
    console.log("inside Auth Verification Page")
+   console.log(req.cookies)
     console.log(req.cookies.jwt)
     try {
         const {jwt} = await req.cookies;
