@@ -111,10 +111,8 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             let result = await getSingleUser(request);
             console.log('token is ')
             console.log(result.content)
-             
             reply.setCookie('jwt', result.content)
-            console.log("cookies are =>>>>>>>")
-            console.log(request.cookies)
+            
             if (result.status == "success") {
                 console.log("inside if condtition")
                 reply.send(result)
@@ -123,18 +121,12 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
                 console.log("inside else if condition")
                 reply.send(result)
 
-            }
-        }
-
         catch (error) {
             console.log("inside catch ", error);
             reply.send(error.message)
         }
 
     })
-
-
-
 
 fastify.post('/api/signout',async(request,reply)=>{
     try {
@@ -361,7 +353,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             res.send('error ' + e.message)
         }
     });
-    fastify.get('/api/testpage',{preHandler:authVerify}, async (request, reply) => {
+    fastify.get('/api/testpage', async (request, reply) => {
         reply.send("testpage")
     })
 

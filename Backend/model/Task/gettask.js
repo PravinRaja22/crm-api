@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+// var ObjectId = require('mongodb').ObjectId;
 async function getTask() {
-    const url =process.env.MONGODBURL;
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
         await client.connect();
@@ -22,9 +22,26 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Account',
-                let: { "searchId": { $toObjectId: "$AccountId" } },
+             //   let: { "searchId": { $toObjectId: "$AccountId" } },
+
                 pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    {
+                        $match:
+                        {
+                            $expr:
+                            {
+                                $eq:
+                                    ["$_id", {
+                                        $convert: {
+                                            input: "$AccountId",
+                                            to: "objectId",
+                                            onError: { error: true },
+                                            onNull: { isnull: true }
+                                        }
+                                    }]
+                            }
+                        }
+                    },
                 ],
                 as: 'Accountdetails'
             }
@@ -33,9 +50,26 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Lead',
-                let: { "searchId": { $toObjectId: "$LeadId" } },
+               // let: { "searchId": { $toObjectId: "$LeadId" } },
+
                 pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    {
+                        $match:
+                        {
+                            $expr:
+                            {
+                                $eq:
+                                    ["$_id", {
+                                        $convert: {
+                                            input: "$LeadId",
+                                            to: "objectId",
+                                            onError: { error: true },
+                                            onNull: { isnull: true }
+                                        }
+                                    }]
+                            }
+                        }
+                    },
                 ],
                 as: 'Leaddetails'
             }
@@ -44,9 +78,27 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Opportunity',
-                let: { "searchId": { $toObjectId: "$OpportunityId" } },
+              //  let: { "searchId": { $toObjectId: "$OpportunityId" } },
+
                 pipeline: [
-                    { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
+                    {
+                        $match:
+                        {
+                            $expr:
+                            {
+                                $eq:
+                                    ["$_id", {
+                                        $convert: {
+                                            input: "$OpportunityId",
+                                            to: "objectId",
+                                            onError: { error: true },
+                                            onNull: { isnull: true }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
                 ],
                 as: 'Opportunitydetails'
             }
