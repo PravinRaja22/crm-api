@@ -111,18 +111,8 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             let result = await getSingleUser(request);
             console.log('token is ')
             console.log(result.content)
-             
             reply.setCookie('jwt', result.content)
-            
-            if (result.status == "success") {
-                console.log("inside if condtition")
-                reply.send(result)
-            }
-            else if (result.status == 'failure') {
-                console.log("inside else if condition")
-                reply.send(result)
-
-            }
+            reply.send(result)     
         }
 
         catch (error) {
@@ -131,9 +121,6 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
         }
 
     })
-
-
-
 
 fastify.post('/api/signout',async(request,reply)=>{
     try {
@@ -360,7 +347,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             res.send('error ' + e.message)
         }
     });
-    fastify.get('/api/testpage',{preHandler:authVerify}, async (request, reply) => {
+    fastify.get('/api/testpage', async (request, reply) => {
         reply.send("testpage")
     })
 
@@ -905,7 +892,7 @@ fastify.post('/api/signout',async(request,reply)=>{
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/inventories',{preHandler:authVerify}, async (request, reply) => {
+    fastify.post('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             // console.log(request.query.role)
