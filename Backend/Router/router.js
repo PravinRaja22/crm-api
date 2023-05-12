@@ -619,7 +619,7 @@ fastify.post('/api/signout',async(request,reply)=>{
     })
 
 
-    fastify.get('/api/accounts', async (request, reply) => {
+    fastify.post('/api/accounts', async (request, reply) => {
         try {
             console.log("inside account get")
             let result = await getAccountdata();
