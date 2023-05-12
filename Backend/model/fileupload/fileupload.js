@@ -7,7 +7,7 @@ request.files.forEach((e)=>{
     console.log('inside for each');
 console.log("request protocol is ==>> ")
 console.log(request.protocol + '://' + request.headers.host + '/'+ e.filename);
-e.fileUrl=request.protocol + '://' + request.headers.host + '/'+ e.filename
+e.fileUrl=request.protocol + 's://' + request.headers.host + '/'+ e.filename
 })
     var test =request.files
     console.log("test ",test);
@@ -35,8 +35,8 @@ e.fileUrl=request.protocol + '://' + request.headers.host + '/'+ e.filename
 }
 //insertFile().catch(console.error);
 
-async function insertFiledata(client,newContact){
-    const result = await client.db(process.env.DB).collection("Files").insertMany(newContact);
+async function insertFiledata(client,newFile){
+    const result = await client.db(process.env.DB).collection("Files").insertMany(newFile);
     console.log("inserted records "+JSON.stringify(result));
     return result;
 }
