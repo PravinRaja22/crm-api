@@ -48,7 +48,7 @@ const { authVerify } = require('../helpers/authverify')
 const accountSchema = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
-const { fieldsUpload, Multer } = require('../Email/Dataloader/multer')
+const { fieldsUpload, Multer } = require('../Dataloader/multer')
 const { gmail } = require('../Email/gmail')
 const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
@@ -123,17 +123,23 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/getRole', async (request, reply) => {
         try {
             console.log("inside get roles routes")
-            const { departmentName, role } = request.query;
-            console.log(departmentName)
-            console.log(role)
-            let result = await getRole(departmentName, role)
-            let roleName = []
-            JSON.parse(result).forEach((e) => {
-                roleName.push({ id: e._id, roleName: e.roleName })
-            })
-            console.log("role name and id is : ")
-            console.log(roleName)
-            reply.send(roleName)
+            if(request.query){
+                const { departmentName, role } = request.query;
+                let result = await getRole(departmentName, role)
+                let roleName = []
+                JSON.parse(result).forEach((e) => {
+                    roleName.push({ id: e._id, roleName: e.roleName })
+                })
+                console.log(roleName)
+                reply.send(roleName)
+
+            }
+            else{
+                console.log("inside else")
+                let result = await getRole()
+                reply.send(result)
+            }
+           
         }
 
         catch (error) {
