@@ -52,7 +52,7 @@ async function getRoleForDeparatment(client,department){
 async function getDepartmentRole(client,department,role){
     try {
         console.log("department and Role finding "+department  ," And Role is :",role)
-        const cursor = await client.db(process.env.DB).collection("Role").findOne({departmentName:department,roleName:role})
+        const cursor = await client.db(process.env.DB).collection("Role").find({departmentName:department,roleName: new RegExp('^'+role)})
         const results = await cursor.toArray();
         console.log("result inside function ")
         console.log(results)
