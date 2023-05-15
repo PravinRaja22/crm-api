@@ -48,15 +48,33 @@ const { authVerify } = require('../helpers/authverify')
 const accountSchema = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
-const { fieldsUpload, Multer } = require('../Dataloader/multer')
+const { fieldsUpload, Multer } = require('../Email/Dataloader/multer')
 const { gmail } = require('../Email/gmail')
 const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 const { otpVerification } = require('../Email/otpverificationgmail')
+const { getCollections } = require('../model/showTabsl/collectionNames')
 
 function getdatafromreact(fastify, options, done) {
-  
+
+    fastify.get('/api/getTabs',async (request,reply)=>{
+        try {
+console.log('inside tabs')
+            let data = await getCollections();
+            console.log('result is ==>>')
+            console.log(data)
+            collectionArray=[]
+            JSON.parse(data).map((e)=>{
+collectionArray.push(e.name)
+            })
+            reply.send(collectionArray)
+            
+        } catch (error) {
+            reply.send(error.message)
+        }
+      
+    })
 
 fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
     console.log(reply.getHeader('set-cookie'))
