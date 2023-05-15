@@ -1,7 +1,7 @@
 const Multer = require('fastify-multer')
 const path = require('path')
 //const csvtojson = require('csvtojson')
-let fileMaxSize = 50 * 1024 * 1024;
+let fileMaxSize = 500 * 1024 * 1024;
 var storage = Multer.diskStorage({
     destination: (req, file, cb) => {
         const ROOT_PATH = __dirname
