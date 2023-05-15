@@ -82,7 +82,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.get('/api/Permissions/read', async (request, reply) => {
+    fastify.get('/api/permissions', async (request, reply) => {
         try {
             let data = await getPermission();
             console.log("inside get permissions")
@@ -94,7 +94,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/Permissions/upsert', async (request, reply) => {
+    fastify.post('/api/permissions', async (request, reply) => {
         try {
             console.log("inside Upsert Permissions")
             let result = await upsertPermissions(request.body);
@@ -105,7 +105,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/Permissions/delete/:id', async (request, reply) => {
+    fastify.delete('/api/permission/:id', async (request, reply) => {
         try {
             let result = await deletePermissions(request.params.id);
             if (result) {
@@ -120,13 +120,11 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.get('/api/Role/read', async (request, reply) => {
+    fastify.get('/api/roles', async (request, reply) => {
         try {
             console.log("inside get roles routes")
-            console.log(request.query)
             if(request.query){
                 if(request.query.departmentName){
-                    console.log("inside query")
                     const { departmentName, role } = request.query;
                     let result = await getRole(departmentName, role)
                     let roleName = []
@@ -137,15 +135,12 @@ function getdatafromreact(fastify, options, done) {
                     reply.send(roleName)
 
                 }
-                else if(request.query){
+                else {
                     console.log("inside else")
                     let result = await getRole()
                     reply.send(result)
                 }
-
-            }
-           
-           
+            }   
         }
 
         catch (error) {
@@ -155,7 +150,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/Role/upsert', async (request, reply) => {
+    fastify.post('/api/role', async (request, reply) => {
         try {
             console.log("inside Upsert Role")
             let result = await upsertRole(request.body);
@@ -166,7 +161,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/Role/delete/:id', async (request, reply) => {
+    fastify.delete('/api/role/:id', async (request, reply) => {
         try {
             let result = await deleteRole(request.params.id);
             if (result) {
