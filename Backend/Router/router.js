@@ -123,22 +123,28 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/getRole', async (request, reply) => {
         try {
             console.log("inside get roles routes")
+            console.log(request.query)
             if(request.query){
-                const { departmentName, role } = request.query;
-                let result = await getRole(departmentName, role)
-                let roleName = []
-                JSON.parse(result).forEach((e) => {
-                    roleName.push({ id: e._id, roleName: e.roleName })
-                })
-                console.log(roleName)
-                reply.send(roleName)
+                if(request.query.departmentName){
+                    console.log("inside query")
+                    const { departmentName, role } = request.query;
+                    let result = await getRole(departmentName, role)
+                    let roleName = []
+                    JSON.parse(result).forEach((e) => {
+                        roleName.push({ _id: e._id, roleName: e.roleName })
+                    })
+                    console.log(roleName)
+                    reply.send(roleName)
+
+                }
+                else if(request.query){
+                    console.log("inside else")
+                    let result = await getRole()
+                    reply.send(result)
+                }
 
             }
-            else{
-                console.log("inside else")
-                let result = await getRole()
-                reply.send(result)
-            }
+           
            
         }
 

@@ -9,7 +9,6 @@ async function getRole(department,role) {
         let data
         console.log("department name ",department)
         console.log("role name ",role)
-        console.log("True or False : ",!role)
         if (department && !role){
             console.log("inside only department ",department)
             data = await getRoleForDeparatment(client,department)
@@ -34,6 +33,7 @@ async function getRole(department,role) {
 
 async function getAllRole(client){
     try {
+        console.log("inside get all Role")
         const cursor = await client.db(process.env.DB).collection("Role").find()
         const results = await cursor.toArray();
         console.log("result inside function ")
