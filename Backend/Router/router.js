@@ -54,32 +54,115 @@ const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 const { otpVerification } = require('../Email/otpverificationgmail')
-const { getCollections } = require('../model/showTabsl/collectionNames')
+const { getCollections } = require('../model/showTabs/collectionNames')
+const { getPermission } = require('../model/permissions/getPermissions')
+const { upsertPermissions } = require('../model/permissions/upsertPermissons')
+const { deletePermissions } = require('../model/permissions/deletePermissions')
+const { getRole } = require('../model/Role/getRole')
+const { upsertRole } = require('../model/Role/upsertRole')
+const { deleteRole } = require('../model/Role/deleteRole')
 
 function getdatafromreact(fastify, options, done) {
 
-    fastify.get('/api/getTabs',async (request,reply)=>{
+    fastify.get('/api/getTabs', async (request, reply) => {
         try {
-console.log('inside tabs')
+            console.log('inside tabs')
             let data = await getCollections();
             console.log('result is ==>>')
             console.log(data)
-            collectionArray=[]
-            JSON.parse(data).map((e)=>{
-collectionArray.push(e.name)
+            collectionArray = []
+            JSON.parse(data).map((e) => {
+                collectionArray.push(e.name)
             })
             reply.send(collectionArray)
-            
+
         } catch (error) {
             reply.send(error.message)
         }
-      
+
     })
 
-fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
-    console.log(reply.getHeader('set-cookie'))
-    console.log("inside protected route is ")
-})
+    fastify.get('/api/getPermissions', async (request, reply) => {
+        try {
+            let data = await getPermission();
+            console.log("inside get permissions")
+            reply.send(data)
+        } catch (error) {
+
+            reply.send(error.message)
+
+        }
+    })
+
+    fastify.post('/api/upsertPermissions', async (request, reply) => {
+        try {
+            console.log("inside Upsert Permissions")
+            let result = await upsertPermissions(request.body);
+            console.log("result is ======>>>>>>")
+            reply.send(result)
+        } catch (error) {
+            reply.send(error.message)
+        }
+    })
+
+    fastify.delete('/api/deletePermissions', async (request, reply) => {
+        try {
+            let result = await deletePermissions(request.query.code);
+            if (result) {
+                reply.send({
+                    status: "success",
+                    content: "File Deleted Successfully"
+                })
+            }
+        } catch (error) {
+
+        }
+    })
+
+
+    fastify.get('/api/getRole', async (request, reply) => {
+        try {
+            let data = await getRole();
+            console.log("inside get permissions")
+            reply.send(data)
+        } catch (error) {
+
+            reply.send(error.message)
+
+        }
+    })
+
+    fastify.post('/api/upsertRole', async (request, reply) => {
+        try {
+            console.log("inside Upsert Role")
+            let result = await upsertRole(request.body);
+            console.log("result is ======>>>>>>")
+            reply.send(result)
+        } catch (error) {
+            reply.send(error.message)
+        }
+    })
+
+    fastify.delete('/api/deleteRole', async (request, reply) => {
+        try {
+            let result = await deleteRole(request.query.code);
+            if (result) {
+                reply.send({
+                    status: "success",
+                    content: "File Deleted Successfully"
+                })
+            }
+        } catch (error) {
+
+        }
+    })
+
+
+
+    fastify.post('/api/testing', { preHandler: authVerify }, async (request, reply) => {
+        console.log(reply.getHeader('set-cookie'))
+        console.log("inside protected route is ")
+    })
 
 
     let generatedotp;
@@ -94,11 +177,11 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             }
             else if (request.body.otp) {
                 if (request.body.otp == generatedotp) {
-                   
+
                     reply.send({ status: "success", content: "Entered otp is correct" })
                 }
                 else {
-                
+
                     reply.send({ status: "failure", content: "please enter correct OTP" })
                 }
 
@@ -122,8 +205,8 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
             let result = await getSingleUser(request);
             console.log('token is ')
             console.log(result.content)
-           // reply.setCookie('jwt', result.content)
-            
+            // reply.setCookie('jwt', result.content)
+
             if (result.status == "success") {
                 console.log("inside if condtition")
                 reply.send(result)
@@ -140,22 +223,22 @@ fastify.post('/api/testing',{preHandler:authVerify},async(request,reply)=>{
 
     })
 
-fastify.post('/api/signout',async(request,reply)=>{
-    try {
+    fastify.post('/api/signout', async (request, reply) => {
+        try {
 
-        console.log("inisde signout")
-        console.log(request.cookies)
-        reply.clearCookie('jwt',{path:'../'})
-        reply.send("Logged Out Successfully")
-        
-    } catch (error) {
-        console.log("error in logout")
-        reply.send(error.message)
-        
-    }
-  
-   
-})
+            console.log("inisde signout")
+            console.log(request.cookies)
+            reply.clearCookie('jwt', { path: '../' })
+            reply.send("Logged Out Successfully")
+
+        } catch (error) {
+            console.log("error in logout")
+            reply.send(error.message)
+
+        }
+
+
+    })
 
 
     fastify.post('/api/signup', async (request, reply) => {
@@ -303,7 +386,7 @@ fastify.post('/api/signout',async(request,reply)=>{
         try {
             const files = request.files[0].filename
             const csvfilepath = 'uploads/' + files
-        console.log("object " +csvfilepath);
+            console.log("object " + csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
@@ -373,11 +456,13 @@ fastify.post('/api/signout',async(request,reply)=>{
         reply.send({ message: "App initiated" })
     })
 
-    fastify.post('/api/uploadfile', { preHandler: (request, reply, done)=>{
-        console.log("testing")
-        console.log(request.url);
-        fieldsUpload(request, reply, done);
-     }}, async (request, reply) => {
+    fastify.post('/api/uploadfile', {
+        preHandler: (request, reply, done) => {
+            console.log("testing")
+            console.log(request.url);
+            fieldsUpload(request, reply, done);
+        }
+    }, async (request, reply) => {
         console.log("inside upload file datas ");
         // console.log(request.file.filename);
         try {
@@ -914,7 +999,7 @@ fastify.post('/api/signout',async(request,reply)=>{
         console.log("inventory management datas test")
         try {
             // console.log(request.query.role)
-          //  let userdata = await getUser(request.query.role)
+            //  let userdata = await getUser(request.query.role)
             let result = await getProperty();
             reply.send(result)
         }
