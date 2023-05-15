@@ -109,10 +109,9 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deletePermissions(request.params.id);
             if (result) {
-                reply.send({
-                    status: "success",
-                    content: "File Deleted Successfully"
-                })
+                reply.send(
+                    "Record Deleted Successfully"
+                )
             }
         } catch (error) {
 
@@ -165,10 +164,7 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deleteRole(request.params.id);
             if (result) {
-                reply.send({
-                    status: "success",
-                    content: "File Deleted Successfully"
-                })
+                reply.send("Record Deleted Successfully")
             }
         } catch (error) {
 
@@ -264,10 +260,9 @@ function getdatafromreact(fastify, options, done) {
             console.log("sign up body is ")
             console.log(request.body)
             let data = await upsertUser(request.body)
-            reply.send({
-                status: 'success',
-                content: 'Sign Up done SuccesFully'
-            })
+            reply.send(
+             'Sign Up done SuccesFully'
+            )
 
         } catch (error) {
             console.log("error in sign up page " + error.message)

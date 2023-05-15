@@ -51,17 +51,15 @@ async function getDataslist(client,request) {
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
-        return {status:"failure",
-                 content:"Password or UserName is Wrong.Please Enter correct Details"
-                 }
+        return "Password or UserName is Wrong.Please Enter correct Details"
+                
     }
     else{
         let checkkpassword =await hashValidator(request.body.password,existingUser.password)
         console.log(checkkpassword)
         if(!checkkpassword){
-            return {status:"failure",
-                     content:"Password or UserName is Wrong.Please Enter correct Details"
-                    }
+            return "Password or UserName is Wrong.Please Enter correct Details"
+                    
         }
         else{
             console.log("inside password is correct")
@@ -104,8 +102,7 @@ async function getSignUpPageUserlist(client,request) {
     console.log(existingUser)
     if(!existingUser){
         console.log("inside not the existing user")
-        return {status:"failure",
-                 content:"No user available with the given userName"}
+        return "No user available with the given userName"
     }
     else{
         return {status :"success",content:existingUser}
