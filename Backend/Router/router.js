@@ -82,7 +82,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.get('/api/getPermissions', async (request, reply) => {
+    fastify.get('/api/Permissions/read', async (request, reply) => {
         try {
             let data = await getPermission();
             console.log("inside get permissions")
@@ -94,7 +94,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/upsertPermissions', async (request, reply) => {
+    fastify.post('/api/Permissions/upsert', async (request, reply) => {
         try {
             console.log("inside Upsert Permissions")
             let result = await upsertPermissions(request.body);
@@ -105,7 +105,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/deletePermissions/:id', async (request, reply) => {
+    fastify.delete('/api/Permissions/delete/:id', async (request, reply) => {
         try {
             let result = await deletePermissions(request.params.id);
             if (result) {
@@ -120,7 +120,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.get('/api/getRole', async (request, reply) => {
+    fastify.get('/api/Role/read', async (request, reply) => {
         try {
             console.log("inside get roles routes")
             console.log(request.query)
@@ -155,7 +155,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/upsertRole', async (request, reply) => {
+    fastify.post('/api/Role/upsert', async (request, reply) => {
         try {
             console.log("inside Upsert Role")
             let result = await upsertRole(request.body);
@@ -166,9 +166,9 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/deleteRole', async (request, reply) => {
+    fastify.delete('/api/Role/delete/:id', async (request, reply) => {
         try {
-            let result = await deleteRole(request.query.code);
+            let result = await deleteRole(request.params.id);
             if (result) {
                 reply.send({
                     status: "success",
