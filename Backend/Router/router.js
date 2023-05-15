@@ -127,7 +127,7 @@ function getdatafromreact(fastify, options, done) {
             console.log(departmentName)
             console.log(role)
             let result = await getRole(departmentName, role)
-            let roleName = [{}]
+            let roleName = []
             JSON.parse(result).forEach((e) => {
                 roleName.push({ id: e._id, roleName: e.roleName })
             })
