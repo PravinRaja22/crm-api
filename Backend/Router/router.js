@@ -120,7 +120,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.get('/api/getRole', async (request, reply) => {
+    fastify.get('/api/getRoles', async (request, reply) => {
         try {
             let data = await getRole();
             console.log("inside get permissions")
