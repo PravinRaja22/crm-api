@@ -9,7 +9,29 @@ async function gmail(request) {
     console.log('Subject is : ' + subject);
     console.log('Body is : ' + Body);
 console.log(request.files)
-if(request.files.lenngth < 0){
+if(request.files){
+    console.log("inside file name");
+    console.log(request.files)
+    request.files.forEach(e => {
+        console.log(e)
+        let attachmentname = e.filename
+        console.log('file name  is : ' + attachmentname);
+        const filepath = path.join(__dirname, '../uploads/' + attachmentname)
+        console.log("File Path is : " + filepath)
+        console.log("inside with file attachment")
+
+            details = {
+                to:emailId,
+                subject: subject,
+                text: Body,
+                attachments: [
+                    {filename:attachmentname, path: filepath }
+                ]
+            }
+    })
+
+}
+else if(!request.files){
                     console.log("else of file name");
                         details = {
                             to:emailId,
@@ -17,26 +39,7 @@ if(request.files.lenngth < 0){
                             text: Body,
                         }
 }
- else if(request.files.lenngth > 0)
-        console.log("inside file name");
-        console.log(request.files)
-        request.files.forEach(e => {
-            console.log(e)
-            let attachmentname = e.filename
-            console.log('file name  is : ' + attachmentname);
-            const filepath = path.join(__dirname, '../uploads/' + attachmentname)
-            console.log("File Path is : " + filepath)
-            console.log("inside with file attachment")
 
-                details = {
-                    to:emailId,
-                    subject: subject,
-                    text: Body,
-                    attachments: [
-                        {filename:attachmentname, path: filepath }
-                    ]
-                }
-        })
            
             
   
