@@ -61,6 +61,7 @@ const { deletePermissions } = require('../model/permissions/deletePermissions')
 const { getRole } = require('../model/Role/getRole')
 const { upsertRole } = require('../model/Role/upsertRole')
 const { deleteRole } = require('../model/Role/deleteRole')
+const { isArray } = require('lodash')
 
 function getdatafromreact(fastify, options, done) {
 
@@ -83,6 +84,8 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.get('/api/permissions', async (request, reply) => {
+        const { access } = request.params;
+        console.log("access is ",access)
         try {
             let data = await getPermission();
             console.log("inside get permissions")
@@ -94,7 +97,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/permissions', async (request, reply) => {
+    fastify.post('/api/permission', async (request, reply) => {
         try {
             console.log("inside Upsert Permissions")
             let result = await upsertPermissions(request.body);
@@ -126,12 +129,23 @@ function getdatafromreact(fastify, options, done) {
                 if(request.query.departmentName){
                     const { departmentName, role } = request.query;
                     let result = await getRole(departmentName, role)
-                    let roleName = []
-                    JSON.parse(result).forEach((e) => {
-                        roleName.push({ _id: e._id, roleName: e.roleName })
-                    })
-                    console.log(roleName)
-                    reply.send(roleName)
+                    console.log("dsfkljf")
+                    console.log(result)
+                    if(isArray(result)){
+                        if(result.length > 0){
+                            let roleName = []
+                            JSON.parse(result).forEach((e) => {
+                                roleName.push({ _id: e._id, roleName: e.roleName })
+                            })
+                            console.log(roleName)
+                            reply.send(roleName)
+                        }
+                    }
+                   
+                    else {
+                        reply.send(result)
+                    }
+                  
 
                 }
                 else {
@@ -735,7 +749,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.post('/api/accounts', async (request, reply) => {
+    fastify.get('/api/accounts', async (request, reply) => {
         try {
             console.log("inside account get")
             let result = await getAccountdata();

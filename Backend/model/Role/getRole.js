@@ -87,9 +87,11 @@ async function getDepartmentRole(client,department,role){
             return JSON.stringify(results)
         }
         else {
-            return "no data found";
+            console.log("inside else of roles ")
+            return results;
         }
     } catch (error) {
+        console.log("inside error of role "+error)
         return error.message
 
     }
