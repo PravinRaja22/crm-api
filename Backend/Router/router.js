@@ -61,8 +61,13 @@ const { deletePermissions } = require('../model/permissions/deletePermissions')
 const { getRole } = require('../model/Role/getRole')
 const { upsertRole } = require('../model/Role/upsertRole')
 const { deleteRole } = require('../model/Role/deleteRole')
+<<<<<<< Updated upstream
 const { isArray } = require('lodash')
 
+=======
+const { getFieldsdata } = require('../model/objectFields/getFields.js')
+const { checkAccess } = require('../model/checkAccess/checkAccess')
+>>>>>>> Stashed changes
 function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/getTabs', async (request, reply) => {
@@ -82,6 +87,34 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
+
+    fastify.get('/api/fields/:object', async (request, reply) => {
+        try {
+            console.log("inside get fields")
+            let data = await getFieldsdata(request.params.object);
+            reply.send(data)
+        } catch (error) {
+            console.log("inside error message of fields")
+            reply.send(error.message)
+        }
+    })
+
+    fastify.get('/api/permissionforobject/:object/:department/:role', async (request, reply) => {
+        try {
+
+            console.log("inside get permission")
+            const {object,department,role} = request.params
+            let result = await checkAccess(object,department,role)
+            reply.send(result)
+
+        } catch (error) {
+
+            console.log("inside get error in permission")
+            reply.send(error.message)
+
+        }
+    })
+
 
     fastify.get('/api/permissions', async (request, reply) => {
         const { access } = request.params;
@@ -125,8 +158,8 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/roles', async (request, reply) => {
         try {
             console.log("inside get roles routes")
-            if(request.query){
-                if(request.query.departmentName){
+            if (request.query) {
+                if (request.query.departmentName) {
                     const { departmentName, role } = request.query;
                     let result = await getRole(departmentName, role)
                     console.log("dsfkljf")
@@ -153,7 +186,7 @@ function getdatafromreact(fastify, options, done) {
                     let result = await getRole()
                     reply.send(result)
                 }
-            }   
+            }
         }
 
         catch (error) {
@@ -275,7 +308,7 @@ function getdatafromreact(fastify, options, done) {
             console.log(request.body)
             let data = await upsertUser(request.body)
             reply.send(
-             'Sign Up done SuccesFully'
+                'Sign Up done SuccesFully'
             )
 
         } catch (error) {
