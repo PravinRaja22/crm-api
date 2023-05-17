@@ -61,13 +61,8 @@ const { deletePermissions } = require('../model/permissions/deletePermissions')
 const { getRole } = require('../model/Role/getRole')
 const { upsertRole } = require('../model/Role/upsertRole')
 const { deleteRole } = require('../model/Role/deleteRole')
-<<<<<<< Updated upstream
-const { isArray } = require('lodash')
-
-=======
 const { getFieldsdata } = require('../model/objectFields/getFields.js')
 const { checkAccess } = require('../model/checkAccess/checkAccess')
->>>>>>> Stashed changes
 function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/getTabs', async (request, reply) => {
