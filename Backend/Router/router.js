@@ -63,7 +63,72 @@ const { upsertRole } = require('../model/Role/upsertRole')
 const { deleteRole } = require('../model/Role/deleteRole')
 const { getFieldsdata } = require('../model/objectFields/getFields.js')
 const { checkAccess } = require('../model/checkAccess/checkAccess')
+const { isArray } = require('lodash')
 function getdatafromreact(fastify, options, done) {
+
+
+
+
+
+    /*=====salesforce */
+
+    fastify.get('/accounts/show', async (request, reply) => {
+        try {
+            console.log("inside account get salesforce")
+            let result = await getAccountdata();
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("inside Account view Catch block ", e);
+
+            reply.send("Error " + e.message)
+        }
+    })
+
+
+    fastify.delete('/Account/delete', async (request, reply) => {
+        console.log("inside Account delete salesforce");
+        try {
+            let result = await deleteAccount(request.query.code);
+            if (result) {
+                reply.send("Account Deleted Successfully")
+            }
+            else {
+                reply.send("No data deleted")
+            }
+        }
+        catch (e) {
+            console.log("error block in delete account   page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+
+
+    fastify.post('/Account/upsert', /*Accouninsertschema,*/ async (request, reply) => {
+        console.log("upsert route called")
+        console.log("request body " + request.body)
+        try {
+            console.log("upsert account try ");
+            let result = await upsertAccount(request.body)
+            if (result) {
+                reply.send(result)
+            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Account upsert Catch block ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+    /*=====salesforce */
+
+
+
+
+
 
     fastify.get('/api/getTabs', async (request, reply) => {
         try {
@@ -98,8 +163,8 @@ function getdatafromreact(fastify, options, done) {
         try {
 
             console.log("inside get permission")
-            const {object,department,role} = request.params
-            let result = await checkAccess(object,department,role)
+            const { object, department, role } = request.params
+            let result = await checkAccess(object, department, role)
             reply.send(result)
 
         } catch (error) {
@@ -113,7 +178,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/permissions', async (request, reply) => {
         const { access } = request.params;
-        console.log("access is ",access)
+        console.log("access is ", access)
         try {
             let data = await getPermission();
             console.log("inside get permissions")
@@ -124,7 +189,6 @@ function getdatafromreact(fastify, options, done) {
 
         }
     })
-
     fastify.post('/api/permission', async (request, reply) => {
         try {
             console.log("inside Upsert Permissions")
@@ -145,10 +209,8 @@ function getdatafromreact(fastify, options, done) {
                 )
             }
         } catch (error) {
-
         }
     })
-
 
     fastify.get('/api/roles', async (request, reply) => {
         try {
@@ -157,10 +219,9 @@ function getdatafromreact(fastify, options, done) {
                 if (request.query.departmentName) {
                     const { departmentName, role } = request.query;
                     let result = await getRole(departmentName, role)
-                    console.log("dsfkljf")
                     console.log(result)
-                    if(isArray(result)){
-                        if(result.length > 0){
+                    if (isArray(result)) {
+                        if (result.length > 0) {
                             let roleName = []
                             JSON.parse(result).forEach((e) => {
                                 roleName.push({ _id: e._id, roleName: e.roleName })
@@ -169,12 +230,9 @@ function getdatafromreact(fastify, options, done) {
                             reply.send(roleName)
                         }
                     }
-                   
                     else {
                         reply.send(result)
                     }
-                  
-
                 }
                 else {
                     console.log("inside else")
@@ -183,9 +241,7 @@ function getdatafromreact(fastify, options, done) {
                 }
             }
         }
-
         catch (error) {
-
             reply.send(error.message)
 
         }
@@ -209,6 +265,8 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Record Deleted Successfully")
             }
         } catch (error) {
+
+            reply.send(error.message)
 
         }
     })
