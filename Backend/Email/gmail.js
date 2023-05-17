@@ -1,73 +1,61 @@
-const nodemailer = require('nodemailer')
-const path = require('path')
+const nodemailer = require("nodemailer");
+const path = require("path");
 async function gmail(request) {
- 
-    let subject = request.body.subject;
-    let Body = request.body.htmlBody;
-    let emailId=request.body.emailId
-    console.log('Email id is : '+emailId);
-    console.log('Subject is : ' + subject);
-    console.log('Body is : ' + Body);
-console.log(request.files)
-if(request.files){
+  let subject = request.body.subject;
+  let Body = request.body.htmlBody;
+  let emailId = request.body.emailId;
+  console.log("Email id is : " + emailId);
+  console.log("Subject is : " + subject);
+  console.log("Body is : " + Body);
+  console.log(request.files);
+  if (request.files) {
     console.log("inside file name");
-    console.log(request.files)
-    request.files.forEach(e => {
-        console.log(e)
-        let attachmentname = e.filename
-        console.log('file name  is : ' + attachmentname);
-        const filepath = path.join(__dirname, '../uploads/' + attachmentname)
-        console.log("File Path is : " + filepath)
-        console.log("inside with file attachment")
+    console.log(request.files);
+    request.files.forEach((e) => {
+      console.log(e);
+      let attachmentname = e.filename;
+      console.log("file name  is : " + attachmentname);
+      const filepath = path.join(__dirname, "../uploads/" + attachmentname);
+      console.log("File Path is : " + filepath);
+      console.log("inside with file attachment");
 
-            details = {
-                to:emailId,
-                subject: subject,
-                text: Body,
-                attachments: [
-                    {filename:attachmentname, path: filepath }
-                ]
-            }
-    })
-
-}
-else if(!request.files){
-                    console.log("else of file name");
-                        details = {
-                            to:emailId,
-                            subject: subject,
-                            text: Body,
-                        }
-}
-
-           
-            
-  
-let mailtransporter = nodemailer.createTransport({
-    //GMAIL SERVICE
-        service: process.env.GMAIL,
-            auth: {
-               
-        
-               // Gmail authentication
-                user: process.env.FROMEMAILID,
-                pass: process.env.PASSWORD,
-            },
-
-        })
-        mailtransporter.sendMail  (details, async (err) => {
-            if (err) {
-                console.log("inside error of send mail");
-                console.log(err);
-                return err.message;
-            }
-            else {
-                console.log("inside else of node mailer");
-                return "Email sent successfully";
-            }
-        })
+      details = {
+        to: emailId,
+        subject: subject,
+        text: Body,
+        attachments: [{ filename: attachmentname, path: filepath }],
+      };
+    });
+  } else if (!request.files) {
+    console.log("else of file name");
+    details = {
+      to: emailId,
+      subject: subject,
+      text: Body,
     };
-    module.exports = { gmail }
+  }
+
+  let mailtransporter = nodemailer.createTransport({
+    //GMAIL SERVICE
+    service: process.env.GMAIL,
+    auth: {
+      // Gmail authentication
+      user: process.env.FROMEMAILID,
+      pass: process.env.PASSWORD,
+    },
+  });
+  mailtransporter.sendMail(details, async (err) => {
+    if (err) {
+      console.log("inside error of send mail");
+      console.log(err);
+      return err.message;
+    } else {
+      console.log("inside else of node mailer");
+      return "Email sent successfully";
+    }
+  });
+}
+module.exports = { gmail };
 
 //     let emailarray = []
 //     let namearray = []
@@ -83,7 +71,7 @@ let mailtransporter = nodemailer.createTransport({
 //                 namearray.push(getemails.firstName)
 //         })
 //     }
-  
+
 //     console.log('Email array is : ', JSON.stringify(emailarray));
 //     let mailtransporter = nodemailer.createTransport({
 //         service: "gmail",
@@ -138,7 +126,4 @@ let mailtransporter = nodemailer.createTransport({
 //         }
 //     }
 
-
 // }
-
-

@@ -274,7 +274,7 @@ function getdatafromreact(fastify, options, done) {
 
 
     fastify.post('/api/testing', { preHandler: authVerify }, async (request, reply) => {
-        console.log(reply.getHeader('set-cookie'))
+        console.log(request.cookies)
         console.log("inside protected route is ")
     })
 
@@ -319,7 +319,7 @@ function getdatafromreact(fastify, options, done) {
             let result = await getSingleUser(request);
             console.log('token is ')
             console.log(result.content)
-            // reply.setCookie('jwt', result.content)
+             reply.setCookie('jwt', result.content)
 
             if (result.status == "success") {
                 console.log("inside if condtition")
@@ -835,7 +835,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.get('/api/accounts', async (request, reply) => {
+    fastify.get('/api/accounts',{ preHandler: authVerify }, async (request, reply) => {
         try {
             console.log("inside account get")
             let result = await getAccountdata();
