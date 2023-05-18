@@ -54,7 +54,7 @@ const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
 const { sendMessage, getTextMessageInput } = require('../whatsapp/whatsapp')
 const { otpVerification } = require('../Email/otpverificationgmail')
-const { getCollections } = require('../model/showTabs/collectionNames')
+const { getCollections } = require('../model/showCollections/collectionNames')
 const { getPermission } = require('../model/permissions/getPermissions')
 const { upsertPermissions } = require('../model/permissions/upsertPermissons')
 const { deletePermissions } = require('../model/permissions/deletePermissions')
@@ -62,8 +62,11 @@ const { getRole } = require('../model/Role/getRole')
 const { upsertRole } = require('../model/Role/upsertRole')
 const { deleteRole } = require('../model/Role/deleteRole')
 const { getFieldsdata } = require('../model/objectFields/getFields.js')
-const { checkAccess } = require('../model/checkAccess/checkAccess')
+const { checkAccess } = require('../model/Authorization/checkAccess')
 const { isArray } = require('lodash')
+const { getAllowedTabs } = require('../model/showAllowedTabs/allowedTabs')
+const { request } = require('http')
+const { getDashboardData } = require('../model/Dashboard/dashboard')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
@@ -75,7 +78,6 @@ function getdatafromreact(fastify, options, done) {
         }
         catch (e) {
             console.log("inside Account view Catch block ", e);
-
             reply.send("Error " + e.message)
         }
     })
@@ -123,9 +125,9 @@ function getdatafromreact(fastify, options, done) {
 
 
 
+    //get all object Names 
 
-
-    fastify.get('/api/getTabs', async (request, reply) => {
+    fastify.get('/api/object', async (request, reply) => {
         try {
             console.log('inside tabs')
             let data = await getCollections();
@@ -143,6 +145,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
+    //getting collection based fileds in this route
     fastify.get('/api/fields/:object', async (request, reply) => {
         try {
             console.log("inside get fields")
@@ -154,6 +157,8 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
+
+    //checking permission based on object,department and role
     fastify.get('/api/permissionforobject/:object/:department/:role', async (request, reply) => {
         try {
 
@@ -171,6 +176,31 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
+
+    fastify.get('/api/tabs', async (request, reply) => {
+
+        try {
+            const { department, role } = request.query
+            let data = await getAllowedTabs(department, role)
+            reply.send(data)
+        } catch (error) {
+
+        }
+
+    })
+
+
+    fastify.get('/api/dashboard', async (request, reply) => {
+        try {
+            const { object, field } = request.query
+            let result = await getDashboardData(object, field)
+            reply.send(result)
+        } catch (error) {
+            console.log(error.message)
+            reply.send(error.message)
+        }
+    })
+
     fastify.get('/api/permissions', async (request, reply) => {
         const { access } = request.params;
         console.log("access is ", access)
@@ -182,6 +212,9 @@ function getdatafromreact(fastify, options, done) {
             reply.send(error.message)
         }
     })
+
+
+
     fastify.post('/api/permission', async (request, reply) => {
         try {
             console.log("inside Upsert Permissions")
@@ -307,7 +340,7 @@ function getdatafromreact(fastify, options, done) {
             console.log(request.cookies)
             if (result.status == "success") {
                 console.log("inside if condtition ")
-                console.log("cookies are ",request.cookies)
+                console.log("cookies are ", request.cookies)
                 reply.send(result)
             }
             else if (result.status == 'failure') {
@@ -494,7 +527,6 @@ function getdatafromreact(fastify, options, done) {
             reply.send('error ' + e.message)
         }
         //  console.log("after exot pf try catch "+csvoutput);
-
     })
 
     fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
@@ -818,7 +850,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/accounts',/*{preHandler:authVerify},*/ async (request, reply) => {
         try {
-            console.log("cookies ",request.cookies)
+            console.log("cookies ", request.cookies)
             console.log("inside account get")
             let result = await getAccountdata();
             reply.send(result)
