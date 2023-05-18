@@ -65,11 +65,6 @@ const { getFieldsdata } = require('../model/objectFields/getFields.js')
 const { checkAccess } = require('../model/checkAccess/checkAccess')
 const { isArray } = require('lodash')
 function getdatafromreact(fastify, options, done) {
-
-
-
-
-
     /*=====salesforce */
 
     fastify.get('/accounts/show', async (request, reply) => {
@@ -184,9 +179,7 @@ function getdatafromreact(fastify, options, done) {
             console.log("inside get permissions")
             reply.send(data)
         } catch (error) {
-
             reply.send(error.message)
-
         }
     })
     fastify.post('/api/permission', async (request, reply) => {
@@ -243,7 +236,6 @@ function getdatafromreact(fastify, options, done) {
         }
         catch (error) {
             reply.send(error.message)
-
         }
     })
 
@@ -265,9 +257,7 @@ function getdatafromreact(fastify, options, done) {
                 reply.send("Record Deleted Successfully")
             }
         } catch (error) {
-
             reply.send(error.message)
-
         }
     })
 
@@ -281,48 +271,43 @@ function getdatafromreact(fastify, options, done) {
 
     let generatedotp;
     fastify.post("/api/generateOTP", async (request, reply) => {
-
         try {
             if (!request.body.otp) {
                 generatedotp = Math.floor(1000 + Math.random() * 9000);
                 let emailresult = await otpVerification(request, generatedotp);
                 reply.send("OTP sent Successfuly")
-
             }
             else if (request.body.otp) {
                 if (request.body.otp == generatedotp) {
-
                     reply.send({ status: "success", content: "Entered otp is correct" })
                 }
                 else {
-
                     reply.send({ status: "failure", content: "please enter correct OTP" })
                 }
-
             }
 
         } catch (error) {
             console.log("inside  generate otp error page")
             reply.send(error.message)
-
         }
 
 
     })
 
     fastify.post('/api/signin', async (request, reply) => {
-
         try {
-
+            console.log(request.headers)
             console.log("inside sigin page get")
             console.log(request.body)
             let result = await getSingleUser(request);
             console.log('token is ')
             console.log(result.content)
-             reply.setCookie('jwt', result.content)
-
+            console.log("cookies ")
+            // reply.setCookie('jwt', result.content)
+            console.log(request.cookies)
             if (result.status == "success") {
-                console.log("inside if condtition")
+                console.log("inside if condtition ")
+                console.log("cookies are ",request.cookies)
                 reply.send(result)
             }
             else if (result.status == 'failure') {
@@ -334,12 +319,10 @@ function getdatafromreact(fastify, options, done) {
             console.log("inside catch ", error);
             reply.send(error.message)
         }
-
     })
 
     fastify.post('/api/signout', async (request, reply) => {
         try {
-
             console.log("inisde signout")
             console.log(request.cookies)
             reply.clearCookie('jwt', { path: '../' })
@@ -687,6 +670,7 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
     fastify.post('/api/UpsertContact', async (request, reply) => {
         console.log("upsert route called")
         console.log("request body " + JSON.stringify(request.body))
@@ -720,11 +704,8 @@ function getdatafromreact(fastify, options, done) {
                 reply.send(result)
             }
             else {
-
                 reply.send("No data inserted or updated")
-
             }
-
         }
         catch (e) {
             console.log("inside Inventory upsert Catch block ", e);
@@ -835,8 +816,9 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.get('/api/accounts',{ preHandler: authVerify }, async (request, reply) => {
+    fastify.get('/api/accounts',/*{preHandler:authVerify},*/ async (request, reply) => {
         try {
+            console.log("cookies ",request.cookies)
             console.log("inside account get")
             let result = await getAccountdata();
             reply.send(result)

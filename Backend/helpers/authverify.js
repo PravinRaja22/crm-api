@@ -1,13 +1,14 @@
 const { tokenValidator } = require('./jwttoken')
 
-let authVerify = async (req, res, next) => {
-    console.log("inside token validator funciton");
+let authVerify = async (request, reply, next) => {
    // console.log("cookie ", req.getHeader('set-cookie'));
    console.log("inside Auth Verification Page")
-   console.log(req.cookies)
-    console.log(req.cookies.jwt)
+   console.log(request.headers)
+   console.log(request.headers.Authorization)
+   reply.setCookie("jwt",request.headers.Authorization)
+   console.log(request.cookies)
     try {
-        const {jwt} = await req.cookies;
+        const {jwt} = await request.cookies;
         console.log("jet id ", jwt);
         const valid = await tokenValidator(jwt)
         console.log("Valid ", valid);
@@ -16,12 +17,12 @@ let authVerify = async (req, res, next) => {
             next()
         } else {
             console.log("accessDenied section")
-            res.send("Access Denied")
+            reply.send("Access Denied")
         }
 
     }
     catch (error) {
-        res.send("error")
+        reply.send("error")
     }
 
 }

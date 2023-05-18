@@ -40,7 +40,7 @@ async function getDatas(client,month)
     let cursor;
     if(month == null){
         console.log("inside if")
-         cursor = await client.db(process.env.DB).collection("Lead").find().sort({createdDate:-1})
+         cursor = await client.db(process.env.DB).collection("Lead").find()
 
     }
     else {
