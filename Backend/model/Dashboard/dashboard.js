@@ -22,17 +22,11 @@ async function getDatas(client, object, field) {
     console.log(field)
 
     let query = [{
-
-    
-            $match: {
-              fieldName: field
-            },
-        
-
-        $group: {
-            _id: { stage: '$$fieldName' },
-            count: { $sum: 1 },
-        }
+          
+            $group: {
+                _id: { field: "$$field" },
+                count: { $sum: 1 },
+            },       
     }]
     const cursor = await client.db(process.env.DB).collection(object).aggregate(query)
     const results = await cursor.toArray();

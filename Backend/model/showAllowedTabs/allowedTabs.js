@@ -31,7 +31,9 @@ async function getDatas(client,departmentdata,role) {
             JSON.parse(e.permissionSets).forEach(element => {
                 console.log(element)
                 if(element.permissions.read == true){
-                  allowedCollections.push({"Tabs":element.object})
+                    if(element.object !== 'Opportunity Inventory' && element.object !=="Email"){
+                        allowedCollections.push({"Tabs":element.object})
+                    }
                 }
             });
         })
