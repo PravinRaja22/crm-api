@@ -1,7 +1,3 @@
-
-
-const { count } = require('console');
-const { set } = require('lodash');
 const { MongoClient } = require('mongodb');
 async function getDashboardData(object, field) {
     console.log(object)
@@ -20,17 +16,38 @@ async function getDashboardData(object, field) {
 }
 async function getDatas(client, object, field) {
     console.log(field)
-
-    let query = [{
-          
+    var fielddatabase = field
+    console.log("test " + fielddatabase)
+    //      let querydata = [
+    //         {
+    //         $group: {
+    //             _id: '$stage',
+    //             field: { $first: '$stage' },
+    //             count: { $sum: 1 },
+    //         },
+    //     },
+    //     {
+    //     }
+    // ]
+    // var query = {};
+    // query[field] = field;
+    // console.log(query.stage)
+    // let ans = query.stage
+    // console.log("ans is "+ans)
+    const cursor = await client.db(process.env.DB).collection(object).aggregate([
+        {
             $group: {
-                _id: { field: "$$field" },
-                count: { $sum: 1 },
-            },       
-    }]
-    const cursor = await client.db(process.env.DB).collection(object).aggregate(query)
-    const results = await cursor.toArray();
-    return results
+                _id:`$${field}`,
+                count:{$sum:1}
+            },
+        },
+        { 
+            $sort: { 
+                count: -1
+            } 
+        },
+    ]).toArray()
+    return cursor
 }
 module.exports = {
     getDashboardData
