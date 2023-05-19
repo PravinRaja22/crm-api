@@ -16,24 +16,6 @@ async function getDashboardData(object, field) {
 }
 async function getDatas(client, object, field) {
     console.log(field)
-    var fielddatabase = field
-    console.log("test " + fielddatabase)
-    //      let querydata = [
-    //         {
-    //         $group: {
-    //             _id: '$stage',
-    //             field: { $first: '$stage' },
-    //             count: { $sum: 1 },
-    //         },
-    //     },
-    //     {
-    //     }
-    // ]
-    // var query = {};
-    // query[field] = field;
-    // console.log(query.stage)
-    // let ans = query.stage
-    // console.log("ans is "+ans)
     const cursor = await client.db(process.env.DB).collection(object).aggregate([
         {
             $group: {

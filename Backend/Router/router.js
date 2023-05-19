@@ -127,7 +127,7 @@ function getdatafromreact(fastify, options, done) {
 
     //get all object Names 
 
-    fastify.get('/api/object', async (request, reply) => {
+    fastify.get('/api/objects', async (request, reply) => {
         try {
             console.log('inside tabs')
             let data = await getCollections();
@@ -135,7 +135,10 @@ function getdatafromreact(fastify, options, done) {
             console.log(data)
             collectionArray = []
             JSON.parse(data).map((e) => {
-                collectionArray.push(e.name)
+                if(e.name!=="Opportunity Inventory"){
+                    collectionArray.push(e.name)
+
+                }
             })
             reply.send(collectionArray)
 
