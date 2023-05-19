@@ -32,12 +32,13 @@ async function getDatas(client,departmentdata,role) {
                 console.log(element)
                 if(element.permissions.read == true){
                     if(element.object !== 'Opportunity Inventory' && element.object !=="Email"){
-                        allowedCollections.push({"Tabs":element.object})
+                        allowedCollections.push(element.object)
                     }
                 }
             });
         })
     }
+    console.log(allowedCollections.sort())
     return allowedCollections
 }
 module.exports = {
