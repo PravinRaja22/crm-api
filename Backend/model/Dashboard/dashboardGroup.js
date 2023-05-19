@@ -29,6 +29,13 @@ async function getDatas(client, object, field) {
             } 
         },
     ]).toArray()
+    cursor.forEach((variable)=>{
+      //  console.log(variable)
+        if(variable._id == ""){
+            variable._id=null
+        }
+        console.log(variable)
+    });
     return cursor
 }
 module.exports = {

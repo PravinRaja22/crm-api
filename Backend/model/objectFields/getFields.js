@@ -16,7 +16,6 @@ async function getFieldsdata(objectName) {
 }
 //getAccountdata().catch(console.error);
 async function getDatas(client, objectName) {
-
     console.log("inside field object Name is : " + objectName)
     const cursor = await client.db(process.env.DB).collection(objectName).find()
     let result = await cursor.toArray()
@@ -25,7 +24,6 @@ async function getDatas(client, objectName) {
     let indexvalue = 0
     var biggestNum
     var smallestNum
-    console.log(result)
     result.forEach((variable) => {
         console.log(Object.keys(variable).length)
         if (indexvalue == 0) {
@@ -34,11 +32,8 @@ async function getDatas(client, objectName) {
             filterObjecthighest = { fieldNames: Object.keys(variable) }
         }
         else {
-            console.log("inside else")
-            console.log("biggest num is " + biggestNum)
             tempobject = { fieldNames: Object.keys(variable) }
             let tmpsize = tempobject.fieldNames.length;
-            console.log('temp size ',tmpsize)
             if (tmpsize > biggestNum) {
                  filterObjecthighest= tempobject
             }
@@ -47,7 +42,6 @@ async function getDatas(client, objectName) {
     });
 
     if (filterObjecthighest) {
-        //console.log(results);
         return JSON.stringify(filterObjecthighest)
     }
     else {

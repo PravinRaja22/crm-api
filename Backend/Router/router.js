@@ -66,7 +66,8 @@ const { checkAccess } = require('../model/Authorization/checkAccess')
 const { isArray } = require('lodash')
 const { getAllowedTabs } = require('../model/showAllowedTabs/allowedTabs')
 const { request } = require('http')
-const { getDashboardData } = require('../model/Dashboard/dashboard')
+const { getDashboardData } = require('../model/Dashboard/dashboardGroup')
+const { upsertDashboard } = require('../model/Dashboard/upsertDashboard')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
@@ -137,7 +138,6 @@ function getdatafromreact(fastify, options, done) {
             JSON.parse(data).map((e) => {
                 if(e.name!=="Opportunity Inventory"){
                     collectionArray.push(e.name)
-
                 }
             })
             reply.send(collectionArray)
@@ -683,7 +683,24 @@ function getdatafromreact(fastify, options, done) {
 
     // })
 
-
+    fastify.post('/api/Dashboard', /*Accouninsertschema,*/ async (request, reply) => {
+        console.log("upsert route called")
+        console.log("request body " + request.body)
+        try {
+            console.log("upsert account try ");
+            let result = await upsertDashboard(request.body)
+            if (result) {
+                reply.send(result)
+            }
+            else {
+                reply.status(404).send("No Data Inserted or updated")
+            }
+        }
+        catch (e) {
+            console.log("inside Dashboard upsert Catch block ", e);
+            reply.send("Error " + e.message)
+        }
+    })
 
 
 
@@ -865,7 +882,18 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
+    fastify.get('/api/dashboards', async (request, reply) => {
+        try {
+            console.log("inside Dashboard get")
+            let result = await getDashboardData();
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("inside Dashboard view Catch block ", e);
 
+            reply.send("Error " + e.message)
+        }
+    })
 
     fastify.post('/api/getAccountbyInventory', async (request, reply) => {
         console.log("inside get inventories by account id ");
