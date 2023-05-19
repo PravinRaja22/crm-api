@@ -1299,6 +1299,26 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
+
+
+    fastify.delete('/api/dashborad/:id', async (request, reply) => {
+        console.log("inside dashboard delete");
+        try {
+            let result = await deleteAccount(request.params.id);
+            if (result) {
+                reply.send("Dashboard Deleted Successfully")
+            }
+            else {
+                reply.send("No data deleted")
+            }
+        }
+        catch (e) {
+            console.log("error block in delete Dashboard   page ", e);
+            reply.send("Error " + e.message)
+        }
+    })
+
+
     fastify.post('/api/deleteContact', async (request, reply) => {
         console.log("inside Contact delete");
         console.log("Query " + JSON.stringify(request.query.code))
