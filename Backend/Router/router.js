@@ -704,7 +704,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/UpsertAccount', /*Accouninsertschema,*/ async (request, reply) => {
+    fastify.post('/api/account', /*Accouninsertschema,*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("request body " + request.body)
         try {
@@ -723,7 +723,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/UpsertContact', async (request, reply) => {
+    fastify.post('/api/contact', async (request, reply) => {
         console.log("upsert route called")
         console.log("request body " + JSON.stringify(request.body))
         console.log("request query " + JSON.stringify(request.query))
@@ -745,7 +745,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/UpsertInventory', async (request, reply) => {
+    fastify.post('/api/inventory', async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code " + reply.statuscode);
         try {
@@ -767,11 +767,11 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/UpsertLead', async (request, reply) => {
+    fastify.post('/api/enquiry', async (request, reply) => {
         console.log("upsert route called")
         console.log("upsert status code " + reply.statuscode);
         try {
-            console.log("upsert Lead try ");
+            console.log("upsert Lead-enquiry try ");
 
             let result = await upsertLead(request.body)
             console.log("result length " + result);
@@ -783,7 +783,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside Lead upsert Catch block ", e);
+            console.log("inside Lead -enquiry upsert Catch block ", e);
             reply.send("Error " + e.message)
         }
     })
@@ -1045,7 +1045,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
     })
-    fastify.post('/api/contacts', async (request, reply) => {
+    fastify.get('/api/contacts', async (request, reply) => {
         try {
             let result = await getContact();
             reply.send(result)
@@ -1112,11 +1112,11 @@ function getdatafromreact(fastify, options, done) {
     });
 
 
-    fastify.post('/api/leads', async (request, reply) => {
+    fastify.get('/api/enquiries', async (request, reply) => {
         try {
             console.log()
             if (Object.keys(request.query).length === 0) {
-                console.log("inside leads data");
+                console.log("inside leads-enquiries data");
                 let result = await getLead();
                 reply.send(result)
 
@@ -1130,10 +1130,7 @@ function getdatafromreact(fastify, options, done) {
 
                 }
 
-
-
             }
-
         }
         catch (e) {
             console.log("error block in lead view  page ", e);
@@ -1153,7 +1150,7 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/inventories', async (request, reply) => {
+    fastify.get('/api/inventories', async (request, reply) => {
         console.log("inventory management datas test")
         try {
             // console.log(request.query.role)
@@ -1283,10 +1280,10 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/deleteAccount', async (request, reply) => {
+    fastify.delete('/api/account/:id', async (request, reply) => {
         console.log("inside Account delete");
         try {
-            let result = await deleteAccount(request.query.code);
+            let result = await deleteAccount(request.params.id);
             if (result) {
                 reply.send("Account Deleted Successfully")
             }
@@ -1319,11 +1316,11 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.post('/api/deleteContact', async (request, reply) => {
+    fastify.delete('/api/contact/:id', async (request, reply) => {
         console.log("inside Contact delete");
-        console.log("Query " + JSON.stringify(request.query.code))
+        console.log("Query " + JSON.stringify(request.params.id))
         try {
-            let result = await deleteContact(request.query.code);
+            let result = await deleteContact(request.params.id);
             if (result) {
                 reply.send("Contact Deleted Successfully")
             }
@@ -1352,28 +1349,28 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/deleteLead', async (request, reply) => {
-        console.log("inside lead delete");
+    fastify.delete('/api/enquiry/:id', async (request, reply) => {
+        console.log("inside lead-enquiry delete");
         try {
-            let result = await deleteLead(request.query.code);
+            let result = await deleteLead(request.params.id);
             if (result) {
-                reply.send("Lead deleted successfully")
+                reply.send("Enquiry deleted successfully")
             }
             else {
                 reply.send("No data deleted")
             }
         }
         catch (e) {
-            console.log("error block in delete lead   page ", e);
+            console.log("error block in delete lead  enquiry page ", e);
 
             reply.send("Error " + e.message)
         }
 
     })
-    fastify.post('/api/deleteInventory', async (request, reply) => {
+    fastify.delete('/api/inventory/:id', async (request, reply) => {
         console.log("inside inventory delete");
         try {
-            let result = await deleteProperty(request.query.code);
+            let result = await deleteProperty(request.params.id);
             if (result) {
                 reply.send("Property deleted successfully")
             }
