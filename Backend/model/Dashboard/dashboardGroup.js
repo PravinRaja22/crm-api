@@ -16,25 +16,77 @@ async function getDashboardData(object, field) {
 }
 async function getDatas(client, object, field) {
     console.log(field)
-    const cursor = await client.db(process.env.DB).collection(object).aggregate([
-        {
-            $group: {
-                _id:`$${field}`,
-                count:{$sum:1}
+    const myArray = field.split(",");
+    let groupFields = [];
+    console.log(myArray)
+    myArray.forEach(e => {
+        groupFields.push(e)
+    })
+    // let pipeline =([
+
+    //     {
+    //         $group: {
+    //             _id:{
+    //                 "Field1": `$${field}`,
+    //                 "Fiel2":"$type",
+    //                 "Field3":"$leadSource"
+    //             },
+    //             count:{$sum:1}
+    //         },
+    //     },
+    //     { 
+    //         $sort: { 
+    //             count: -1
+    //         } 
+    //     },
+    // ])
+
+    // let pitpline2 = ([
+    //     {
+    //     $project: {
+    //         groupField: {
+    //           $filter: {
+    //             input: `$${newArray}`,
+    //             as: 'element',
+    //             cond: { $in: ['$$element', `$${newArray}`] }
+    //           }
+    //         }
+    //       }
+    //     },
+    //     {
+    //       $group: {
+    //         _id: '$groupField',
+    //         count: { $sum: 1 }
+    //       },
+
+    //     }
+    // ])
+
+    const groupStage = {
+        $group: {
+            _id: {
+                $arrayToObject: {
+                    $zip: {
+                        inputs: [
+                            groupFields,
+                            groupFields.map((field) => '$' + field),
+                        ],
+                    },
+                },
             },
+            count: { $sum: 1 }
+            // Add other aggregation operators as needed
         },
-        { 
-            $sort: { 
-                count: -1
-            } 
-        },
-    ]).toArray()
-    cursor.forEach((variable)=>{
-      //  console.log(variable)
-        if(variable._id == ""){
-            variable._id=null
-        }
+    };
+    const cursor = await client.db(process.env.DB).collection(object).aggregate([groupStage]).toArray()
+    cursor.forEach((variable) => {
         console.log(variable)
+        for (let key in variable._id) {
+            if (variable._id.hasOwnProperty(key) && variable._id[key] === "") {
+                variable._id[key]= null
+            }
+            console.log(variable._id)
+        }
     });
     return cursor
 }

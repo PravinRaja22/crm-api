@@ -896,6 +896,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.post('/api/getAccountbyInventory', async (request, reply) => {
+
         console.log("inside get inventories by account id ");
         console.log("Inside  get Inventories by acc id  Router " + request.query.searchId)
         try {
