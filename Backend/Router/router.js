@@ -788,9 +788,9 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/UpsertOpportunity', async (request, reply) => {
-        console.log("upsert oportunity route called")
-        console.log("upsert opportunity request code ", JSON.stringify(request.body));
+    fastify.post('/api/deal', async (request, reply) => {
+        console.log("upsert oportunity -deal route called")
+        console.log("upsert opportunity-deal request code ", JSON.stringify(request.body));
         try {
             console.log("upsert Lead try ");
             let result = await upsertOpportunity(request.body)
@@ -808,7 +808,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/UpsertUser', async (request, reply) => {
+    fastify.post('/api/user', async (request, reply) => {
         console.log("upsert user route called")
         console.log("upsert status code " + reply.statuscode);
         try {
@@ -828,10 +828,10 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/UpsertTask', async (request, reply) => {
-        console.log("upsert task route called " + JSON.stringify(request.body))
+    fastify.post('/api/event', async (request, reply) => {
+        console.log("upsert task -event route called " + JSON.stringify(request.body))
         try {
-            console.log("upsert tASK try ");
+            console.log("upsert task-event try ");
             let result = await upsertTask(request.body)
             console.log("result length " + result);
             if (result) {
@@ -842,7 +842,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("inside task upsert  Catch block ", e);
+            console.log("inside task-event upsert  Catch block ", e);
             reply.send("Error " + e.message)
         }
     })
@@ -1137,9 +1137,9 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/opportunities', async (request, reply) => {
+    fastify.get('/api/deals', async (request, reply) => {
         try {
-            console.log("opportuntiy try");
+            console.log("opportuntiy deals try");
             let result = await getOpportunity();
             console.log("opportunity result ", result);
             reply.send(result)
@@ -1219,7 +1219,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/Users', async (request, reply) => {
+    fastify.get('/api/users', async (request, reply) => {
         console.log("Inside get user page ")
         try {
             let result = await getUser();
@@ -1231,7 +1231,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/Task', async (request, reply) => {
+    fastify.get('/api/events', async (request, reply) => {
         console.log("Inside Task Router")
         try {
             let result = await getTask();
@@ -1333,10 +1333,10 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/deleteOpportunity', async (request, reply) => {
-        console.log("inside opportunity delete");
+    fastify.delete('/api/deal/:id', async (request, reply) => {
+        console.log("inside opportunity deal delete");
         try {
-            let result = await deleteOpportunity(request.query.code);
+            let result = await deleteOpportunity(request.params.id);
             if (result) {
                 reply.send("Opportunity deleted successfully")
             }
@@ -1385,10 +1385,10 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/delete', async (request, reply) => {
+    fastify.delete('/api/user/:id', async (request, reply) => {
         console.log("inside user delete");
         try {
-            let result = await deleteUser(request.query.code);
+            let result = await deleteUser(request.params.id);
             if (result) {
                 reply.send("User deleted successfully")
             }
@@ -1401,10 +1401,10 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message)
         }
     })
-    fastify.post('/api/deleteTask', async (request, reply) => {
-        console.log("inside Task delete");
+    fastify.delete('/api/event/:id', async (request, reply) => {
+        console.log("inside Task-event delete");
         try {
-            let result = await deleteTask(request.query.code);
+            let result = await deleteTask(request.params.id);
             if (result) {
                 reply.send("Task deleted successfully")
             }
