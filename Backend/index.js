@@ -14,14 +14,11 @@ fastify.register(require('@fastify/static'), {
     root: path.join(__dirname, 'uploads'),
    // prefix: 'uploads'
   })
-
-
 //   fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
 //   });
  // const dbconnect = require('./Database/mongodb')
 //fastify.register(dbconnect)
-
 const Multer = require ('fastify-multer')
 console.log(path.join(__dirname, 'uploads'));
 // fastify.register(require('./model/plugin/mongodb'))
