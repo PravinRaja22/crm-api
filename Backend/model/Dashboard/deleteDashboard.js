@@ -3,6 +3,7 @@ var ObjectId = require('mongodb').ObjectId;
 async function deleteDashboard(dataid) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
+    console.log(dataid);
     try {
         await client.connect();
         let data = await deleteDatas(client, dataid)
@@ -14,7 +15,7 @@ async function deleteDashboard(dataid) {
     }
 }
 async function deleteDatas(client, deletedashboarddata) {
-    const results = await client.db(process.env.DB).collection("Account").deleteOne({ _id: ObjectId(deletedashboarddata) })
+    const results = await client.db(process.env.DB).collection("Dashboard").deleteOne({ _id: ObjectId(deletedashboarddata) })
     if (results) {
         return results
     }
