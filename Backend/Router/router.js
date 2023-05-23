@@ -45,9 +45,9 @@ const { getOpportunityInventory } = require('../model/opportunity_inventory/geto
 const { deleteOpportunityInventory } = require('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
 const { authVerify } = require('../helpers/authverify')
-const  Accouninsertschema = require('../model/schema/accountSchema')
+const  {Accouninsertschema,dataloaderAccountinsertschema} = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
-//const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
+//const { fieldsUploAccouninsertschemaad, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dataloader/multer')
 const { gmail } = require('../Email/gmail')
 const { outlookemail } = require('../Email/outlook')
@@ -536,8 +536,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/dataloaderAccount',{preHandler: fieldsUpload}, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log("validator worked ?? :: "+request.validationError)
-        console.log(schemas.dataloaderAccountinsertschema)
-        console.log(request.files.filename);
+    //    console.log(request.files.filename);
         try {
             // console.log("inside upload file data loader Account ");
             // console.log('data loader Account  data  ' + JSON.stringify(request.files[0].filename));
@@ -550,6 +549,7 @@ function getdatafromreact(fastify, options, done) {
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                     // console.log('data format Account ' + JSON.stringify(jsonobj));
+                    console.log(jsonobj)
                     let result = dataloaderAccount(jsonobj)
                     return "success";
                 })
@@ -939,7 +939,6 @@ function getdatafromreact(fastify, options, done) {
                 let result = await getAccountName(request.query.searchKey);
 
                 reply.send(result)
-
 
             }
             catch (e) {
