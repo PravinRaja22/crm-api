@@ -1,32 +1,30 @@
 
-const {MongoClient } = require('mongodb')
+const { MongoClient } = require('mongodb')
 async function insertFile(request) {
     const url = process.env.MONGODBURL;
-console.log("inside functions "+request.files);
-request.files.forEach((e)=>{
-    console.log('inside for each');
-console.log("request protocol is ==>> ")
-console.log(request.protocol + '://' + request.headers.host + '/'+ e.filename);
-e.fileUrl=request.protocol + 's://' + request.headers.host + '/'+ e.filename
-})
-    var test =request.files
-    console.log("test ",test);
+    console.log("inside functions " + request.files);
+    console.log(request.body.modifiedBy)
+    let modifideBy = JSON.parse(request.body.modifiedBy)
+    let createdBy = JSON.parse(request.body.createdBy)
+    console.log(modifideBy)
+    request.files.forEach((e) => {
+        console.log('inside for each');
+        console.log("request protocol is ==>> ")
+        console.log(request.protocol + '://' + request.headers.host + '/' + e.filename);
+        e.fileUrl = request.protocol + 's://' + request.headers.host + '/' + e.filename
+        e.createdDate = parseInt(request.body.createdDate),
+        e.modifiedDate=parseInt(request.body.modifiedDate)
+        e.createdBy = JSON.parse(createdBy),
+        e.modifiedBy = JSON.parse(modifideBy)
+    })
+    var test = request.files
+    console.log("test ", test);
     const client = new MongoClient(url);
     console.log(request.files);
     try {
-        //Connecting to DB
-        await client.connect();
-        // let data =  await insertFiledata(client, {
-        // files:request.protocol + '://' + request.headers.host + '/'+ request.file.filename,
-        // filedata:request.file,
-        // fileName:request.file.originalname,
-        // filePath:test,
-        // fileSize:request.file.size,
-        // fileType:request.file.mimetype,
-        // })
-        // console.log("result "+JSON.stringify(data));
 
-       let data = await insertFiledata(client,request.files)
+        await client.connect();
+        let data = await insertFiledata(client, request.files)
     } catch (e) {
         console.error(e);
     } finally {
@@ -35,9 +33,9 @@ e.fileUrl=request.protocol + 's://' + request.headers.host + '/'+ e.filename
 }
 //insertFile().catch(console.error);
 
-async function insertFiledata(client,newFile){
+async function insertFiledata(client, newFile) {
     const result = await client.db(process.env.DB).collection("Files").insertMany(newFile);
-    console.log("inserted records "+JSON.stringify(result));
+    console.log("inserted records " + JSON.stringify(result));
     return result;
 }
-module.exports = {insertFile}
+module.exports = { insertFile }

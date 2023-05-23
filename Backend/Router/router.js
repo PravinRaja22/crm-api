@@ -389,7 +389,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/checkSignUpUser', async (request, reply) => {
+    fastify.post('/api/checkUserPasswordReset', async (request, reply) => {
         try {
             console.log("Check sign up user  ")
             console.log(request.body)
@@ -488,7 +488,7 @@ function getdatafromreact(fastify, options, done) {
     //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
     //});
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
-    fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderEnquiry', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader files");
         console.log(request.files.filename);
         try {
@@ -511,8 +511,8 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-    fastify.post('/api/generatePreview', { preHandler: fieldsUpload }, async (request, reply) => {
-        console.log("Inside Generate Preview");
+    fastify.post('/api/dataloaderFilePreview', { preHandler: fieldsUpload }, async (request, reply) => {
+        console.log("Inside dataloaderFilePreview");
         console.log(request.files);
         console.log(request.files[0].filename);
         try {
@@ -556,7 +556,7 @@ function getdatafromreact(fastify, options, done) {
         }
     });
 
-    fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderDeal', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log(request.files[0].filename);
         try {
@@ -587,7 +587,7 @@ function getdatafromreact(fastify, options, done) {
         reply.send({ message: "App initiated" })
     })
 
-    fastify.post('/api/uploadfile', {
+    fastify.post('/api/file', {
         preHandler: (request, reply, done) => {
             console.log("testing")
             console.log(request.url);
@@ -630,16 +630,13 @@ function getdatafromreact(fastify, options, done) {
 
     // })
 
-    fastify.post('/api/deletefile', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.delete('/api/file/:id', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside delete file datas ");
         try {
-            console.log("id is " + request.query.code)
-            let result = await deleteFile(request.query.code)
+            console.log("id is " + request.params.id)
+            let result = await deleteFile(request.params.id)
             if (result) {
-                reply.send({
-                    status: "success",
-                    content: "File Deleted Successfully"
-                })
+                reply.send("File Deleted Successfully")
             }
 
         } catch (error) {
@@ -895,12 +892,11 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/getAccountbyInventory', async (request, reply) => {
+    fastify.get('/api/inventoryRelatedAccount/:id', async (request, reply) => {
 
-        console.log("inside get inventories by account id ");
-        console.log("Inside  get Inventories by acc id  Router " + request.query.searchId)
+        console.log("Inside  get Inventories by acc id  Router " + request.params.id)
         try {
-            let result = await getAccountInventory(request.query.searchId)
+            let result = await getAccountInventory(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1057,9 +1053,9 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/getContactsbyAccountId', async (request, reply) => {
+    fastify.get('/api/accountRelatedContact/:id', async (request, reply) => {
         try {
-            let result = await getAccountscontact(request.query.searchId);
+            let result = await getAccountscontact(request.params.id);
             reply.send(result)
         }
         catch (e) {
@@ -1069,7 +1065,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.post('/api/files', async (request, reply) => {
+    fastify.get('/api/files', async (request, reply) => {
         try {
             let result = await getFiles();
             reply.send(result)
@@ -1191,11 +1187,10 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/getOpportunitiesbyInvid', async (request, reply) => {
-        console.log("inside get Opportunites by Inv id ");
-        console.log("Inside  get Opportunity by Inv id  Router " + request.query.searchId)
+    fastify.get('/api/inventoryRelatedDeal/:id', async (request, reply) => {
+        console.log("Inside  get Opportunity by Inv id  Router " + request.params.id)
         try {
-            let result = await getInventoryOpportunityjn(request.query.searchId)
+            let result = await getInventoryOpportunityjn(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1205,12 +1200,11 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/getLeadsbyOppid', async (request, reply) => {
-        console.log("inside get lead by opp id ");
-        console.log("Inside Task get lead by opp id  Router " + request.query.searchId)
+    fastify.get('/api/enquiryRelatedDeal/:id', async (request, reply) => {
+        console.log("Inside enquiryRelatedDeal Router " + request.params.id)
 
         try {
-            let result = await getOpportunityLead(request.query.searchId)
+            let result = await getOpportunityLead(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1244,10 +1238,10 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/getTaskbyLeadId', async (request, reply) => {
-        console.log("Inside Task lead Router " + request.query.searchId)
+    fastify.get('/api/enquiryRelatedEvent/:id', async (request, reply) => {
+        console.log("Inside event-task lead Router " + request.params.id)
         try {
-            let result = await leadTask(request.query.searchId)
+            let result = await leadTask(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1256,10 +1250,10 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.post('/api/getTaskbyAccountId', async (request, reply) => {
-        console.log("Inside Task Account Router " + request.query.searchId)
+    fastify.get('/api/accountRelatedEvent/:id', async (request, reply) => {
+        console.log("Inside Task Account Router " + request.params.id)
         try {
-            let result = await accountTask(request.query.searchId)
+            let result = await accountTask(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1268,10 +1262,10 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.post('/api/getTaskbyOpportunityId', async (request, reply) => {
-        console.log("Inside Task Opportunity Router " + request.query.searchId)
+    fastify.get('/api/dealRelatedEvent/:id', async (request, reply) => {
+        console.log("Inside dealRelatedEvent Router " + request.params.id)
         try {
-            let result = await opportunityTask(request.query.searchId)
+            let result = await opportunityTask(request.params.id)
             reply.send(result)
         }
         catch (e) {
