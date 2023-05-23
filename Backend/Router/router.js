@@ -69,6 +69,7 @@ const { request } = require('http')
 const { getDashboardData } = require('../model/Dashboard/dashboardGroup')
 const { upsertDashboard } = require('../model/Dashboard/upsertDashboard')
 const { getDashboard } = require('../model/Dashboard/getDashboard')
+const { deleteDashboard } = require('../model/Dashboard/deleteDashboard')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
@@ -893,8 +894,9 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/dashboardGroup', async (request, reply) => {
         try {
-            console.log("inside Dashboard get")
-            let result = await getDashboardData();
+            const {object,field}=request.query
+            console.log("inside Dashboard Group")
+            let result = await getDashboardData(object,field);
             reply.send(result)
         }
         catch (e) {
@@ -1317,12 +1319,14 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.delete('/api/dashborad/:id', async (request, reply) => {
+    fastify.delete('/api/dashboard/:id', async (request, reply) => {
         console.log("inside dashboard delete");
         try {
-            let result = await deleteAccount(request.params.id);
+            console.log(request.params.id);
+            let result = await deleteDashboard(request.params.id);
             if (result) {
                 reply.send("Dashboard Deleted Successfully")
+                
             }
             else {
                 reply.send("No data deleted")
