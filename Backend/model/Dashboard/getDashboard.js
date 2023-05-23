@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-async function getDashboradData() {
+async function getDashboard() {
+    console.log("inside get all dashbord data route ")
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -14,7 +15,7 @@ async function getDashboradData() {
 }
 //getAccountdata().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db(process.env.DB).collection("Account").find()
+    const cursor = await client.db(process.env.DB).collection("Dashboard").find()
     const results = await cursor.toArray();
     if (results.length > 0) {
          //console.log(results);
@@ -25,5 +26,5 @@ async function getDatas(client) {
     }
 }
 module.exports = { 
-    getDashboradData
+    getDashboard
  }

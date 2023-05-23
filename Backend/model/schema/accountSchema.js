@@ -5,7 +5,7 @@ const Accouninsertschema = {
             required: ['type'],
             properties: {
                 accountName:{ type: 'string' },
-                accountNumber:{ type: 'number' },
+                accountNumber:{ type: 'string' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
             }
@@ -22,8 +22,10 @@ const dataloaderAccountinsertschema = {
                 accountNumber:{ type: 'number' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
+                phone:{type:'number'}
             }
         },
     }
 }
-module.exports = {Accouninsertschema,dataloaderAccountinsertschema}
+console.error("inside validataion function ")
+module.exports = {Accouninsertschema}

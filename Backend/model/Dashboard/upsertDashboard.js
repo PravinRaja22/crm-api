@@ -17,10 +17,8 @@ async function upsertDashboard(request) {
                 }
         }
         toObject(objdata, objvalues)
-   
         let data = await upsertSingleRecord(client, request._id, result)
         return data
-
     }
     catch (e) {
         console.error(e);
