@@ -560,7 +560,7 @@ function getdatafromreact(fastify, options, done) {
         }
     });
 
-    fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderDeal', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log(request.files[0].filename);
         try {
