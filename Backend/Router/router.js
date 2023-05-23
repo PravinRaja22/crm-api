@@ -45,7 +45,7 @@ const { getOpportunityInventory } = require('../model/opportunity_inventory/geto
 const { deleteOpportunityInventory } = require('../model/opportunity_inventory/deleteoppinv.js')
 const csvtojson = require('csvtojson')
 const { authVerify } = require('../helpers/authverify')
-const accountSchema = require('../model/schema/accountSchema')
+const  Accouninsertschema = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
 //const { fieldsUpload, uploadFile, Multer } = require('../Dalaloader/multer')
 const { fieldsUpload, Multer } = require('../Dataloader/multer')
@@ -68,6 +68,7 @@ const { getAllowedTabs } = require('../model/showAllowedTabs/allowedTabs')
 const { request } = require('http')
 const { getDashboardData } = require('../model/Dashboard/dashboardGroup')
 const { upsertDashboard } = require('../model/Dashboard/upsertDashboard')
+const { getDashboard } = require('../model/Dashboard/getDashboard')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
@@ -196,7 +197,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/dashboard', async (request, reply) => {
         try {
             const { object, field } = request.query
-            let result = await getDashboardData(object, field)
+            let result = await getDashborad(object, field)
             reply.send(result)
         } catch (error) {
             console.log(error.message)
@@ -532,21 +533,23 @@ function getdatafromreact(fastify, options, done) {
         //  console.log("after exot pf try catch "+csvoutput);
     })
 
-    fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderAccount',{preHandler: fieldsUpload}, async (request, reply) => {
         console.log("inside upload file data loader Account");
+        console.log("validator worked ?? :: "+request.validationError)
+        console.log(schemas.dataloaderAccountinsertschema)
         console.log(request.files.filename);
         try {
-            console.log("inside upload file data loader Account ");
-            console.log('data loader Account  data  ' + JSON.stringify(request.files[0].filename));
-            console.log('body Account ' + JSON.stringify(request.files[0].filename));
+            // console.log("inside upload file data loader Account ");
+            // console.log('data loader Account  data  ' + JSON.stringify(request.files[0].filename));
+            // console.log('body Account ' + JSON.stringify(request.files[0].filename));
             const files = request.files[0].filename
-            console.log("Accounts " + '../uploads/' + files);
+            // console.log("Accounts " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
-            console.log("csvfile Accounts " + csvfilepath);
+            // console.log("csvfile Accounts " + csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
-                    console.log('data format Account ' + JSON.stringify(jsonobj));
+                    // console.log('data format Account ' + JSON.stringify(jsonobj));
                     let result = dataloaderAccount(jsonobj)
                     return "success";
                 })
@@ -555,6 +558,12 @@ function getdatafromreact(fastify, options, done) {
             reply.send('error ' + e.message)
         }
     });
+
+    fastify.setErrorHandler((error,request,reply)=>{
+        if(error.validation){
+            reply.status(422).send(new Error('validation Failed !'))
+        }
+    })
 
     fastify.post('/api/dataloaderOpportunity', { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
@@ -704,7 +713,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/account', /*Accouninsertschema,*/ async (request, reply) => {
+    fastify.post('/api/account',Accouninsertschema, async (request, reply) => {
         console.log("upsert route called")
         console.log("request body " + request.body)
         try {
@@ -882,10 +891,23 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.get('/api/dashboards', async (request, reply) => {
+    fastify.get('/api/dashboardGroup', async (request, reply) => {
         try {
             console.log("inside Dashboard get")
             let result = await getDashboardData();
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("inside Dashboard view Catch block ", e);
+
+            reply.send("Error " + e.message)
+        }
+    })
+
+    fastify.get('/api/dashboards', async (request, reply) => {
+        try {
+            console.log("inside Dashboard get")
+            let result = await getDashboard();
             reply.send(result)
         }
         catch (e) {
@@ -1025,13 +1047,10 @@ function getdatafromreact(fastify, options, done) {
         if (request.query.searchKey) {
             try {
                 let result = await getUserName(request.query.searchKey);
-
                 reply.send(result)
-
             }
             catch (e) {
                 console.log("inside user lookup name  Catch block ", e);
-
                 reply.send("Error " + e.message)
             }
         }

@@ -75,7 +75,6 @@ async function getDatas(client, object, field) {
                 },
             },
             count: { $sum: 1 }
-            // Add other aggregation operators as needed
         },
     };
     const cursor = await client.db(process.env.DB).collection(object).aggregate([groupStage]).toArray()
@@ -85,9 +84,9 @@ async function getDatas(client, object, field) {
             if (variable._id.hasOwnProperty(key) && variable._id[key] === "") {
                 variable._id[key]= null
             }
-            console.log(variable._id)
         }
     });
+    console.log(cursor)
     return cursor
 }
 module.exports = {
