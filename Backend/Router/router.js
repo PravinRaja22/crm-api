@@ -894,8 +894,9 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/dashboardGroup', async (request, reply) => {
         try {
-            console.log("inside Dashboard get")
-            let result = await getDashboardData();
+            const {object,field}=request.query
+            console.log("inside Dashboard Group")
+            let result = await getDashboardData(object,field);
             reply.send(result)
         }
         catch (e) {
