@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 async function enquiryName(request) {
     let leadname = request
-    console.log("lead name "+leadName)
+    console.log("lead name "+leadname)
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
