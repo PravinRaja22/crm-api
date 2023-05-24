@@ -1,34 +1,11 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function dataloaderLead(request) {
+async function dataloaderEnquiry(request) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("data loader testing data " + JSON.stringify(request));
     let d = new Date();
     const formatDate = [ d.getMonth() + 1,d.getDate(),, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
-    // console.log("Before size");
-    // console.log("After size");
-
-
-    //     var dataloaderarray=[];
-    //     request.forEach((variable)=>{
-    //         console.log("inside for loop "+JSON.stringify(variable));
-    //         var updatedatas={
-    //             salutation: variable.salutation,
-    //             firstName: variable.firstName,
-    //             lastName: variable.lastName,
-    //             fullName:variable.firstName+' '+variable.lastName,
-    //             phone: variable.phone,
-    //             leadSource: variable.leadSource,
-    //             industry: variable.industry,
-    //             leadStatus: variable.leadStatus,
-    //             email: variable.email,
-    //             createdbyId: variable.createdbyId,
-    //             createdDate: formatDate,
-    //             modifiedDate:formatDate,
-    //         };
-    //         dataloaderarray.push(updatedatas)
-    //     });
     var someDate=new Date(formatDate);
     var someDate1 = someDate.getTime();
     try {
@@ -36,18 +13,17 @@ async function dataloaderLead(request) {
         console.log("Request data "+JSON.stringify(request));
 
         request.forEach(function(variable){
-            console.log("inside for loop before adding date lead insert data loader",variable);
+            console.log("inside for loop before adding date Enquiry insert data loader",variable);
             variable.createdDate=someDate1
             variable.modifiedDate=someDate1
             if(variable.firstName && variable.lastName){
-                variable.fullName=variabl.firstName+' '+variabl.lastName
+                variable.fullName=variable.firstName+' '+variable.lastName
             }
             else if(variable.firstName){
                 variable.fullName = variable.firstName
                 
             }
-            console.log("inside for loop after adding date lead insert data loader ",variable);
-
+            console.log("inside for loop after adding date Enquiry insert data loader ",variable);
         });
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
@@ -55,7 +31,7 @@ async function dataloaderLead(request) {
         console.log("KEYS " + objdata);
 
         function toObject(names, values) {
-            console.log("keys inside to Objeccts " + names);
+            console.log("keys inside to Objects " + names);
             console.log("names " + JSON.stringify(values));
             for (let i = 0; i < names.length; i++)
                 result[names[i]] = values[i];
@@ -78,7 +54,7 @@ async function dataloaderLead(request) {
 }
 //dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client, insertdatas) {
-    console.log("inside upsert multiple record lead object "+insertdatas);
+    console.log("inside upsert multiple record Enquiry object "+insertdatas);
     insertdatas.forEach(e=>{
         console.log(e.appoinmentDate)
         let d = new Date(e.appoinmentDate);
@@ -92,8 +68,8 @@ async function upsertmultiplerecord(client, insertdatas) {
         console.log(e)
 
     })
-    const result = await client.db(process.env.DB).collection("Lead").insertMany(insertdatas);
+    const result = await client.db(process.env.DB).collection("Enquiry").insertMany(insertdatas);
     console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
 }
-module.exports = { dataloaderLead }
+module.exports = { dataloaderEnquiry }
 

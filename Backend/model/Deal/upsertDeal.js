@@ -1,17 +1,15 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function upsertOpportunity(request) {
+async function upsertDeal(request) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
-    console.log("opportunity daate outside if "+request.closeDate);
+    console.log("Deal daate outside if "+request.closeDate);
     console.log('close date is : '+request.closeDate);
 if(request.closeDate){
-    console.log("inside if of epoch time");
-    console.log("inside upsert opportunity ",request);
     let oppclosedate = request.closeDate;
     let formatdateopp = new Date(oppclosedate);
     var getepochtime = formatdateopp.getTime();
-    console.log("opportunity epoch time "+getepochtime);
+    console.log("Deal epoch time "+getepochtime);
 
 }
 else{
@@ -21,7 +19,6 @@ console.log("inside else of epoch time");
 
     try {
         await client.connect();
-
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = {};
@@ -30,7 +27,7 @@ console.log("inside else of epoch time");
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert Opportunity function ' + result);
+                    console.log('inside upsert Deal function ' + result);
                 }
         }
         toObject(objdata, objvalues)
@@ -118,14 +115,14 @@ console.log("inside else of epoch time");
 }
 //upsertOpportunity().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
-    const result = await client.db(process.env.DB).collection("Opportunity").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
+    const result = await client.db(process.env.DB).collection("Deal").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
 
     }
     else {
-        return `Opportunity  Updated Succesfully`
+        return `Deals  Updated Succesfully`
     }
 }
 
-module.exports={upsertOpportunity}
+module.exports={upsertDeal}

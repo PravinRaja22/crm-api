@@ -44,23 +44,23 @@ async function dataloaderAccount(request) {
 
         }
         toObject(objdata, objvalues)
-console.log(result)
-        result.forEach(obj => {
-            for(let key in obj){
-                if (obj.hasOwnProperty(key)) {
-                    console.log(key)
-                    if(typeof obj[key] == "number" & isNaN(obj[key])){
-                        console.log("checking validation")
-                        console.log(key +" is : "+obj[key])
-                        return false;
-                    }
-                }
-                  return true
-            }
+        console.log(result)
+        // result.forEach(obj => {
+        //     for(let key in obj){
+        //         if (obj.hasOwnProperty(key)) {
+        //             console.log(key)
+        //             if(typeof obj[key] == "number" & isNaN(obj[key])){
+        //                 console.log("checking validation")
+        //                 console.log(key +" is : "+obj[key])
+        //                 return false;
+        //             }
+        //         }
+        //           return true
+        //     }
           
-        })
+        // })
         console.log(result.length)
-        //  let data = await insertDataloaderAccount(client, result)
+         let data = await insertDataloaderAccount(client, result)
         // let data =  await upsertmultiplerecord(client,request._id,dataloaderarray)
         return "data"
     }

@@ -58,7 +58,7 @@
 // module.exports = { upsertContact }
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function upsertProperty(request) {
+async function upsertInventory(request) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -110,14 +110,14 @@ async function upsertProperty(request) {
 async function updatesiglerecord(client, id, updatedatas) {
     console.log("inventory id is "+id)
     console.log(ObjectId(id))
-    const result = await client.db(process.env.DB).collection("Inventory Management").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, {upsert: true});
+    const result = await client.db(process.env.DB).collection("Inventory").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, {upsert: true});
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
     }
     else {
-        return `Inventory Management  Updated Succesfully`
+        return `Inventory Updated Succesfully`
     }
 }
 
 
-module.exports = { upsertProperty }
+module.exports = { upsertInventory }

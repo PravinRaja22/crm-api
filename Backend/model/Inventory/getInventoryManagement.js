@@ -18,7 +18,7 @@
 
 
 const { MongoClient } = require('mongodb');
-async function getProperty() {
+async function getInventory() {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -33,7 +33,7 @@ async function getProperty() {
 }
 //getProperty().catch(console.error);
 async function getDatas(client) {
-    const cursor = await client.db(process.env.DB).collection("Inventory Management").find()
+    const cursor = await client.db(process.env.DB).collection("Inventory").find()
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);
@@ -44,6 +44,6 @@ async function getDatas(client) {
     }
 }
 module.exports = { 
-    getProperty
+    getInventory
 }
 

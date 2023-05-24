@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "delete": "nodemon model/deleteall/deleteall.js"
+    "delete": "nodemon model/deleteall/deleteall.js",
+    "rename":"nodemon model/renameCollection/renameCollection.js"
   },
   "author": "",
   "license": "ISC",

@@ -42,7 +42,7 @@
 
 const { result } = require('lodash');
 const { MongoClient } = require('mongodb');
-async function getOpportunity() {
+async function getDeal() {
     //filter the data based on the bedrooms bathroom and beds
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -62,7 +62,7 @@ async function getDatas(client) {
         {
             $lookup:
             {
-                from: 'Inventory Management',
+                from: 'Inventory',
                 let: { "searchId": { $toObjectId: "$InventoryId" } },
                 pipeline: [
                     { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
@@ -73,7 +73,7 @@ async function getDatas(client) {
         {
             $lookup:
             {
-                from: 'Lead',
+                from: 'Enquiry',
                 let: { "searchId": { $toObjectId: "$LeadId" } },
                 pipeline: [
                     { $match: { $expr: { $eq: ["$_id", "$$searchId"] } } },
@@ -82,7 +82,7 @@ async function getDatas(client) {
             }
         }
     ])
-    const cursor = await client.db(process.env.DB).collection("Opportunity").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Deal").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
         //converting epoch time to ist
@@ -100,5 +100,5 @@ async function getDatas(client) {
         console.log("no data found");
     }
 }
-module.exports = { getOpportunity }
+module.exports = { getDeal }
 

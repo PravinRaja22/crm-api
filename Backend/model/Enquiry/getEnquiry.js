@@ -16,7 +16,7 @@
 // }
 // module.exports = { getLead }
 const { MongoClient } = require('mongodb');
-async function getLead(month){
+async function getEnquiry(month){
   const url =process.env.MONGODBURL;
   const client = new MongoClient(url);
     try {
@@ -40,12 +40,12 @@ async function getDatas(client,month)
     let cursor;
     if(month == null){
         console.log("inside if")
-         cursor = await client.db(process.env.DB).collection("Lead").find()
+         cursor = await client.db(process.env.DB).collection("Enquiry").find()
 
     }
     else {
         console.log("inside else")
-         cursor = await client.db(process.env.DB).collection("Lead").find({month:month})
+         cursor = await client.db(process.env.DB).collection("Enquiry").find({month:month})
 
     }
 const results = await cursor.toArray();
@@ -57,5 +57,5 @@ else{
     console.log("no data found");
 }
 }
-module.exports= {getLead}
+module.exports= {getEnquiry}
 

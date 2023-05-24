@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function propertyName(request) {
+async function inventoryName(request) {
     let propname = request
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -16,8 +16,8 @@ async function propertyName(request) {
 //propertyName().catch(console.error);
 async function getDatas(client, propname) {
     if (propname) {
-        console.log("inside property if ");
-        const cursor = await client.db(process.env.DB).collection("Inventory Management").find({ propertyName: new RegExp('^' + propname) })
+        console.log("inside Inventory if ");
+        const cursor = await client.db(process.env.DB).collection("Inventory").find({ propertyName: new RegExp('^' + propname) })
         const results = await cursor.toArray();
         let propName = []
         if (results.length > 0) {
@@ -37,7 +37,7 @@ async function getDatas(client, propname) {
 
     }
     else {
-        const cursor = await client.db(process.env.DB).collection("Inventory Management").find().limit(5)
+        const cursor = await client.db(process.env.DB).collection("Inventory").find().limit(5)
         const results = await cursor.toArray();
         let propName = []
         if (results.length > 0) {
@@ -56,6 +56,6 @@ async function getDatas(client, propname) {
     }
 }
 module.exports = {
-    propertyName
+    inventoryName
 }
 

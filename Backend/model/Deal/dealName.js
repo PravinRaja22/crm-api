@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function  getopportunityName(request) {
+async function  getDealName(request) {
     
     let oppName = request
     const url =process.env.MONGODBURL;
@@ -17,8 +17,8 @@ async function  getopportunityName(request) {
 //getopportunityName().catch(console.error);
 async function getDatas(client, oppName) {
     if(oppName){
-        console.log("inside if statement of accnames")
-        const cursor = await client.db(process.env.DB).collection("Opportunity").find({ opportunityName: new RegExp('^'+oppName)})
+        console.log("inside if statement of oppName")
+        const cursor = await client.db(process.env.DB).collection("Deal").find({ opportunityName: new RegExp('^'+oppName)})
         const results = await cursor.toArray();
         let oppname = []
         if (results.length > 0) {
@@ -37,8 +37,8 @@ async function getDatas(client, oppName) {
         }
     }
     else {
-        console.log("inside account name test");
-        const cursor = await client.db(process.env.DB).collection("Opportunity").find().limit(5)
+        console.log("inside Deal name test");
+        const cursor = await client.db(process.env.DB).collection("Deal").find().limit(5)
         const results = await cursor.toArray();
         let oppname = []
         if (results.length > 0) {
@@ -58,5 +58,5 @@ async function getDatas(client, oppName) {
     }
 }
 module.exports = {
-    getopportunityName
+    getDealName
 }

@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function upsertLead(request) {
+async function upsertEnquiry(request) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -14,29 +14,10 @@ async function upsertLead(request) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert lead function ' + result);
+                    console.log('inside upsert Enquiry function ' + result);
                 }
         }
         toObject(objdata, objvalues)
-
-        //     var updatedatas={
-        //         salutation: request.salutation,
-        //         firstName: request.firstName,
-        //         lastName: request.lastName,
-        //         fullName:request.firstName+' '+request.lastName,
-        //         phone: request.phone,
-        //         leadSource: request.leadSource,
-        //         industry: request.industry,
-        //         leadStatus: request.leadStatus,
-        //         email: request.email,
-        //         createdbyId: request.createdbyId,
-        //         createdDate: request.createdDate,
-        //         modifiedDate:request.modifiedDate,
-        //     }
-        //     console.log("object of lead "+JSON.stringify(updatedatas));
-        // let data =  await updatesiglerecord(client,request._id,updatedatas)
-        // return data
-
         let data = await updatesiglerecord(client, request._id, result)
         return data
     }
@@ -55,9 +36,9 @@ async function updatesiglerecord(client, id, updatedatas) {
         return `Record inserted with the id ${result.upsertedId}`
     }
     else {
-        return `Lead  Updated Succesfully`
+        return `Enquiry  Updated Succesfully`
     }
 
 
 }
-module.exports = { upsertLead }
+module.exports = { upsertEnquiry }

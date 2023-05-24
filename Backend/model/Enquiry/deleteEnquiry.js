@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function deleteLead(dataid) {
+async function deleteEnquiry(dataid) {
     //filter the data based on the bedrooms bathroom and beds
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -18,7 +18,7 @@ async function deleteLead(dataid) {
 //deleteLead().catch(console.error);
 async function deleteDatas(client,deleteleaddata)
 {
-const results = await client.db(process.env.DB).collection("Lead").deleteOne({_id:ObjectId(deleteleaddata)})
+const results = await client.db(process.env.DB).collection("Enquiry").deleteOne({_id:ObjectId(deleteleaddata)})
     if(results){
        return JSON.stringify(results)
 }  
@@ -26,4 +26,4 @@ else{
     console.log("no data found");
 }                                                                                                    
 }
-module.exports= {deleteLead}
+module.exports= {deleteEnquiry}

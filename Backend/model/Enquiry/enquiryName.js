@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function leadName(request) {
+async function enquiryName(request) {
     let leadname = request
     console.log("lead name "+leadName)
     const url =process.env.MONGODBURL;
@@ -56,6 +56,6 @@ async function getDatas(client, leadname) {
     }
 }
 module.exports = {
-    leadName
+    enquiryName
 }
 

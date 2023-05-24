@@ -21,7 +21,7 @@
 
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function deleteProperty(dataid) {
+async function deleteInventory(dataid) {
     //filter the data based on the bedrooms bathroom and beds
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -38,7 +38,7 @@ async function deleteProperty(dataid) {
 }
 //deleteProperty().catch(console.error);
 async function deleteDatas(client, deletepropertydata) {
-    const results = await client.db(process.env.DB).collection("Inventory Management").deleteOne({ _id: ObjectId(deletepropertydata) })
+    const results = await client.db(process.env.DB).collection("Inventory").deleteOne({ _id: ObjectId(deletepropertydata) })
     if (results) {
         return JSON.stringify(results)
     }
@@ -46,4 +46,4 @@ async function deleteDatas(client, deletepropertydata) {
         console.log("no data found");
     }
 }
-module.exports = { deleteProperty }
+module.exports = { deleteInventory }
