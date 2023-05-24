@@ -17,7 +17,7 @@ async function dealEvent(oppId) {
 //opportunityTask().catch(console.error);
 async function opportunitytaskDatas(client,oppid) {
     console.log("deal event datas "+oppid);
-    const cursor = await client.db(process.env.DB).collection("Event").find({OpportunityId :new RegExp('^' + oppid)})
+    const cursor = await client.db(process.env.DB).collection("Event").find({"relatedTo.id" :new RegExp('^' + oppid)})
     const results = await cursor.toArray();
     console.log("opportunity final results "+JSON.stringify(results));
     if (results.length > 0) {

@@ -17,7 +17,7 @@ async function enquiryEvent(leadId) {
 //leadTask().catch(console.error);
 async function leadtaskDatas(client,leadid) {
     console.log("Lead task datas "+leadid);
-    const cursor = await client.db(process.env.DB).collection("Event").find({LeadId : new RegExp('^' + leadid)})
+    const cursor = await client.db(process.env.DB).collection("Event").find({"relatedTo.id" : new RegExp('^' + leadid)})
     const results = await cursor.toArray();
     console.log("lead final results "+JSON.stringify(results));
     if (results.length > 0) {

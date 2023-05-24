@@ -1001,7 +1001,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/dealsbyName', async (request, reply) => {
+    fastify.get('/api/deals/name', async (request, reply) => {
         if (request.query.searchKey) {
             try {
                 let result = await getDealName(request.query.searchKey);
