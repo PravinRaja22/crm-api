@@ -18,7 +18,7 @@ async function enquiryName(request) {
 async function getDatas(client, leadname) {
     if (leadname) {
         console.log("inside if lead name")
-        console.log(leadName)
+        console.log(leadname)
         const cursor = await client.db(process.env.DB).collection("Lead").find({ fullName: new RegExp('^' + leadname) })
         const results = await cursor.toArray();
         let ledName = []
