@@ -17,7 +17,7 @@ renameCollection().catch(console.error);
 
 async function deleteDatas(client) {
     console.log("inside sub function are ")
-    const cursor = await client.db("CRM").collection("Lead").rename("Enquiry")
+    const cursor = await client.db("CRM").collection("Task").rename("Event")
     console.log("success") 
 }
 module.exports = { renameCollection }

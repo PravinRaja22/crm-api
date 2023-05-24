@@ -4,7 +4,7 @@ const { upsertEnquiry } = require('../model/Enquiry/upsertEnquiry')
 const { upsertDeal } = require('../model/Deal/upsertDeal')
 const { upsertUser } = require('../model/User/upsertUser')
 const { upsertInventory } = require('../model/Inventory/upsertInventorymanagement')
-const { upsertTask } = require('../model/Task/upsertTask')
+const { upsertEvent } = require('../model/Event/upsertEvent')
 const { getAccountName } = require('../model/Account/accountname')
 const { inventoryName } = require('../model/Inventory/inventroyname');
 const { enquiryName } = require('../model/Enquiry/enquiryName')
@@ -22,16 +22,16 @@ const { getAccountscontact } = require('../model/Contact/getAccountscontact');
 const { getDealEnquiry } = require('../model/Deal/dealEnquiry.js')
 const { getUser, getSignUpPageUser } = require('../model/User/getUser')
 const { getSingleUser } = require('../model/User/getUser')
-const { getTask } = require('../model/Task/gettask.js')
-const { leadTask } = require('../model/Task/leadtask')
-const { opportunityTask } = require('../model/Task/opportunitytask')
-const { accountTask } = require('../model/Task/accounttask')
+const { getEvent } = require('../model/Event/getEvent.js')
+const { enquiryEvent } = require('../model/Event/enquiryEvent')
+const { dealEvent } = require('../model/Event/dealEvent')
+const { accountEvent } = require('../model/Event/accountEvent')
 const { deleteAccount } = require('../model/Account/deleteAccount')
 const { deleteEnquiry } = require('../model/Enquiry/deleteEnquiry')
 const { deletedeal } = require('../model/Deal/deleteDeal')
 const { deleteInventory } = require('../model/Inventory/inventoryMangementDelete')
 const { deleteUser } = require('../model/User/delelteUser')
-const { deleteTask } = require('../model/Task/deleteTask')
+const { deleteEvent } = require('../model/Event/deleteEvent')
 const { deleteContact } = require('../model/Contact/deleteContact')
 const { deleteFile } = require('../model/fileupload/deletefile')
 const { getEachFiles } = require('../model/fileupload/individualfile')
@@ -73,56 +73,56 @@ const { deleteDashboard } = require('../model/Dashboard/deleteDashboard')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
-    fastify.get('/accounts/show', async (request, reply) => {
-        try {
-            console.log("inside account get salesforce")
-            let result = await getAccountdata();
-            reply.send(result)
-        }
-        catch (e) {
-            console.log("inside Account view Catch block ", e);
-            reply.send("Error " + e.message)
-        }
-    })
+    // fastify.get('/accounts/show', async (request, reply) => {
+    //     try {
+    //         console.log("inside account get salesforce")
+    //         let result = await getAccountdata();
+    //         reply.send(result)
+    //     }
+    //     catch (e) {
+    //         console.log("inside Account view Catch block ", e);
+    //         reply.send("Error " + e.message)
+    //     }
+    // })
 
 
-    fastify.delete('/Account/delete', async (request, reply) => {
-        console.log("inside Account delete salesforce");
-        try {
-            let result = await deleteAccount(request.query.code);
-            if (result) {
-                reply.send("Account Deleted Successfully")
-            }
-            else {
-                reply.send("No data deleted")
-            }
-        }
-        catch (e) {
-            console.log("error block in delete account   page ", e);
-            reply.send("Error " + e.message)
-        }
-    })
+    // fastify.delete('/Account/delete', async (request, reply) => {
+    //     console.log("inside Account delete salesforce");
+    //     try {
+    //         let result = await deleteAccount(request.query.code);
+    //         if (result) {
+    //             reply.send("Account Deleted Successfully")
+    //         }
+    //         else {
+    //             reply.send("No data deleted")
+    //         }
+    //     }
+    //     catch (e) {
+    //         console.log("error block in delete account   page ", e);
+    //         reply.send("Error " + e.message)
+    //     }
+    // })
 
 
 
-    fastify.post('/Account/upsert', /*Accouninsertschema,*/ async (request, reply) => {
-        console.log("upsert route called")
-        console.log("request body " + request.body)
-        try {
-            console.log("upsert account try ");
-            let result = await upsertAccount(request.body)
-            if (result) {
-                reply.send(result)
-            }
-            else {
-                reply.status(404).send("No Data Inserted or updated")
-            }
-        }
-        catch (e) {
-            console.log("inside Account upsert Catch block ", e);
-            reply.send("Error " + e.message)
-        }
-    })
+    // fastify.post('/Account/upsert', /*Accouninsertschema,*/ async (request, reply) => {
+    //     console.log("upsert route called")
+    //     console.log("request body " + request.body)
+    //     try {
+    //         console.log("upsert account try ");
+    //         let result = await upsertAccount(request.body)
+    //         if (result) {
+    //             reply.send(result)
+    //         }
+    //         else {
+    //             reply.status(404).send("No Data Inserted or updated")
+    //         }
+    //     }
+    //     catch (e) {
+    //         console.log("inside Account upsert Catch block ", e);
+    //         reply.send("Error " + e.message)
+    //     }
+    // })
     /*=====salesforce */
 
 
@@ -830,7 +830,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("upsert task -event route called " + JSON.stringify(request.body))
         try {
             console.log("upsert task-event try ");
-            let result = await upsertTask(request.body)
+            let result = await upsertEvent(request.body)
             console.log("result length " + result);
             if (result) {
                 reply.send(result)
@@ -1140,8 +1140,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("error block in Enquiry
-             view  page ", e);
+            console.log("error block in Enquiryview  page ", e);
             reply.send("Error " + e.message)
         }
     })
@@ -1235,25 +1234,25 @@ function getdatafromreact(fastify, options, done) {
     })
 
     fastify.get('/api/events', async (request, reply) => {
-        console.log("Inside Task Router")
+        console.log("Inside get Event Router")
         try {
-            let result = await getTask();
+            let result = await getEvent();
             reply.send(result)
         }
         catch (e) {
-            console.log("error block in users view  page ", e);
+            console.log("error block in Event view  page ", e);
             reply.send("Error " + e.message)
         }
     })
 
     fastify.get('/api/enquiryRelatedEvent/:id', async (request, reply) => {
-        console.log("Inside event-task lead Router " + request.params.id)
+        console.log("Inside enquiry event lead Router " + request.params.id)
         try {
-            let result = await leadTask(request.params.id)
+            let result = await enquiryEvent(request.params.id)
             reply.send(result)
         }
         catch (e) {
-            console.log("error block in users view  page ", e);
+            console.log("error block in enquiry event view  page ", e);
             reply.send("Error " + e.message)
         }
 
@@ -1261,7 +1260,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/accountRelatedEvent/:id', async (request, reply) => {
         console.log("Inside Task Account Router " + request.params.id)
         try {
-            let result = await accountTask(request.params.id)
+            let result = await accountEvent(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1273,7 +1272,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/dealRelatedEvent/:id', async (request, reply) => {
         console.log("Inside dealRelatedEvent Router " + request.params.id)
         try {
-            let result = await opportunityTask(request.params.id)
+            let result = await dealEvent(request.params.id)
             reply.send(result)
         }
         catch (e) {
@@ -1410,18 +1409,18 @@ function getdatafromreact(fastify, options, done) {
         }
     })
     fastify.delete('/api/event/:id', async (request, reply) => {
-        console.log("inside Task-event delete");
+        console.log("inside event delete");
         try {
-            let result = await deleteTask(request.params.id);
+            let result = await deleteEvent(request.params.id);
             if (result) {
-                reply.send("Task deleted successfully")
+                reply.send("Event deleted successfully")
             }
             else {
                 reply.send("No data deleted")
             }
         }
         catch (e) {
-            console.log("error block in delete user   page ", e);
+            console.log("error block in delete Event   page ", e);
             reply.send("Error " + e.message)
         }
     })

@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 // var ObjectId = require('mongodb').ObjectId;
-async function getTask() {
+async function getEvent() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -8,7 +8,7 @@ async function getTask() {
         let data = await getDatas(client)
         return data;
     } catch (e) {
-        console.error("get task catch block " + e);
+        console.error("get Event catch block " + e);
         return e.message
     } finally {
         await client.close();
@@ -49,7 +49,7 @@ async function getDatas(client) {
         {
             $lookup:
             {
-                from: 'Lead',
+                from: 'Enquiry',
                // let: { "searchId": { $toObjectId: "$LeadId" } },
 
                 pipeline: [
@@ -77,7 +77,7 @@ async function getDatas(client) {
         {
             $lookup:
             {
-                from: 'Opportunity',
+                from: 'Deal',
               //  let: { "searchId": { $toObjectId: "$OpportunityId" } },
 
                 pipeline: [
@@ -104,7 +104,7 @@ async function getDatas(client) {
             }
         }
     ])
-    const cursor = await client.db(process.env.DB).collection("Task").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Event").aggregate(queryobj)
     console.log(process.env.DB)
     const results = await cursor.toArray();
     if (results.length > 0) {
@@ -131,4 +131,4 @@ async function getDatas(client) {
         console.log("no data found");
     }
 }
-module.exports = { getTask }
+module.exports = { getEvent }

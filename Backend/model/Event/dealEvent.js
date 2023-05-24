@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function opportunityTask(oppId) {
+async function dealEvent(oppId) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("incoming id of the opportunity task "+oppId);
@@ -16,8 +16,8 @@ async function opportunityTask(oppId) {
 }
 //opportunityTask().catch(console.error);
 async function opportunitytaskDatas(client,oppid) {
-    console.log("opportunity task datas "+oppid);
-    const cursor = await client.db(process.env.DB).collection("Task").find({OpportunityId :new RegExp('^' + oppid)})
+    console.log("deal event datas "+oppid);
+    const cursor = await client.db(process.env.DB).collection("Event").find({OpportunityId :new RegExp('^' + oppid)})
     const results = await cursor.toArray();
     console.log("opportunity final results "+JSON.stringify(results));
     if (results.length > 0) {
@@ -44,4 +44,4 @@ async function opportunitytaskDatas(client,oppid) {
         console.log("no data found");
     }
 }
-module.exports = {opportunityTask}
+module.exports = {dealEvent}

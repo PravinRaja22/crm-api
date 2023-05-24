@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function deleteTask(dataid) {
+async function deleteEvent(dataid) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
@@ -15,7 +15,7 @@ async function deleteTask(dataid) {
 }
 //deleteTask().catch(console.error);
 async function deleteDatas(client, deleteTaskdata) {
-    const results = await client.db(process.env.DB).collection("Task").deleteOne({ _id: ObjectId(deleteTaskdata) })
+    const results = await client.db(process.env.DB).collection("Event").deleteOne({ _id: ObjectId(deleteTaskdata) })
     if (results) {
         return JSON.stringify(results)
     }
@@ -23,4 +23,4 @@ async function deleteDatas(client, deleteTaskdata) {
         console.log("no data found");
     }
 }
-module.exports = { deleteTask }
+module.exports = { deleteEvent }

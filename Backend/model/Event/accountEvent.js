@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function accountTask(accId) {
+async function accountEvent(accId) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("incoming id of the opportunity task "+accId);
@@ -17,7 +17,7 @@ async function accountTask(accId) {
 //accountTask().catch(console.error);
 async function accounttaskDatas(client,accid) {
     console.log("account task datas "+accid);
-    const cursor = await client.db(process.env.DB).collection("Task").find({AccountId : new RegExp('^' + accid)})
+    const cursor = await client.db(process.env.DB).collection("Event").find({AccountId : new RegExp('^' + accid)})
     const results = await cursor.toArray();
     console.log("account final results "+JSON.stringify(results));
     if (results.length > 0) {
@@ -44,4 +44,4 @@ async function accounttaskDatas(client,accid) {
         console.log("no data found");
     }
 }
-module.exports = {accountTask}
+module.exports = {accountEvent}

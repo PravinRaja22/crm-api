@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
-async function upsertTask(request) {
+async function upsertEvent(request) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
 
@@ -159,7 +159,7 @@ async function updatesiglerecord(client, id, updatedatas) {
         
     }
     else {
-        return `Task  Updated Succesfully`
+        return `Event  Updated Succesfully`
     }
 }
-module.exports = { upsertTask }
+module.exports = { upsertEvent }

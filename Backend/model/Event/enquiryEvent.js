@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function leadTask(leadId) {
+async function enquiryEvent(leadId) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log("incoming id of the lead task "+leadId);
@@ -8,7 +8,7 @@ async function leadTask(leadId) {
         let data = await leadtaskDatas(client,leadId)
         return data;
     } catch (e) {
-        console.error("get task catch block " +e);
+        console.error("get enquiry event catch block " +e);
         return e.message
     } finally {
         await client.close();
@@ -17,7 +17,7 @@ async function leadTask(leadId) {
 //leadTask().catch(console.error);
 async function leadtaskDatas(client,leadid) {
     console.log("Lead task datas "+leadid);
-    const cursor = await client.db(process.env.DB).collection("Task").find({LeadId : new RegExp('^' + leadid)})
+    const cursor = await client.db(process.env.DB).collection("Event").find({LeadId : new RegExp('^' + leadid)})
     const results = await cursor.toArray();
     console.log("lead final results "+JSON.stringify(results));
     if (results.length > 0) {
@@ -44,4 +44,4 @@ async function leadtaskDatas(client,leadid) {
         console.log("no data found");
     }
 }
-module.exports = {leadTask}
+module.exports = {enquiryEvent}
