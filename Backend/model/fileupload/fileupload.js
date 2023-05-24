@@ -16,6 +16,8 @@ async function insertFile(request) {
         e.modifiedDate=parseInt(request.body.modifiedDate)
         e.createdBy = JSON.parse(createdBy),
         e.modifiedBy = JSON.parse(modifideBy)
+        e.relatedId=request.body?.relatedId,
+        e.relatedObjtect=request.body?.relatedObject
     })
     var test = request.files
     console.log("test ", test);

@@ -1,0 +1,38 @@
+<List sx={{
+                                                width: '100%',
+                                                maxWidth: 360,
+                                                bgcolor: 'background.paper',
+                                                position: 'relative',
+                                                overflow: 'auto',
+                                                maxHeight: 300,
+                                                '& ul': { padding: 0 },
+                                            }}>
+                                                {dashboardFiles && dashboardFiles.map((item, index) => (
+                                                    <ListItem sx={{ maxHeight: "200px", marginTop: "-10px" }}>
+                                                        {index + 1}
+
+                                                        <ListItemButton
+                                                            onClick={() => handleChartDataClick(item)}
+                                                            title={`${item.object} grouped by ${item.field}`}
+                                                        >
+                                                            <ListItemIcon>
+                                                                <DashboardIcon />
+                                                            </ListItemIcon>
+
+                                                            <ListItemText
+                                                                // onMouseOver={() => handleMouseOver(item)}
+                                                                // onMouseOut={handleMouseOut}
+                                                                sx={{ wordBreak: "break-all" }}
+                                                                primary={`${item.dashboardName} (${item.chartType} chart)`}
+                                                                secondary={`${item.object} grouped by ${item.field}`}
+                                                            ></ListItemText>
+
+                                                        </ListItemButton>
+
+                                                        <Delete
+                                                            sx={{ cursor: "pointer" }}
+                                                            onClick={() => handleChartFileDelete(item)}
+                                                        />
+                                                    </ListItem>
+                                                ))}
+                                            </List>

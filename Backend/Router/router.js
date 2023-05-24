@@ -921,7 +921,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post('/api/accountsname', async (request, reply) => {
+    fastify.get('/api/accounts/name', async (request, reply) => {
         if (request.query.searchKey) {
             console.log("inside if statemeent for account name router");
             try {
@@ -951,7 +951,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/InventoryName', async (request, reply) => {
+    fastify.get('/api/inventories/name', async (request, reply) => {
         console.log(" inside show accountsname look up " + JSON.stringify(request.query.searchKey))
         if (request.query.searchKey) {
             try {
@@ -976,7 +976,7 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.post('/api/enquiriesbyName', async (request, reply) => {
+    fastify.get('/api/enquiries/name', async (request, reply) => {
         console.log(request.query)
         if (request.query.searchKey) {
             try {
