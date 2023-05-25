@@ -43,6 +43,12 @@ async function insertFile(request) {
 async function insertFiledata(client, newFile) {
     const result = await client.db(process.env.DB).collection("Files").insertMany(newFile);
     console.log("inserted records " + JSON.stringify(result));
-    return result;
+    if(result.length>1){
+        return "file Uploaded successfully";
+
+    }
+    else{
+        return "File not uploaded "
+    }
 }
 module.exports = { insertFile }
