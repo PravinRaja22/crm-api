@@ -70,6 +70,7 @@ const { getDashboardData } = require('../model/Dashboard/dashboardGroup')
 const { upsertDashboard } = require('../model/Dashboard/upsertDashboard')
 const { getDashboard } = require('../model/Dashboard/getDashboard')
 const { deleteDashboard } = require('../model/Dashboard/deleteDashboard')
+const { eventFile } = require('../model/fileupload/getFileEvent')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
 
@@ -1221,6 +1222,20 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
+    fastify.get('/api/event/related/file/:id',async (request, reply) => {
+        console.log("Inside event relate file  Router " + request.params.id)
+
+        try {
+            let result = await eventFile(request.params.id)
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("error block in users view  page ", e);
+            reply.send("Error " + e.message)
+        }
+
+    })
+
     fastify.get('/api/users', async (request, reply) => {
         console.log("Inside get user page ")
         try {
@@ -1269,6 +1284,7 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
+
     fastify.get('/api/deal/related/event/:id', async (request, reply) => {
         console.log("Inside dealRelatedEvent Router " + request.params.id)
         try {
@@ -1279,7 +1295,6 @@ function getdatafromreact(fastify, options, done) {
             console.log("error block in users view  page ", e);
             reply.send("Error " + e.message)
         }
-
     })
 
     fastify.delete('/api/account/:id', async (request, reply) => {
