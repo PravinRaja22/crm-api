@@ -1191,7 +1191,7 @@ function getdatafromreact(fastify, options, done) {
             let result = await getDealInventorylookup(request.query.searchId)
             reply.send(result)
         }
-        catch (e){
+        catch (e) {
             console.log("error block in users view  page ", e);
             reply.send("Error " + e.message)
         }
@@ -1224,7 +1224,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.get('/api/event/related/file/:id',async (request, reply) => {
+    fastify.get('/api/event/related/file/:id', async (request, reply) => {
         console.log("Inside event relate file  Router " + request.params.id)
 
         try {

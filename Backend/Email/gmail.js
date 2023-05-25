@@ -9,9 +9,7 @@ async function gmail(request) {
   console.log("Body is : " + Body);
   console.log(request.files)
   console.log(request.files.length);
-  console.log("befor if")
   if (request.files.length > 0) {
-    console.log("inside file name");
     console.log(request.files);
     request.files.forEach((e) => {
       console.log(e);
