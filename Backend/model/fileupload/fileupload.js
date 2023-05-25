@@ -2,23 +2,27 @@
 const { MongoClient } = require('mongodb')
 async function insertFile(request) {
     const url = process.env.MONGODBURL;
-    console.log("inside functions " + request.files);
+    console.log('===')
+    console.log(request.files);
     console.log(request.body.modifiedBy)
     let modifideBy = JSON.parse(request.body.modifiedBy)
     let createdBy = JSON.parse(request.body.createdBy)
-    let relatedTo = JSON.parse(request.body.relatedto)
-    console.log(modifideBy)
+    let relatedTo = JSON.parse(request.body.relatedTo)
+    // console.log(modifideBy)
+    // console.log(createdBy)
+    // console.log(relatedTo)
+    console.log(request.body)
     request.files.forEach((e) => {
         console.log('inside for each');
         console.log("request protocol is ==>> ")
         console.log(request.protocol + '://' + request.headers.host + '/' + e.filename);
-        e.fileUrl = request.protocol + 's://' + request.headers.host + '/' + e.filename
-        e.createdDate = parseInt(request.body.createdDate),
-        e.modifiedDate=parseInt(request.body.modifiedDate)
-        e.createdBy = JSON.parse(createdBy),
+        e.fileUrl = request.protocol + 's://' + request.headers.host + '/' + e.filename;     
+        e.createdDate = request.body.createdDate
+        e.modifiedDate=request.body.modifiedDate
+        e.createdBy = JSON.parse(createdBy)
         e.modifiedBy = JSON.parse(modifideBy)
-        e.relatedto=JSON.parse(relatedTo),
-        e.relatedObjtect=request.body.relatedObject
+        e.relatedTo=relatedTo
+        console.log(e)
     })
     var test = request.files
     console.log("test ", test);
