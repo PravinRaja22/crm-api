@@ -6,7 +6,7 @@ async function insertFile(request) {
     console.log(request.body.modifiedBy)
     let modifideBy = JSON.parse(request.body.modifiedBy)
     let createdBy = JSON.parse(request.body.createdBy)
-    let relatedTo=JSON.parse(request.body.relatedTo)
+    let relatedTo = JSON.parse(request.body.relatedto)
     console.log(modifideBy)
     request.files.forEach((e) => {
         console.log('inside for each');
@@ -17,7 +17,9 @@ async function insertFile(request) {
         e.modifiedDate=parseInt(request.body.modifiedDate)
         e.createdBy = JSON.parse(createdBy),
         e.modifiedBy = JSON.parse(modifideBy)
-        e.relatedTo=JSON.parse(relatedTo)
+        e.relatedto=JSON.parse(relatedTo),
+        e.relatedObjtect=request.body.relatedObject
+    })
     var test = request.files
     console.log("test ", test);
     const client = new MongoClient(url);
@@ -31,7 +33,7 @@ async function insertFile(request) {
     } finally {
         await client.close();
     }
-})
+}
 //insertFile().catch(console.error);
 
 async function insertFiledata(client, newFile) {
