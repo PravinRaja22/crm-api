@@ -907,7 +907,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.get('/api/inventoryRelatedAccount/:id', async (request, reply) => {
+    fastify.get('/api/inventory/related/account/:id', async (request, reply) => {
 
         console.log("Inside  get Inventories by acc id  Router " + request.params.id)
         try {
@@ -1030,7 +1030,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post('/api/usersbyName', async (request, reply) => {
+    fastify.get('/api/users/name', async (request, reply) => {
         if (request.query.searchKey) {
             try {
                 let result = await getUserName(request.query.searchKey);
@@ -1063,7 +1063,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.get('/api/accountRelatedContact/:id', async (request, reply) => {
+    fastify.get('/api/account/related/contact/:id', async (request, reply) => {
         try {
             let result = await getAccountscontact(request.params.id);
             reply.send(result)
@@ -1194,7 +1194,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.get('/api/inventoryRelatedDeal/:id', async (request, reply) => {
+    fastify.get('/api/inventory/related/deal/:id', async (request, reply) => {
         console.log("Inside  get Deal by Inv id  Router " + request.params.id)
         try {
             let result = await getInventoryDealsjn(request.params.id)
@@ -1207,7 +1207,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.get('/api/enquiryRelatedDeal/:id', async (request, reply) => {
+    fastify.get('/api/enquiry/related/deal/:id', async (request, reply) => {
         console.log("Inside enquiryRelatedDeal Router " + request.params.id)
 
         try {
@@ -1245,7 +1245,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.get('/api/enquiryRelatedEvent/:id', async (request, reply) => {
+    fastify.get('/api/enquiry/related/event/:id', async (request, reply) => {
         console.log("Inside enquiry event lead Router " + request.params.id)
         try {
             let result = await enquiryEvent(request.params.id)
@@ -1257,7 +1257,7 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.get('/api/accountRelatedEvent/:id', async (request, reply) => {
+    fastify.get('/api/account/related/event/:id', async (request, reply) => {
         console.log("Inside Task Account Router " + request.params.id)
         try {
             let result = await accountEvent(request.params.id)
@@ -1269,7 +1269,7 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.get('/api/dealRelatedEvent/:id', async (request, reply) => {
+    fastify.get('/api/deal/related/event/:id', async (request, reply) => {
         console.log("Inside dealRelatedEvent Router " + request.params.id)
         try {
             let result = await dealEvent(request.params.id)
