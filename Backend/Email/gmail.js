@@ -7,8 +7,10 @@ async function gmail(request) {
   console.log("Email id is : " + emailId);
   console.log("Subject is : " + subject);
   console.log("Body is : " + Body);
-  console.log(request.files);
-  if (request.files) {
+  console.log(request.files)
+  console.log(request.files.length);
+  console.log("befor if")
+  if (request.files.length > 0) {
     console.log("inside file name");
     console.log(request.files);
     request.files.forEach((e) => {
@@ -26,7 +28,7 @@ async function gmail(request) {
         attachments: [{ filename: attachmentname, path: filepath }],
       };
     });
-  } else if (!request.files) {
+  } else {
     console.log("else of file name");
     details = {
       to: emailId,
