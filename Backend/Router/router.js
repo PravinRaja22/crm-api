@@ -604,6 +604,8 @@ function getdatafromreact(fastify, options, done) {
             console.log("request file ", request.files);
             console.log("after request file");
             let result = await insertFile(request)
+            console.log("afeter insert")
+            console.log(result)
             reply.send(result)
         } catch (error) {
             reply.send('Error while uploading file. Try again later.');

@@ -32,6 +32,7 @@ async function insertFile(request) {
 
         await client.connect();
         let data = await insertFiledata(client, request.files)
+        return data
     } catch (e) {
         console.error(e);
     } finally {
@@ -43,7 +44,8 @@ async function insertFile(request) {
 async function insertFiledata(client, newFile) {
     const result = await client.db(process.env.DB).collection("Files").insertMany(newFile);
     console.log("inserted records " + JSON.stringify(result));
-    if(result.length>1){
+    if(result.insertedCount > 0){
+        console.log("inserted done")
         return "file Uploaded successfully";
 
     }
