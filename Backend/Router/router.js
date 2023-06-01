@@ -705,7 +705,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post('/api/account', Accouninsertschema, async (request, reply) => {
+    fastify.post('/api/account', /*Accouninsertschema,(validation)*/ async (request, reply) => {
         console.log("upsert route called")
         console.log("request body " + request.body)
         try {

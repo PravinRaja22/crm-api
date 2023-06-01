@@ -14,7 +14,7 @@ async function upsertEnquiry(request) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert Enquiry function ' + result);
+                    console.log( result);
                 }
         }
         toObject(objdata, objvalues)
@@ -31,7 +31,7 @@ async function upsertEnquiry(request) {
 //upsertLead().catch(console.error);
 async function updatesiglerecord(client, id, updatedatas) {
     //update single record
-    const result = await client.db(process.env.DB).collection("Lead").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
+    const result = await client.db(process.env.DB).collection("Enquiry").updateOne({ "_id": ObjectId(id) }, { $set: updatedatas }, { upsert: true });
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
     }
