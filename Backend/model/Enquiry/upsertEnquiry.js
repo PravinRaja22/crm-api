@@ -14,7 +14,7 @@ async function upsertEnquiry(request) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
-                    console.log('inside upsert Enquiry function ' + result);
+                    console.log( result);
                 }
         }
         toObject(objdata, objvalues)
