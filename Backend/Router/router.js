@@ -185,7 +185,7 @@ function getdatafromreact(fastify, options, done) {
             let data = await getAllowedTabs(department, role)
             reply.send(data)
         } catch (error) {
-
+                   reply.send("error in tabs section "+error.message)
         }
 
     })
@@ -401,15 +401,6 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-
-
-
-
-
-
-
-
-
 
     fastify.post("/api/bulkemail", { preHandler: fieldsUpload }, async (request, reply) => {
         console.log("bulk email test");
