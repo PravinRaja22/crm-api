@@ -16,7 +16,8 @@ async function getAccountInventory(inventoryId) {
 //getAccountInventory().catch(console.error);
 async function getAccountDatas(client,inventoryId) {
     console.log("inside functionality inventory id "+inventoryId);
-    const cursor = await client.db("CRM").collection("Account").find({InventoryId :new RegExp('^' + inventoryId)})
+    const cursor = await client.db(process.env.DB).collection("Account").find({InventoryId :new RegExp('^' + inventoryId)})
+    console.log("data base is "+process.env.DB)
     const results = await cursor.toArray();
     if (results.length > 0) {
         // console.log(results);

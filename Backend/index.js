@@ -1,22 +1,25 @@
 const fastify = require('fastify')({ logger: false })
 const path = require('path')
 const dotenv = require("dotenv").config();
-//  const fileUpload = require('fastify-file-upload')
-// fastify.register(fileUpload, {
-//     limits: { fileSize: 50 * 1024 * 1024 },
-// });
-//fastify.register(fileUpload)
-fastify.register(require('@fastify/static'), {
-    root: path.join(__dirname, 'uploads'),
-   // prefix: 'uploads'
+fastify.register(require('@fastify/cookie'))
+fastify.register(require('@fastify/jwt'), {
+    secret: 'supersecret'
   })
-
+//  const fastifyjwt=  require('@fastify/jwt')
+//  const fileUpload = require('fastify-file-upload')
+//  fastify.register(fileUpload, {
+//  limits: { fileSize: 50 * 1024 * 1024 },
+//  });
+//  fastify.register(fileUpload)
+fastify.register(require('@fastify/static'), {
+     root: path.join(__dirname, 'uploads'),
+//   prefix: 'uploads'
+  })
 //   fastify.register(fileUpload, {
 //     limits: { fileSize: 50 * 1024 * 1024 },
 //   });
- // const dbconnect = require('./Database/mongodb')
-//fastify.register(dbconnect)
-
+//   const dbconnect = require('./Database/mongodb')
+//   fastify.register(dbconnect)
 const Multer = require ('fastify-multer')
 console.log(path.join(__dirname, 'uploads'));
 // fastify.register(require('./model/plugin/mongodb'))
@@ -37,5 +40,4 @@ const start = async () => {
         process.exit(1)
     }
 }
-
 start();

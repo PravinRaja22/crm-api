@@ -20,7 +20,7 @@ async function getEachFiles(fileId) {
 async function getindividualdata(client,fileId) {
 
     try{
-        const cursor = await client.db("CRM").collection("Files").find({ _id: ObjectId(fileId) })
+        const cursor = await client.db(process.env.DB).collection("Files").find({ _id: ObjectId(fileId) })
         const results = await cursor.toArray();
         if (results.length > 0) {
             console.log("individual file is : "+results);

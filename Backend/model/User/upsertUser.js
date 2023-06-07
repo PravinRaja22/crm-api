@@ -15,6 +15,7 @@ async function upsertUser(request) {
         request.password = hashPassword
         await client.connect();
 
+        
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = {};
@@ -43,7 +44,7 @@ async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
     console.log("upsert single user "+id)
     console.log("upsert data is "+upsertdatas)
-    const result = await client.db("CRM").collection("User").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
+    const result = await client.db(process.env.DB).collection("User").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`

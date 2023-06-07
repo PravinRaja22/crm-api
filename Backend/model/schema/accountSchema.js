@@ -22,8 +22,10 @@ const dataloaderAccountinsertschema = {
                 accountNumber:{ type: 'number' },
                 rating: { type: 'string' },
                 type: { type: 'string' },
+                phone:{type:'number'}
             }
         },
     }
 }
+console.error("inside validataion function ")
 module.exports = {Accouninsertschema,dataloaderAccountinsertschema}

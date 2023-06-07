@@ -18,7 +18,7 @@ async function deleteUser(dataid) {
 }
 //deleteUser().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
-    const results = await client.db("CRM").collection("User").deleteOne({ _id: ObjectId(deleteaccountdata) })
+    const results = await client.db(process.env.DB).collection("User").deleteOne({ _id: ObjectId(deleteaccountdata) })
     if (results) {
         return JSON.stringify(results)
     }

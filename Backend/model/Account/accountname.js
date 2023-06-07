@@ -3,7 +3,7 @@
 // fastify.after(error => {error ? console.log(error):"plugin loaded successfully"});
 // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 // async function getAccountName(accNames){
-//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     const accountCollection = await fastify.mongo.client.db('process.env.DB').collection('Account')
 //     let accname = []
 //     let accountname={}
 //     let results
@@ -52,7 +52,7 @@ async function getAccountName(request) {
 async function getDatas(client, accNames) {
     if(accNames){
         console.log("inside if statement of accnames")
-        const cursor = await client.db("CRM").collection("Account").find({ accountName: new RegExp('^'+accNames)})
+        const cursor = await client.db(process.env.DB).collection("Account").find({ accountName: new RegExp('^'+accNames)})
         const results = await cursor.toArray();
         let accname = []
         if (results.length > 0) {
@@ -72,7 +72,7 @@ async function getDatas(client, accNames) {
     }
     else {
         console.log("inside account name test");
-        const cursor = await client.db("CRM").collection("Account").find().limit(5)
+        const cursor = await client.db(process.env.DB).collection("Account").find().limit(5)
         const results = await cursor.toArray();
         let accname = []
         if (results.length > 0) {

@@ -22,7 +22,7 @@ async function deleteFile(dataid) {
 async function deleteDatas(client, deleteFiledata) {
     console.log("inside delete files")
     console.log("id is "+deleteFiledata)
-    const gitfilesdata = await client.db("CRM").collection("Files").findOne({ _id: ObjectId(deleteFiledata) })
+    const gitfilesdata = await client.db(process.env.DB).collection("Files").findOne({ _id: ObjectId(deleteFiledata) })
     console.log("get files inise files is ")
     console.log(gitfilesdata.filename)
     console.log(JSON.stringify(gitfilesdata.filename))
@@ -37,7 +37,7 @@ async function deleteDatas(client, deleteFiledata) {
     //     }
     // })
     // return "data got"
-    const results = await client.db("CRM").collection("Files").deleteOne({ _id: ObjectId(deleteFiledata) })
+    const results = await client.db(process.env.DB).collection("Files").deleteOne({ _id: ObjectId(deleteFiledata) })
     if (results) {
         return results
     }

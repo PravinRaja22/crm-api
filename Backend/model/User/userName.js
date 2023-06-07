@@ -18,7 +18,7 @@ async function  getUserName(request) {
 async function getDatas(client, userName) {
     if(userName){
         console.log("inside if statement of user names")
-        const cursor = await client.db("CRM").collection("User").find({ fullName: new RegExp('^'+userName)})
+        const cursor = await client.db(process.env.DB).collection("User").find({ fullName: new RegExp('^'+userName)})
         const results = await cursor.toArray();
         let username = []
         if (results.length > 0) {
@@ -38,7 +38,7 @@ async function getDatas(client, userName) {
     }
     else {
         console.log("inside user name test");
-        const cursor = await client.db("CRM").collection("User").find().limit(5)
+        const cursor = await client.db(process.env.DB).collection("User").find().limit(5)
         const results = await cursor.toArray();
         let username = []
         if (results.length > 0) {

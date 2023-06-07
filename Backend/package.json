@@ -5,15 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "delete": "nodemon model/deleteall/deleteall.js"
+    "delete": "nodemon model/deleteall/deleteall.js",
+    "rename":"nodemon model/renameCollection/renameCollection.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.1.0",
+    "@fastify/jwt": "^6.7.1",
     "@fastify/mongodb": "^6.1.0",
     "@fastify/static": "^6.6.0",
+    "@fastify/swagger": "^8.3.1",
     "@vercel/node": "^2.8.3",
     "axios": "^1.2.4",
     "bcryptjs": "^2.4.3",

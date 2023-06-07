@@ -6,7 +6,7 @@
 // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 // async function upsertAccount(request) {
 //     let results
-//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     const accountCollection = await fastify.mongo.client.db('process.env.DB').collection('Account')
 //     let upsertdatas = {
 //         PropertyId: request.Inventory,
 //         accountName: request.accountName,
@@ -79,7 +79,7 @@ async function upsertAccount(request) {
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
         let result = {};
-    
+ 
         function toObject(names, values) {
             for (let i = 0; i < names.length; i++)
                 if (names[i] != '_id') {
@@ -88,47 +88,7 @@ async function upsertAccount(request) {
                 }
         }
         toObject(objdata, objvalues)
-        // var upsertdatas = {
-        //     PropertyId: request.Inventory,
-        //     accountName: request.accountName,
-        //     accountNumber: request.accountNumber,
-        //     annualRevenue: request.annualRevenue,
-        //     rating: request.rating,
-        //     type: request.type,
-        //     phone: request.phone,
-        //     industry: request.industry,
-        //     billingAddress: request.billingAddress,
-        //     billingCountry: request.billingCountry,
-        //     billingCity: request.billingCity,
-        //     billingCities: request.billingCities,
-        //     createdbyId: request.createdbyId,
-        //     createdDate: request.createdDate,
-        //     modifiedDate:request.modifiedDate
-        // }
-        // var upsertdataswithoutinventory = {
-        //     accountName: request.accountName,
-        //     accountNumber: request.accountNumber,
-        //     annualRevenue: request.annualRevenue,
-        //     rating: request.rating,
-        //     type: request.type,
-        //     phone: request.phone,
-        //     industry: request.industry,
-        //     billingAddress: request.billingAddress,
-        //     billingCountry: request.billingCountry,
-        //     billingCity: request.billingCity,
-        //     billingCities: request.billingCities,
-        //     createdbyId: request.createdbyId,
-        //     createdDate: request.createdDate,
-        //     modifiedDate:request.modifiedDate
-        // }
-        // if (request.Inventory) {
-        //     let data = await upsertSingleRecord(client, request._id, upsertdatas)
-        //     return data
-        // }
-        // else {
-        //     let data = await upsertSingleRecord(client, request._id, upsertdataswithoutinventory)
-        //     return data
-        // }
+
         let data = await upsertSingleRecord(client, request._id, result)
         return data
 
@@ -140,10 +100,9 @@ async function upsertAccount(request) {
         await client.close();
     }
 }
-//upsertAccount().catch(console.error);
 async function upsertSingleRecord(client, id, upsertdatas) {
     //update single record
-    const result = await client.db("CRM").collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
+    const result = await client.db(process.env.DB).collection("Account").updateOne({ _id: ObjectId(id) }, { $set: upsertdatas }, { upsert: true });
     console.log(JSON.stringify(result));
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`

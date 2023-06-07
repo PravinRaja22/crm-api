@@ -17,7 +17,7 @@
 //                     }
 //                 },
 //             ])
-//     const accountCollection = await fastify.mongo.client.db('CRM').collection('Account')
+//     const accountCollection = await fastify.mongo.client.db('process.env.DB').collection('Account')
 //     let result =await  accountCollection.aggregate(queryobj).toArray();
 //     return result;
 // }
@@ -44,7 +44,7 @@ async function getDatas(client) {
         {
             $lookup:
             {
-                from: 'Inventory Management',
+                from: 'Inventory',
                 let: { "searchId": { $toObjectId:"$InventoryId" } },
                 pipeline: [
                     { $match: { $expr: { $eq: ["$_id","$$searchId"] } } },
@@ -53,7 +53,7 @@ async function getDatas(client) {
             }
         },
     ])
-    const cursor = await client.db("CRM").collection("Account").aggregate(queryobj)
+    const cursor = await client.db(process.env.DB).collection("Account").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
          //console.log(results);

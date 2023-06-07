@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
-const tokenGenerator = async (email) => {
+const tokenGenerator = async (userName) => {
     //creating json token using jwt.sign()
     const token = await jwt.sign(
-        { email },
+        { userName },
         "jwttokenkey",
-      //  { expiresIn: "3hours" }//this is optional
+    // { expiresIn: "2minutes" }//this is optional
     )
     console.log("token data " + token);
     return token;

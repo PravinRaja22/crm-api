@@ -28,7 +28,7 @@ async function upsertOpportunityInventory(request) {
 }
 //upsertOpportunityInventory().catch(console.error);
 async function updatesiglerecord(client,id,updatedatas){
-    const result = await client.db("CRM").collection("Opportunity Inventory").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
+    const result = await client.db(process.env.DB).collection("Opportunity Inventory").updateOne({"_id":ObjectId(id)},{$set:updatedatas},{upsert:true});
     if (result.upsertedCount > 0) {
         return `Record inserted with the id ${result.upsertedId}`
 
