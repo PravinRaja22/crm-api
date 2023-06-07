@@ -27,7 +27,7 @@ var upload = Multer({
     
 })
 
-let fieldsUpload = upload.array('file')
+let filesUpload = upload.array('file')
 
 
 
@@ -87,7 +87,7 @@ let fieldsUpload = upload.array('file')
 // }
 
 module.exports={
-    fieldsUpload,Multer
+    filesUpload,Multer
 }
 
 

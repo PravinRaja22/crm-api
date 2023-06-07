@@ -48,7 +48,7 @@ const { authVerify } = require('../helpers/authverify')
 const { Accouninsertschema, dataloaderAccountinsertschema } = require('../model/schema/accountSchema')
 //const nodemailer = require('nodemailer')
 //const { fieldsUploAccouninsertschemaad, uploadFile, Multer } = require('../Dalaloader/multer')
-const { fieldsUpload, Multer } = require('../Dataloader/multer')
+const { filesUpload, Multer } = require('../Dataloader/multer')
 const { gmail } = require('../Email/gmail')
 const { outlookemail } = require('../Email/outlook')
 const { insertEmail } = require('../model/Email/insertemail')
@@ -194,7 +194,7 @@ function getdatafromreact(fastify, options, done) {
     fastify.get('/api/dashboard', async (request, reply) => {
         try {
             const { object, field } = request.query
-            let result = await getDashborad(object, field)
+            let result = await getDashboard(object, field)
             reply.send(result)
         } catch (error) {
             console.log(error.message)
@@ -402,7 +402,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.post("/api/bulkemail", { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post("/api/bulkemail", { preHandler: filesUpload }, async (request, reply) => {
         console.log("bulk email test");
         console.log(request.body);
         //  console.log("request file ", request.file);
@@ -422,7 +422,7 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.post("/api/outlookemail", { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post("/api/outlookemail", { preHandler: filesUpload }, async (request, reply) => {
         console.log("outllook email test");
         console.log(request.body);
         //  console.log("request file ", request.file);
@@ -444,7 +444,7 @@ function getdatafromreact(fastify, options, done) {
 
 
 
-    fastify.post("/api/bulkewhatsapp", { preHandler: fieldsUpload }, (request, reply) => {
+    fastify.post("/api/bulkewhatsapp", { preHandler: filesUpload }, (request, reply) => {
         console.log("bulk email test");
         console.log(request.body.recordsData);
         //  console.log("request file ", request.file);
@@ -479,7 +479,7 @@ function getdatafromreact(fastify, options, done) {
     //res.sendFile('2023-01-10T10-01-19.567Z-node js logs imp.png');
     //});
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
-    fastify.post('/api/dataloaderEnquiry', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderEnquiry', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside data loader Enquiry");
         console.log(request.files.filename);
         try {
@@ -502,7 +502,7 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-    fastify.post('/api/dataloaderFilePreview', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderFilePreview', { preHandler: filesUpload }, async (request, reply) => {
         console.log("Inside dataloaderFilePreview");
         console.log(request.files);
         console.log(request.files[0].filename);
@@ -523,7 +523,7 @@ function getdatafromreact(fastify, options, done) {
         //  console.log("after exot pf try catch "+csvoutput);
     })
 
-    fastify.post('/api/dataloaderAccount', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderAccount', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside upload file data loader Account");
         console.log("validator worked ?? :: " + request.validationError)
         //    console.log(request.files.filename);
@@ -549,7 +549,7 @@ function getdatafromreact(fastify, options, done) {
         }
     });
 
-    fastify.post('/api/dataloaderDeal', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderDeal', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside upload file data loader Deal");
         console.log(request.files[0].filename);
         try {
@@ -584,7 +584,7 @@ function getdatafromreact(fastify, options, done) {
         preHandler: (request, reply, done) => {
             console.log("testing")
             console.log(request.url);
-            fieldsUpload(request, reply, done);
+            filesUpload(request, reply, done);
         }
     }, async (request, reply) => {
         console.log("inside upload file datas ");
@@ -625,7 +625,7 @@ function getdatafromreact(fastify, options, done) {
 
     // })
 
-    fastify.delete('/api/file/:id', { preHandler: fieldsUpload }, async (request, reply) => {
+    fastify.delete('/api/file/:id', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside delete file datas ");
         try {
             console.log("id is " + request.params.id)
