@@ -29,7 +29,6 @@ async function deleteAccount(dataid) {
     const client = new MongoClient(url);
     try {
         await client.connect();
-
         let data = await deleteDatas(client, dataid)
         return data;
     } catch (e) {

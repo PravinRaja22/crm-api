@@ -71,20 +71,143 @@ const { upsertDashboard } = require('../model/Dashboard/upsertDashboard')
 const { getDashboard } = require('../model/Dashboard/getDashboard')
 const { deleteDashboard } = require('../model/Dashboard/deleteDashboard')
 const { eventFile } = require('../model/fileupload/getFileEvent')
+// const passport = require('../passportjs/passport');
+// const { ensureAuthenticated } = require('../middleware/ensureAuthenticated')
+const { sp, idp } = require('../saml-2/config');
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
+    // SSO initiation route
+    fastify.get('/auth', (req, reply) => {
+        console.log('Auth route ')
+        sp.create_login_request_url(idp, {}, function (err, login_url, request_id) {
+            if (err != null)
+                return reply.send(500);
 
-    // fastify.get('/accounts/show', async (request, reply) => {
-    //     try {
-    //         console.log("inside account get salesforce")
-    //         let result = await getAccountdata();
-    //         reply.send(result)
-    //     }
-    //     catch (e) {
-    //         console.log("inside Account view Catch block ", e);
-    //         reply.send("Error " + e.message)
-    //     }
+                console.log(request_id)
+            reply.send(login_url);
+        });
+    });
+
+     let name_id, session_index;
+
+    // SSO callback route
+
+    fastify.post('/auth/callback', (req, res) => {
+        console.log('auth callback route')
+        console.log(req)
+        let options = { request_body:req.body};
+        console.log(options)
+        sp.post_assert(idp,options,(err, saml_response) =>{
+            console.log(saml_response)
+            console.log(options)
+            if (err != null){
+                return res.send(err.message);
+
+            }
+            else{
+                name_id = saml_response.user.name_id;
+                session_index = saml_response.user.session_index;
+                res.send("Hello #{name_id}! session_index: #{session_index}.");
+            }
+            
+        });
+    });
+
+
+
+
+    // fastify.get('/login',(req,res)=>{
+    //     res.send('login')
     // })
+
+    // fastify.post('/dashboard',(req,res)=>{
+    //     res.send('dashboard')
+    // })
+    // fastify.get('/auth', (req, res) => {
+    //     console.log('inside auth backednd');
+    //     // passport.authenticate("saml")(req.raw, res.raw);
+
+    //     passport.authenticate("saml", { failureRedirect: "/" })(req, res,(err,user)=>{
+    //         if(err){
+    //             console.log('error is ')
+    //             res.send(err)
+
+    //         }
+    //         else if (user){
+    //             console.log(user)
+    //         }
+    //     });
+    // });
+
+
+    // fastify.get('/auth',{prehandler : passport.authenticate('saml',{ failureRedirect: '/', failureFlash: true })}, (req, reply) => {
+    //     // console.log(req)
+    //     // console.log(passport)
+    //     reply.send('https://vijayclouddevorg-dev-ed.my.salesforce.com/idp/login?app=0sp5j000000wkEG');
+    //   });
+
+
+    // fastify.post('/auth', (req, res) => {
+    //     console.log('inside auth backednd');
+    //     passport.authenticate("saml")(req.raw, res.raw);
+
+    //     // passport.authenticate("saml", { failureRedirect: "/" })(req, res,(err,user)=>{
+    //     //     console.log('error is ')
+    //     //     res.send(err)
+    //     // });
+    // });
+
+
+    // fastify.post('/auth/callback',(req, reply) => {
+    //     reply.redirect('/'); // Redirect to the home page or any other page after successful login
+    //   });
+
+
+
+    // fastify.post('/auth/callback', (req, res) => {
+    //     console.log('inside auth callback');
+    //     passport.authenticate('saml', { failureRedirect: '/login' })(req.raw, res.raw, (err, user) => {
+    //         if (err || !user) {
+    //             res.redirect('/login'); // Handle authentication failure
+    //         } else {
+    //             // The SAML response is usually available in the SAMLResponse query parameter
+    //             const samlResponse = req.query.SAMLResponse;
+
+    //             // Parse the XML SAML response
+    //             parseString(Buffer.from(samlResponse, 'base64').toString(), (err, result) => {
+    //                 if (err) {
+    //                     // Handle parsing error
+    //                     return res.redirect('/login');
+    //                 }
+
+    //                 // Process the parsed SAML response as needed
+
+    //                 // Finally, log in the user if everything is successful
+    //                 req.logIn(user, (err) => {
+    //                     if (err) {
+    //                         res.redirect('/login'); // Handle login error
+    //                     } else {
+    //                         res.redirect('/dashboard'); // Redirect the user to the desired page after successful authentication
+    //                     }
+    //                 });
+    //             });
+    //         }
+    //     });
+    // });
+
+
+
+    fastify.get('/accounts/show', async (request, reply) => {
+        try {
+            console.log("inside account get salesforce")
+            let result = await getAccountdata();
+            reply.send(result)
+        }
+        catch (e) {
+            console.log("inside Account view Catch block ", e);
+            reply.send("Error " + e.message)
+        }
+    })
 
 
     // fastify.delete('/Account/delete', async (request, reply) => {
@@ -185,7 +308,7 @@ function getdatafromreact(fastify, options, done) {
             let data = await getAllowedTabs(department, role)
             reply.send(data)
         } catch (error) {
-                   reply.send("error in tabs section "+error.message)
+            reply.send("error in tabs section " + error.message)
         }
 
     })
@@ -502,7 +625,7 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-    fastify.post('/api/dataloaderFilePreview', { preHandler: filesUpload }, async (request, reply) => {
+    fastify.post('/api/dataloaderFilePreview', { preHandler:filesUpload}, async (request, reply) => {
         console.log("Inside dataloaderFilePreview");
         console.log(request.files);
         console.log(request.files[0].filename);
