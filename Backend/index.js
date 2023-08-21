@@ -1,6 +1,5 @@
 const fastify = require('fastify')({ logger: false })
 const path = require('path')
-
 // const passport = require('./passportjs/passport');
 const fastifySession = require('@fastify/session');
 const dotenv = require("dotenv").config();
@@ -28,6 +27,7 @@ console.log(path.join(__dirname, 'uploads'));
 // fastify.ready(error => {error ? console.log(error):"All plugin loaded successfully"});
 fastify.register(Multer.contentParser);
 fastify.register(require('./Router/router'))
+
 const start = async () => {
   try {
     await fastify.listen({ port: 8080 }, () => {
