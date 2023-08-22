@@ -83,33 +83,33 @@ function getdatafromreact(fastify, options, done) {
             if (err != null)
                 return reply.send(500);
 
-                console.log(request_id)
+            console.log(request_id)
             reply.send(login_url);
         });
     });
 
-     let name_id, session_index;
+    let name_id, session_index;
 
     // SSO callback route
 
     fastify.post('/auth/callback', (req, res) => {
         console.log('auth callback route')
         console.log(req)
-        let options = { request_body:req.body};
+        let options = { request_body: req.body };
         console.log(options)
-        sp.post_assert(idp,options,(err, saml_response) =>{
+        sp.post_assert(idp, options, (err, saml_response) => {
             console.log(saml_response)
             console.log(options)
-            if (err != null){
+            if (err != null) {
                 return res.send(err.message);
 
             }
-            else{
+            else {
                 name_id = saml_response.user.name_id;
                 session_index = saml_response.user.session_index;
                 res.send("Hello #{name_id}! session_index: #{session_index}.");
             }
-            
+
         });
     });
 
@@ -604,7 +604,10 @@ function getdatafromreact(fastify, options, done) {
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderEnquiry', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside data loader Enquiry");
-        console.log(request.files.filename);
+        console.log(request.files[0].filename);
+        let created = JSON.parse(request.body.createdBy);
+        let modified = JSON.parse(request.body.modifiedBy);
+
         try {
             console.log("inside Enquiry data loader ");
             console.log('data loader Enquiry data  ' + JSON.stringify(request.files[0].filename));
@@ -616,8 +619,12 @@ function getdatafromreact(fastify, options, done) {
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
-                    console.log('data format ' + JSON.stringify(jsonobj));
-                    let result = dataloaderEnquiry(jsonobj)
+                    // console.log('data format ' + JSON.stringify(jsonobj));
+
+                    console.log('===>>>>>>>');
+                    console.log(jsonobj, 'format')
+                    console.log('===>>>>>>>');
+                    let result = dataloaderEnquiry(jsonobj, created, modified)
                     return "success";
                 })
         }
@@ -625,7 +632,7 @@ function getdatafromreact(fastify, options, done) {
             res.send('error ' + e.message)
         }
     });
-    fastify.post('/api/dataloaderFilePreview', { preHandler:filesUpload}, async (request, reply) => {
+    fastify.post('/api/dataloaderFilePreview', { preHandler: filesUpload }, async (request, reply) => {
         console.log("Inside dataloaderFilePreview");
         console.log(request.files);
         console.log(request.files[0].filename);
@@ -650,6 +657,8 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside upload file data loader Account");
         console.log("validator worked ?? :: " + request.validationError)
         //    console.log(request.files.filename);
+        let created = JSON.parse(request.body.createdBy);
+        let modified = JSON.parse(request.body.modifiedBy);
         try {
             // console.log("inside upload file data loader Account ");
             // console.log('data loader Account  data  ' + JSON.stringify(request.files[0].filename));
@@ -663,7 +672,7 @@ function getdatafromreact(fastify, options, done) {
                 .then((jsonobj) => {
                     // console.log('data format Account ' + JSON.stringify(jsonobj));
                     console.log(jsonobj)
-                    let result = dataloaderAccount(jsonobj)
+                    let result = dataloaderAccount(jsonobj,created,modified)
                     return "success";
                 })
         }
@@ -675,6 +684,8 @@ function getdatafromreact(fastify, options, done) {
     fastify.post('/api/dataloaderDeal', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside upload file data loader Deal");
         console.log(request.files[0].filename);
+        let created = JSON.parse(request.body.createdBy);
+        let modified = JSON.parse(request.body.modifiedBy);
         try {
             console.log("test")
             console.log("inside upload file data loader Deal ");
@@ -687,7 +698,7 @@ function getdatafromreact(fastify, options, done) {
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
                     console.log('data format Deal ' + JSON.stringify(jsonobj));
-                    let result = dataloaderDeal(jsonobj)
+                    let result = dataloaderDeal(jsonobj,created,modified)
                     return "success";
                 })
         }

@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-async function dataloaderAccount(request) {
+async function dataloaderAccount(request,createdBy,modifiedBy) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     // console.log("data loader testing data for Account  " + JSON.stringify(request));
@@ -13,8 +13,10 @@ async function dataloaderAccount(request) {
         // console.log("Before for loop");
         request.forEach(function (variable) {
             // console.log("inside for loop before adding date ",variable);
-            variable.createdDate = someDate1
-            variable.modifiedDate = someDate1
+            variable.createdDate = someDate1;
+            variable.modifiedDate = someDate1;
+            variable.createdBy=createdBy;
+            variable.modifiedBy=modifiedBy;
             // console.log("inside for loop after adding date  ",variable);
         });
         // console.log("After for loop");
