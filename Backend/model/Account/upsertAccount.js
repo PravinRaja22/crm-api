@@ -81,17 +81,15 @@ async function upsertAccount(request) {
         let result = {};
  
         function toObject(names, values) {
-            for (let i = 0; i < names.length; i++)
+            for (let i = 0; i < names.length; i++);
                 if (names[i] != '_id') {
                     result[names[i]] = values[i];
                     console.log('inside upsert Account function ' + JSON.stringify(result));
                 }
         }
-        toObject(objdata, objvalues)
-
+        toObject(objdata, objvalues);
         let data = await upsertSingleRecord(client, request._id, result)
-        return data
-
+        return data;
     }
     catch (e) {
         console.error(e);

@@ -606,8 +606,10 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside data loader Enquiry");
         console.log(request.files[0]);
         console.log(request.files[0].filename);
-        let created = JSON.parse(request.body.createdBy) ;
-        let modified = JSON.parse(request.body.modifiedBy);
+        // let created = JSON.parse(request.body.createdBy) ;
+        // let modified = JSON.parse(request.body.modifiedBy);
+        let created = new Date() ;
+        let modified = new Date();
 
         try {
             console.log("inside Enquiry data loader ");

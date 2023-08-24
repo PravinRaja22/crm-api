@@ -59,21 +59,15 @@ async function upsertmultiplerecord(client, insertdatas) {
 
         // Convert to ISO format
         console.log(e._id, 'Id is ')
-        return {
-            updateOne: {
-                filter: { _id: ObjectId(e.id) },
-                update: { $set: { e } },
-                upsert: true
-            }
-        }
+     
     })
-    // console.log(insertdatas ,'InsertDatas');
-    // const result = await client.db(process.env.DB).collection("Enquiry").updateMany({ _id: ObjectId(id) }, { $set: insertdatas }, { upsert: true });
-    // console.log("result of upserted count is  " + JSON.stringify(result.insertedCount));
-    console.log(updateOperations, 'Update Operations');
-    const result = await client.db(process.env.DB).collection("Enquiry").bulkWrite(updateOperations);
+    console.log(insertdatas ,'InsertDatas');
+    const result = await client.db(process.env.DB).collection("Enquiry").updateMany({ _id: ObjectId(id) }, { $set: insertdatas }, { upsert: true });
+    console.log("result of upserted count is  " + JSON.stringify(result.insertedCount));
+    // console.log(updateOperations, 'Update Operations');
+    // const result = await client.db(process.env.DB).collection("Enquiry").bulkWrite(updateOperations);
 
-    console.log("Number of upserted records: " + JSON.stringify(result.upsertedCount));
+    // console.log("Number of upserted records: " + JSON.stringify(result));
 }
 module.exports = { dataloaderEnquiry }
 
