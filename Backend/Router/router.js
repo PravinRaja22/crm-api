@@ -604,8 +604,9 @@ function getdatafromreact(fastify, options, done) {
     // fastify.post('/api/dataloaderlead', { preHandler: fieldsUpload }, uploadFileLead);
     fastify.post('/api/dataloaderEnquiry', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside data loader Enquiry");
+        console.log(request.files[0]);
         console.log(request.files[0].filename);
-        let created = JSON.parse(request.body.createdBy);
+        let created = JSON.parse(request.body.createdBy) ;
         let modified = JSON.parse(request.body.modifiedBy);
 
         try {
