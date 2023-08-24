@@ -15,8 +15,9 @@ async function getDealEnquiry(enquiryId) {
 }
 async function getDealDatas(client,enquiryId) {
     console.log("inside functionality Enquiry  id is : "+enquiryId);
-    const cursor = await client.db(process.env.DB).collection("Deal").find({LeadId :new RegExp('^' + leadId)})
+    const cursor = await client.db(process.env.DB).collection("Deal").find({LeadId :new RegExp('^' + enquiryId)})
     const results = await cursor.toArray();
+    console.log(results,"results getDealDatas");
     if (results.length > 0) {
         return JSON.stringify(results)
     }
