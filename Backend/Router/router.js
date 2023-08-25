@@ -1561,7 +1561,7 @@ function getdatafromreact(fastify, options, done) {
             }
         }
         catch (e) {
-            console.log("error block in delete Inventory   page ", e);
+            console.log("error block in delete Inventory page", e);
             reply.send("Error " + e.message)
         }
 

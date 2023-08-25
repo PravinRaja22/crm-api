@@ -20,7 +20,7 @@ async function deleteManyEnquiry(dataid) {
 
 async function deleteManyDatas(db, deleteEnquirydata) {
     console.log("Delete Enquiry List =====>>>>>");
-    
+
     try {
         const objectIdArray = deleteEnquirydata.map(id => ObjectId(id));
         const result = await db.collection("Enquiry").deleteMany({ _id: { $in: objectIdArray}});
