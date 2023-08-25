@@ -17,12 +17,13 @@ async function deleteDashboard(dataid) {
 async function deleteDatas(client, deletedashboarddata) {
     try {
         const objectIdArray = deletedashboarddata.map(id => ObjectId(id));
-        const results = await client.db(process.env.DB).collection("Dashboard").deleteMany({ _id: { $in: objectIdArray } })
-        if (results) {
-            return results
+        const result = await client.db(process.env.DB).collection("Dashboard").deleteMany({ _id: { $in: objectIdArray } })
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Contact`);
+            return result.deletedCount;
         }
         else {
-            return "no data found";
+            return null;
         }
 
     }
