@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deletePermissions(dataid) {
 
     //filter the data based on the bedrooms bathroom and beds
