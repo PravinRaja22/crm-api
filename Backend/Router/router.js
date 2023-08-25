@@ -1536,7 +1536,7 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deleteManyEnquiry(request.body.id);
             if (result) {
-                reply.send(`${result.length} Enquiry deleted successfully`)
+                reply.send(`${result.deletedCount} Enquiry deleted successfully`)
             }
             else {
                 reply.send("No data deleted")
