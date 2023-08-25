@@ -40,12 +40,35 @@ async function deleteAccount(dataid) {
 }
 //deleteAccount().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
-    const results = await client.db(process.env.DB).collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
-    if (results) {
-        return results
+
+    try {
+        const objectIdArray = deleteaccountdata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Account").deleteMany({ _id:{$in:objectIdArray }});
+        console.log(result)
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Enquiry`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
     }
-    else {
-        return "No data Deleted";
+    catch (e) {
+        console.log('Catch Block Delete Account');
+        return e.message;
+
     }
+
+
+
+
+    // const results = await client.db(process.env.DB).collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
+    // if (results) {
+    //     return results
+    // }
+    // else {
+    //     return "No data Deleted";
+    // }
 }
 module.exports = { deleteAccount }

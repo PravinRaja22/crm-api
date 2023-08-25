@@ -16,46 +16,48 @@
 // }
 // module.exports = { getLead }
 const { MongoClient } = require('mongodb');
-async function getEnquiry(month){
-  const url =process.env.MONGODBURL;
-  const client = new MongoClient(url);
+async function getEnquiry(month) {
+    const url = process.env.MONGODBURL;
+    const client = new MongoClient(url);
     try {
         await client.connect();
-        let data =   await getDatas(client,month)
+        let data = await getDatas(client, month)
         return data;
-    } 
+    }
     catch (e) {
         console.error(e);
-    } 
+    }
     finally {
         await client.close();
     }
 }
-   
-  
+
+
 //getLead().catch(console.error);
-async function getDatas(client,month)
-{
-    console.log(month)
-    let cursor;
-    if(month == null){
-        console.log("inside if")
-         cursor = await client.db(process.env.DB).collection("Enquiry").find()
-
+async function getDatas(client, month) {
+    try {
+        console.log(month)
+        let cursor;
+        if (month == null) {
+            console.log("inside if");
+            cursor = await client.db(process.env.DB).collection("Enquiry").find();
+        }
+        else {
+            console.log("inside else")
+            cursor = await client.db(process.env.DB).collection("Enquiry").find({ month: month });
+        }
+        const results = await cursor.toArray();
+        if (results.length > 0) {
+            return JSON.stringify(results);
+        }
+        else {
+            console.log("No data found");
+        }
     }
-    else {
-        console.log("inside else")
-         cursor = await client.db(process.env.DB).collection("Enquiry").find({month:month})
-
+    catch (e) {
+        return e.message;
     }
-const results = await cursor.toArray();
-    if(results.length >0){
-   
-    return JSON.stringify(results)
+
 }
-else{
-    console.log("no data found");
-}
-}
-module.exports= {getEnquiry}
+module.exports = { getEnquiry }
 

@@ -74,7 +74,6 @@ const { eventFile } = require('../model/fileupload/getFileEvent')
 // const passport = require('../passportjs/passport');
 // const { ensureAuthenticated } = require('../middleware/ensureAuthenticated')
 const { sp, idp } = require('../saml-2/config');
-const { deleteManyEnquiry } = require('../model/Enquiry/deleteManyEnquiry')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
     // SSO initiation route
@@ -701,20 +700,20 @@ function getdatafromreact(fastify, options, done) {
         try {
 
             console.log('data loader Deal  data  ' + JSON.stringify(request.files[0].filename));
-            const files = request.files[0].filename
-            const csvfilepath = 'uploads/' + files
+            const files = request.files[0].filename;
+            const csvfilepath = 'uploads/' + files;
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then(async (jsonobj) => {
                     console.log('data format Deal ' + JSON.stringify(jsonobj));
-                    let result = await dataloaderDeal(jsonobj, created, modified)
-                    console.log(result[0], 'result in Account dataLoader')
+                    let result = await dataloaderDeal(jsonobj, created, modified);
+                    console.log(result[0], 'result in Account dataLoader');
                     if (result[0].updatedCount > 0) {
-                        console.log(`${result.length} Records Updated SuccessFully `)
+                        console.log(`${result.length} Records Updated SuccessFully`);
                         reply.send(`${result.length} Records Updated SuccessFully `);
                     }
                     else if (result[0].insertedCount > 0) {
-                        console.log(`${result.length} Records Inserted  SuccessFully `)
+                        console.log(`${result.length} Records Inserted  SuccessFully`);
                         reply.send(`${result.length} Records Inserted  SuccessFully `);
                     }
                 })
@@ -1435,15 +1434,17 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/account/:id', async (request, reply) => {
+    fastify.delete('/api/account', async (request, reply) => {
         console.log("inside Account delete");
+        console.log(request.body.id);
         try {
-            let result = await deleteAccount(request.params.id);
+            let result = await deleteAccount(request.body.id);
             if (result) {
-                reply.send("Account Deleted Successfully")
+                reply.send(`${result} Account deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
@@ -1532,7 +1533,7 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside Enquiry delete");
         console.log(request.body);
         try {
-            let result = await deleteEnquiry(request.body);
+            let result = await deleteEnquiry(request.body.id);
             if (result) {
                 reply.send(`${result} Enquiry deleted successfully`);
             }
@@ -1543,7 +1544,6 @@ function getdatafromreact(fastify, options, done) {
         }
         catch (e) {
             console.log("error block in delete Enquiry  ", e);
-
             reply.send("Error " + e.message);
         }
 
