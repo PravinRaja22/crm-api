@@ -352,7 +352,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.delete('/api/permission', async (request, reply) => {
         try {
-            let result = await deletePermissions(request.params.id);
+            let result = await deletePermissions(request.body.id);
             if (result) {
                 reply.send(`${result} Permission deleted successfully`);
             }
