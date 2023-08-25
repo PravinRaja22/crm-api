@@ -18,7 +18,7 @@ async function deleteDatas(client, deleteDealdata) {
 
 
     try {
-        const objectIdArray = deleteaccountdata.map(id => ObjectId(id));
+        const objectIdArray = deleteDealdata.map(id => ObjectId(id));
         const result = await client.db(process.env.DB).collection("Deal").deleteMany({ _id:{$in:objectIdArray }});
         console.log(result)
         if (result.deletedCount > 0) {

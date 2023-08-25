@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-// var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function getEvent() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -22,7 +22,7 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Account',
-             //   let: { "searchId": { $toObjectId: "$AccountId" } },
+                //   let: { "searchId": { $toObjectId: "$AccountId" } },
 
                 pipeline: [
                     {
@@ -50,7 +50,7 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Enquiry',
-               // let: { "searchId": { $toObjectId: "$LeadId" } },
+                // let: { "searchId": { $toObjectId: "$LeadId" } },
 
                 pipeline: [
                     {
@@ -78,7 +78,7 @@ async function getDatas(client) {
             $lookup:
             {
                 from: 'Deal',
-              //  let: { "searchId": { $toObjectId: "$OpportunityId" } },
+                //  let: { "searchId": { $toObjectId: "$OpportunityId" } },
 
                 pipeline: [
                     {
@@ -95,7 +95,7 @@ async function getDatas(client) {
                                             onNull: { isnull: true }
                                         }
                                     }
-                                ]
+                                    ]
                             }
                         }
                     },

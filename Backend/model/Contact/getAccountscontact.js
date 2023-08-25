@@ -1,6 +1,6 @@
 
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function getAccountscontact(accid) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);

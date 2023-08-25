@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const { getFiles } = require('./getfiles');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 const filesystem = require('fs');
 async function deleteFile(dataid) {
 
