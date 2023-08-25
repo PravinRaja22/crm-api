@@ -1275,9 +1275,7 @@ function getdatafromreact(fastify, options, done) {
                     console.log(request.query.month)
                     let result = await getEnquiry(request.query.month)
                     reply.send(result)
-
                 }
-
             }
         }
         catch (e) {
@@ -1511,32 +1509,32 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.delete('/api/enquiry/:id', async (request, reply) => {
-        console.log("inside Enquiry delete");
-        try {
-            let result = await deleteEnquiry(request.params.id);
-            if (result) {
-                reply.send("Enquiry deleted successfully")
-            }
-            else {
-                reply.send("No data deleted")
-            }
-        }
-        catch (e) {
-            console.log("error block in delete Enquiry  ", e);
+    // fastify.delete('/api/enquiry/:id', async (request, reply) => {
+    //     console.log("inside Enquiry delete");
+    //     try {
+    //         let result = await deleteEnquiry(request.params.id);
+    //         if (result) {
+    //             reply.send("Enquiry deleted successfully")
+    //         }
+    //         else {
+    //             reply.send("No data deleted")
+    //         }
+    //     }
+    //     catch (e) {
+    //         console.log("error block in delete Enquiry  ", e);
 
-            reply.send("Error " + e.message)
-        }
+    //         reply.send("Error " + e.message)
+    //     }
 
-    })
+    // })
 
-    fastify.delete('/api/enquiry/many', async (request, reply) => {
+    fastify.delete('/api/enquiry', async (request, reply) => {
         console.log("inside Enquiry delete");
         console.log(request.body);
         try {
-            let result = await deleteManyEnquiry(request.body.id);
+            let result = await deleteManyEnquiry(request.body);
             if (result) {
-                console.log(result ,'Delet data')
+                console.log(result, 'Delet data')
                 reply.send(`${result} Enquiry deleted successfully`)
             }
             else {
