@@ -74,6 +74,7 @@ const { eventFile } = require('../model/fileupload/getFileEvent')
 // const passport = require('../passportjs/passport');
 // const { ensureAuthenticated } = require('../middleware/ensureAuthenticated')
 const { sp, idp } = require('../saml-2/config');
+const { deleteManyEnquiry } = require('../model/Enquiry/deleteManyEnquiry')
 function getdatafromreact(fastify, options, done) {
     /*=====salesforce */
     // SSO initiation route
@@ -1516,6 +1517,26 @@ function getdatafromreact(fastify, options, done) {
             let result = await deleteEnquiry(request.params.id);
             if (result) {
                 reply.send("Enquiry deleted successfully")
+            }
+            else {
+                reply.send("No data deleted")
+            }
+        }
+        catch (e) {
+            console.log("error block in delete Enquiry  ", e);
+
+            reply.send("Error " + e.message)
+        }
+
+    })
+
+    fastify.delete('/api/enquiry/many', async (request, reply) => {
+        console.log("inside Enquiry delete");
+        console.log(request.body);
+        try {
+            let result = await deleteManyEnquiry(request.body.id);
+            if (result) {
+                reply.send(`${result.length} Enquiry deleted successfully`)
             }
             else {
                 reply.send("No data deleted")
