@@ -14,14 +14,25 @@ async function deleteEnquiry(dataid) {
         await client.close();
     }
 }
-//deleteLead().catch(console.error);
-async function deleteDatas(client, deleteleaddata) {
-    const results = await client.db(process.env.DB).collection("Enquiry").deleteOne({ _id: ObjectId(deleteleaddata) })
-    if (results) {
-        return JSON.stringify(results)
+async function deleteDatas(client, deleteEnquirydata) {
+    try{
+        const objectIdArray = deleteEnquirydata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Enquiry").deleteMany({ _id: { $in: objectIdArray } });
+        console.log( result)
+        if(result.deletedCount > 0){
+            console.log(`${result.deletedCount} records deleted from Enquiry`);
+            return result.deletedCount;
+        }
+        else{
+            return null;
+        }
+       
     }
-    else {
-        console.log("no data found");
+    catch(e){
+        console.log('Catch Block Delete Enquiry');
+        return e.message;
+
     }
+
 }
 module.exports = { deleteEnquiry }

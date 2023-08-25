@@ -1532,19 +1532,19 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside Enquiry delete");
         console.log(request.body);
         try {
-            let result = await deleteManyEnquiry(request.body);
+            let result = await deleteEnquiry(request.body);
             if (result) {
-                console.log(result, 'Delet data')
-                reply.send(`${result} Enquiry deleted successfully`)
+                reply.send(`${result} Enquiry deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
             console.log("error block in delete Enquiry  ", e);
 
-            reply.send("Error " + e.message)
+            reply.send("Error " + e.message);
         }
 
     })
@@ -1571,15 +1571,15 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deleteUser(request.params.id);
             if (result) {
-                reply.send("User deleted successfully")
+                reply.send("User deleted successfully");
             }
             else {
-                reply.send("No data deleted")
+                reply.send("No data deleted");
             }
         }
         catch (e) {
             console.log("error block in delete user   page ", e);
-            reply.send("Error " + e.message)
+            reply.send("Error " + e.message);
         }
     })
     fastify.delete('/api/event/:id', async (request, reply) => {
@@ -1587,15 +1587,15 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deleteEvent(request.params.id);
             if (result) {
-                reply.send("Event deleted successfully")
+                reply.send("Event deleted successfully");
             }
             else {
-                reply.send("No data deleted")
+                reply.send("No data deleted");
             }
         }
         catch (e) {
             console.log("error block in delete Event   page ", e);
-            reply.send("Error " + e.message)
+            reply.send("Error " + e.message);
         }
     })
 
@@ -1604,15 +1604,15 @@ function getdatafromreact(fastify, options, done) {
         try {
             let result = await deleteOpportunityInventory(request.query.code);
             if (result) {
-                reply.send("oppinventory deleted successfully")
+                reply.send("oppinventory deleted successfully");
             }
             else {
-                reply.send("No data deleted")
+                reply.send("No data deleted");
             }
         }
         catch (e) {
             console.log("error block in delete user   page ", e);
-            reply.send("Error " + e.message)
+            reply.send("Error " + e.message);
         }
     })
 
