@@ -25,8 +25,8 @@ async function deleteManyDatas(db, deleteEnquirydata) {
         const objectIdArray = deleteEnquirydata.map(id => ObjectId(id));
         const result = await db.collection("Enquiry").deleteMany({ _id: { $in: objectIdArray}});
         console.log(result);
-        console.log(`${result.deletedCount} records deleted from Enquiry Account`);
-        return result;
+        console.log(`${result.deletedCount} records deleted from Enquiry`);
+        return result.deletedCount;
     } catch (err) {
         console.error('Error deleting records:', err);
     }
