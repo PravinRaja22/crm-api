@@ -775,13 +775,17 @@ function getdatafromreact(fastify, options, done) {
 
     // })
 
-    fastify.delete('/api/file/:id', { preHandler: filesUpload }, async (request, reply) => {
+    fastify.delete('/api/file', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside delete file datas ");
         try {
-            console.log("id is " + request.params.id)
-            let result = await deleteFile(request.params.id)
+            console.log("id is " + request.body.id)
+            let result = await deleteFile(request.body.id)
             if (result) {
-                reply.send("File Deleted Successfully")
+                reply.send(`${result} Files deleted successfully`);
+            }
+            else {
+                console.log(result);
+                reply.send("No data deleted");
             }
 
         } catch (error) {
@@ -1454,17 +1458,17 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.delete('/api/dashboard/:id', async (request, reply) => {
+    fastify.delete('/api/dashboard', async (request, reply) => {
         console.log("inside dashboard delete");
         try {
-            console.log(request.params.id);
-            let result = await deleteDashboard(request.params.id);
+            console.log(request.body.id);
+            let result = await deleteDashboard(request.body.id);
             if (result) {
-                reply.send("Dashboard Deleted Successfully")
-
+                reply.send(`${result} Dashboard deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
@@ -1474,16 +1478,17 @@ function getdatafromreact(fastify, options, done) {
     })
 
 
-    fastify.delete('/api/contact/:id', async (request, reply) => {
+    fastify.delete('/api/contact', async (request, reply) => {
         console.log("inside Contact delete");
-        console.log("Query " + JSON.stringify(request.params.id))
+        console.log("Query " + JSON.stringify(request.body.id))
         try {
-            let result = await deleteContact(request.params.id);
+            let result = await deleteContact(request.body.id);
             if (result) {
-                reply.send("Contact Deleted Successfully")
+                reply.send(`${result} Contacts deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
@@ -1492,15 +1497,16 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/deal/:id', async (request, reply) => {
+    fastify.delete('/api/deal', async (request, reply) => {
         console.log("inside deal delete");
         try {
-            let result = await deletedeal(request.params.id);
+            let result = await deletedeal(request.body.id);
             if (result) {
-                reply.send("Deal deleted successfully")
+                reply.send(`${result} Deal deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
@@ -1582,14 +1588,15 @@ function getdatafromreact(fastify, options, done) {
             reply.send("Error " + e.message);
         }
     })
-    fastify.delete('/api/event/:id', async (request, reply) => {
+    fastify.delete('/api/event', async (request, reply) => {
         console.log("inside event delete");
         try {
-            let result = await deleteEvent(request.params.id);
+            let result = await deleteEvent(request.body.id);
             if (result) {
-                reply.send("Event deleted successfully");
+                reply.send(`${result} Event deleted successfully`);
             }
             else {
+                console.log(result);
                 reply.send("No data deleted");
             }
         }
