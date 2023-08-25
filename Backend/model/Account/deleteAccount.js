@@ -25,9 +25,10 @@ var ObjectId = require('mongodb').ObjectId;
 async function deleteAccount(dataid) {
 
     //filter the data based on the bedrooms bathroom and beds
-    const url =process.env.MONGODBURL;
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
+        console.log('Delete Account Function')
         await client.connect();
         let data = await deleteDatas(client, dataid)
         return data;
@@ -44,7 +45,7 @@ async function deleteDatas(client, deleteaccountdata) {
         return results
     }
     else {
-        return "no data found";
+        return "No data Deleted";
     }
 }
 module.exports = { deleteAccount }

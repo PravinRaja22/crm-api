@@ -606,29 +606,30 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside data loader Enquiry");
         console.log(request.files[0]);
         console.log(request.files[0].filename);
-        // let created = JSON.parse(request.body.createdBy) ;
-        // let modified = JSON.parse(request.body.modifiedBy);
-        let created = new Date() ;
-        let modified = new Date();
+        let created = JSON.parse(request.body.createdBy);
+        let modified = JSON.parse(request.body.modifiedBy);
+        // let created = new Date() ;
+        // let modified = new Date();
 
         try {
-            console.log("inside Enquiry data loader ");
-            console.log('data loader Enquiry data  ' + JSON.stringify(request.files[0].filename));
-            console.log('body ' + JSON.stringify(request.files[0].filename));
+
             const files = request.files[0].filename
-            console.log("files " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
-            console.log("csvfile " + csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
-                .then((jsonobj) => {
+                .then(async (jsonobj) => {
                     // console.log('data format ' + JSON.stringify(jsonobj));
+                    let result = await dataloaderEnquiry(jsonobj, created, modified);
+                    console.log(result[0], 'result in Enquiry dataLoader')
+                    if (result[0].updatedCount > 0) {
+                        console.log(`${result.length} Records Updated SuccessFully `)
+                        return `${result.length} Records Updated SuccessFully `;
+                    }
+                    else if (result[0].insertedCount > 0) {
+                        console.log(`${result.length} Records Inserted  SuccessFully `)
+                        return `${result.length} Records Inserted  SuccessFully `;
+                    }
 
-                    console.log('===>>>>>>>');
-                    console.log(jsonobj, 'format')
-                    console.log('===>>>>>>>');
-                    let result = dataloaderEnquiry(jsonobj, created, modified)
-                    return "success";
                 })
         }
         catch (e) {
@@ -672,11 +673,19 @@ function getdatafromreact(fastify, options, done) {
             // console.log("csvfile Accounts " + csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
-                .then((jsonobj) => {
+                .then(async (jsonobj) => {
                     // console.log('data format Account ' + JSON.stringify(jsonobj));
                     console.log(jsonobj)
-                    let result = dataloaderAccount(jsonobj,created,modified)
-                    return "success";
+                    let result = await dataloaderAccount(jsonobj, created, modified)
+                    console.log(result[0], 'result in Account dataLoader')
+                    if (result[0].updatedCount > 0) {
+                        console.log(`${result.length} Records Updated SuccessFully `)
+                        return `${result.length} Records Updated SuccessFully `;
+                    }
+                    else if (result[0].insertedCount > 0) {
+                        console.log(`${result.length} Records Inserted  SuccessFully `)
+                        return `${result.length} Records Inserted  SuccessFully `;
+                    }
                 })
         }
         catch (e) {
@@ -686,23 +695,27 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.post('/api/dataloaderDeal', { preHandler: filesUpload }, async (request, reply) => {
         console.log("inside upload file data loader Deal");
-        console.log(request.files[0].filename);
         let created = JSON.parse(request.body.createdBy);
         let modified = JSON.parse(request.body.modifiedBy);
         try {
-            console.log("test")
-            console.log("inside upload file data loader Deal ");
+        
             console.log('data loader Deal  data  ' + JSON.stringify(request.files[0].filename));
             const files = request.files[0].filename
-            console.log("Deal " + '../uploads/' + files);
             const csvfilepath = 'uploads/' + files
-            console.log("csvfile Deal " + csvfilepath);
             await csvtojson()
                 .fromFile(csvfilepath)
-                .then((jsonobj) => {
+                .then(async (jsonobj) => {
                     console.log('data format Deal ' + JSON.stringify(jsonobj));
-                    let result = dataloaderDeal(jsonobj,created,modified)
-                    return "success";
+                    let result = await dataloaderDeal(jsonobj, created, modified)
+                    console.log(result[0], 'result in Account dataLoader')
+                    if (result[0].updatedCount > 0) {
+                        console.log(`${result.length} Records Updated SuccessFully `)
+                        return `${result.length} Records Updated SuccessFully `;
+                    }
+                    else if (result[0].insertedCount > 0) {
+                        console.log(`${result.length} Records Inserted  SuccessFully `)
+                        return `${result.length} Records Inserted  SuccessFully `;
+                    }
                 })
         }
         catch (e) {
@@ -1006,7 +1019,6 @@ function getdatafromreact(fastify, options, done) {
         }
         catch (e) {
             console.log("inside Account view Catch block ", e);
-
             reply.send("Error " + e.message)
         }
     })
@@ -1020,7 +1032,6 @@ function getdatafromreact(fastify, options, done) {
         }
         catch (e) {
             console.log("inside Dashboard view Catch block ", e);
-
             reply.send("Error " + e.message)
         }
     })

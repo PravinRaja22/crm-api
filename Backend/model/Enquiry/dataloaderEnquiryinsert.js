@@ -39,6 +39,7 @@ async function dataloaderEnquiry(request, createdBy, modifiedBy) {
         let data = await upsertmultiplerecord(client, result)
 
         // let data =  await upsertmultiplerecord(client,request._id,dataloaderarray)
+        console.log(data, 'Returned data ')
         return data
     }
     catch (e) {
@@ -50,24 +51,39 @@ async function dataloaderEnquiry(request, createdBy, modifiedBy) {
 }
 //dataloaderLead().catch(console.error);
 async function upsertmultiplerecord(client, insertdatas) {
-    const updateOperations = insertdatas.map(e => {
+    let totalRecord = [];
+    for (const e of insertdatas) {
         let d = new Date(e.appoinmentDate);
         const formatDate = [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
         var someDate = new Date(formatDate);
         var utcdate = someDate.getTime();
-        e.appoinmentDate = utcdate
+        e.appoinmentDate = utcdate;
+        let id;
+        if (e._id) {
+            console.log('IF')
+            id = e._id;
+            delete e._id;
+            console.log(id)
+        }
 
-        // Convert to ISO format
-        console.log(e._id, 'Id is ')
-     
-    })
-    console.log(insertdatas ,'InsertDatas');
-    const result = await client.db(process.env.DB).collection("Enquiry").updateMany({ _id: ObjectId(id) }, { $set: insertdatas }, { upsert: true });
-    console.log("result of upserted count is  " + JSON.stringify(result.insertedCount));
-    // console.log(updateOperations, 'Update Operations');
-    // const result = await client.db(process.env.DB).collection("Enquiry").bulkWrite(updateOperations);
+        const result = await client.db(process.env.DB).collection("Enquiry").updateOne({ _id: ObjectId(id) }, { $set: e }, { upsert: true });
+        //for Upsert   
+        if (result.matchedCount > 0) {
+            totalRecord.push({ updatedCount: result.matchedCount });
+        }
 
-    // console.log("Number of upserted records: " + JSON.stringify(result));
+        else if (result.upsertedCount > 0) {
+            totalRecord.push({ insertedCount: result.upsertedCount })
+
+        }
+
+    }
+    // const result = await client.db(process.env.DB).collection("Enquiry").insertMany(insertdatas);
+    // console.log("result of inserted count is  " + JSON.stringify(result.insertedCount));
+    return totalRecord;
+
 }
+
+
 module.exports = { dataloaderEnquiry }
 

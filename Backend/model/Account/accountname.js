@@ -39,6 +39,7 @@ async function getAccountName(request) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
+        console.log('Get Account Name')
         await client.connect();
         let data = await getDatas(client, accountName)
         return data;
@@ -88,7 +89,7 @@ async function getDatas(client, accNames) {
            
         }
         else {
-            return "no data found";
+            return "No data found";
         }
 
     }
