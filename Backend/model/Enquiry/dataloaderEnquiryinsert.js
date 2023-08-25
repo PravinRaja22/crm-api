@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function dataloaderEnquiry(request, createdBy, modifiedBy) {
 
     const url = process.env.MONGODBURL;
