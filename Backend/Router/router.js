@@ -606,10 +606,10 @@ function getdatafromreact(fastify, options, done) {
         console.log("inside data loader Enquiry");
         console.log(request.files[0]);
         console.log(request.files[0].filename);
-        let created = JSON.parse(request.body.createdBy);
-        let modified = JSON.parse(request.body.modifiedBy);
-        // let created = new Date() ;
-        // let modified = new Date();
+        // let created = JSON.parse(request.body.createdBy);
+        // let modified = JSON.parse(request.body.modifiedBy);
+        let created = new Date() ;
+        let modified = new Date();
 
         try {
 
@@ -623,11 +623,11 @@ function getdatafromreact(fastify, options, done) {
                     console.log(result[0], 'result in Enquiry dataLoader')
                     if (result[0].updatedCount > 0) {
                         console.log(`${result.length} Records Updated SuccessFully `)
-                        return `${result.length} Records Updated SuccessFully `;
+                        reply.send(`${result.length} Records Updated SuccessFully `);
                     }
                     else if (result[0].insertedCount > 0) {
                         console.log(`${result.length} Records Inserted  SuccessFully `)
-                        return `${result.length} Records Inserted  SuccessFully `;
+                        reply.send(`${result.length} Records Inserted  SuccessFully `);
                     }
 
                 })
@@ -680,11 +680,11 @@ function getdatafromreact(fastify, options, done) {
                     console.log(result[0], 'result in Account dataLoader')
                     if (result[0].updatedCount > 0) {
                         console.log(`${result.length} Records Updated SuccessFully `)
-                        return `${result.length} Records Updated SuccessFully `;
+                        reply.send(`${result.length} Records Updated SuccessFully `);
                     }
                     else if (result[0].insertedCount > 0) {
                         console.log(`${result.length} Records Inserted  SuccessFully `)
-                        return `${result.length} Records Inserted  SuccessFully `;
+                        reply.send(`${result.length} Records Inserted  SuccessFully `);
                     }
                 })
         }
@@ -710,11 +710,11 @@ function getdatafromreact(fastify, options, done) {
                     console.log(result[0], 'result in Account dataLoader')
                     if (result[0].updatedCount > 0) {
                         console.log(`${result.length} Records Updated SuccessFully `)
-                        return `${result.length} Records Updated SuccessFully `;
+                        reply.send(`${result.length} Records Updated SuccessFully `);
                     }
                     else if (result[0].insertedCount > 0) {
                         console.log(`${result.length} Records Inserted  SuccessFully `)
-                        return `${result.length} Records Inserted  SuccessFully `;
+                        reply.send(`${result.length} Records Inserted  SuccessFully `);
                     }
                 })
         }

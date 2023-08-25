@@ -8,8 +8,6 @@ async function otpVerification(request, otp) {
     console.log('Email id is : ' + emailId);
     console.log('Subject is : ' + subject);
     console.log('Body is : ' + Body);
-
-
     details = {
         to: emailId,
         subject: subject,

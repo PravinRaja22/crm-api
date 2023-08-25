@@ -3,7 +3,7 @@ let ObjectId = require('mongodb').ObjectId;
 async function upsertContact(request) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
-    console.log("inside funnctiolity " + JSON.stringify(request));
+    console.log("inside Contact Upsert " + JSON.stringify(request));
     let objdata = Object.keys(request);
     let objvalues = Object.values(request);
     let result = {};
@@ -12,11 +12,9 @@ async function upsertContact(request) {
         for (let i = 0; i < names.length; i++)
             if (names[i] != '_id') {
                 result[names[i]] = values[i];
-                console.log('inside UPSERT CONTACT function ' + result);;
             }
     }
     toObject(objdata, objvalues)
-    console.log("outside of the functionality upsert " + JSON.stringify(result));
     try {
         await client.connect();
         console.log("REQUEST ID " + request._id);

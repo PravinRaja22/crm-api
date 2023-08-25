@@ -4,7 +4,7 @@ async function upsertAccount(request) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
-        console.log("UPSEERT ACCOUNT FUNCTION");
+        console.log("UPSEERT ACCOUNT FUNCTION")
         await client.connect();
         let objdata = Object.keys(request);
         let objvalues = Object.values(request);
@@ -15,6 +15,8 @@ async function upsertAccount(request) {
                     result[names[i]] = values[i];
                 }
             }
+              
+
         }
         toObject(objdata, objvalues);
         let data = await upsertSingleRecord(client, request._id, result)

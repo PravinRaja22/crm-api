@@ -28,9 +28,9 @@ async function getAccountdata() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
-        console.log("GET Account Function");
+        console.log("GET Account Function")
         await client.connect();
-        let data = await getDatas(client);
+        let data = await getDatas(client)
         return data;
     } catch (e) {
         console.error(e);
@@ -57,10 +57,10 @@ async function getDatas(client) {
     const cursor = await client.db(process.env.DB).collection("Account").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-        return JSON.stringify(results);
+        return JSON.stringify(results)
     }
     else {
-       return 'No Data Found';
+        console.log("no data found");
     }
 }
 module.exports = { 

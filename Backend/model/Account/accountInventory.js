@@ -24,7 +24,7 @@ async function getAccountDatas(client, inventoryId) {
         return JSON.stringify(results)
     }
     else {
-        return 'No Data Found'
+        console.log("no data found");
     }
 }
 module.exports = {

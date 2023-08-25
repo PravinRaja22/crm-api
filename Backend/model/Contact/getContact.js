@@ -31,19 +31,16 @@
 //             catch(e){
 //                 return e.message
 //             }
-    
+
 // }
 // module.exports = {getContact}
 
-
-
-
-(console.error);const { chownSync } = require('fs');
 const { MongoClient } = require('mongodb');
 async function getContact() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
+        console.log("Inside Get Contact");
         await client.connect();
         let data = await getDatas(client)
         return data;
@@ -68,11 +65,11 @@ async function getDatas(client) {
             }
         }
     ])
-    try{
+    try {
         const cursor = await client.db(process.env.DB).collection("Contact").aggregate(queryobj)
         const results = await cursor.toArray();
         if (results.length > 0) {
-              //converting epoch time to ist
+            //converting epoch time to ist
             // results.forEach((datearray)=>{
             //     console.log("date field "+datearray.date);
             //     if(datearray.date){
@@ -88,7 +85,7 @@ async function getDatas(client) {
             console.log("no data found");
         }
     }
-    catch(e){
+    catch (e) {
         return e.message
     }
 }
