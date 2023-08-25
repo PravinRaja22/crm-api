@@ -698,7 +698,7 @@ function getdatafromreact(fastify, options, done) {
         let created = JSON.parse(request.body.createdBy);
         let modified = JSON.parse(request.body.modifiedBy);
         try {
-        
+
             console.log('data loader Deal  data  ' + JSON.stringify(request.files[0].filename));
             const files = request.files[0].filename
             const csvfilepath = 'uploads/' + files
@@ -847,7 +847,7 @@ function getdatafromreact(fastify, options, done) {
 
 
     fastify.post('/api/account', /*Accouninsertschema,(validation)*/ async (request, reply) => {
-        console.log("upsert route called")
+        console.log("upsert Account route called")
         console.log("request body " + request.body)
         try {
             console.log("upsert account try ");
@@ -1065,16 +1065,13 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/accounts/name', async (request, reply) => {
         if (request.query.searchKey) {
-            console.log("inside if statemeent for account name router");
+            console.log("inside if statement for account name router");
             try {
                 let result = await getAccountName(request.query.searchKey);
-
                 reply.send(result)
-
             }
             catch (e) {
-                console.log("inside lookyp account name view Catch block ", e);
-
+                console.log("inside lookup account name view Catch block ", e);
                 reply.send("Error " + e.message)
             }
         }
@@ -1207,6 +1204,7 @@ function getdatafromreact(fastify, options, done) {
 
     fastify.get('/api/account/related/contact/:id', async (request, reply) => {
         try {
+            console.log('Account Related Contacts')
             let result = await getAccountscontact(request.params.id);
             reply.send(result)
         }
@@ -1414,7 +1412,7 @@ function getdatafromreact(fastify, options, done) {
 
     })
     fastify.get('/api/account/related/event/:id', async (request, reply) => {
-        console.log("Inside Task Account Router " + request.params.id)
+        console.log("Inside Event Related Account Router " + request.params.id)
         try {
             let result = await accountEvent(request.params.id)
             reply.send(result)
