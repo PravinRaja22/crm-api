@@ -350,15 +350,19 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/permission/:id', async (request, reply) => {
+    fastify.delete('/api/permission', async (request, reply) => {
         try {
             let result = await deletePermissions(request.params.id);
             if (result) {
-                reply.send(
-                    "Record Deleted Successfully"
-                )
+                reply.send(`${result} Permission deleted successfully`);
+            }
+            else {
+                console.log(result);
+                reply.send("No data deleted");
             }
         } catch (error) {
+            console.log("error block in delete Permission", e);
+            reply.send("Error " + e.message)
         }
     })
 
@@ -409,11 +413,15 @@ function getdatafromreact(fastify, options, done) {
         }
     })
 
-    fastify.delete('/api/role/:id', async (request, reply) => {
+    fastify.delete('/api/role', async (request, reply) => {
         try {
-            let result = await deleteRole(request.params.id);
+            let result = await deleteRole(request.body.id);
             if (result) {
-                reply.send("Record Deleted Successfully")
+                reply.send(`${result} Role deleted successfully`);
+            }
+            else {
+                console.log(result);
+                reply.send("No data deleted");
             }
         } catch (error) {
             reply.send(error.message)
@@ -1554,15 +1562,16 @@ function getdatafromreact(fastify, options, done) {
         }
 
     })
-    fastify.delete('/api/inventory/:id', async (request, reply) => {
+    fastify.delete('/api/inventory', async (request, reply) => {
         console.log("inside inventory delete");
         try {
-            let result = await deleteInventory(request.params.id);
+            let result = await deleteInventory(request.body.id);
             if (result) {
-                reply.send("Inventory deleted successfully")
+                reply.send(`${result} Inventory deleted successfully`);
             }
             else {
-                reply.send("No data deleted")
+                console.log(result);
+                reply.send("No data deleted");
             }
         }
         catch (e) {
@@ -1572,14 +1581,15 @@ function getdatafromreact(fastify, options, done) {
 
     })
 
-    fastify.delete('/api/user/:id', async (request, reply) => {
+    fastify.delete('/api/user', async (request, reply) => {
         console.log("inside user delete");
         try {
-            let result = await deleteUser(request.params.id);
+            let result = await deleteUser(request.body.id);
             if (result) {
-                reply.send("User deleted successfully");
+                reply.send(`${result} User deleted successfully`);
             }
             else {
+                console.log(result);
                 reply.send("No data deleted");
             }
         }
