@@ -62,11 +62,13 @@ async function upsertmultiplerecord(client, insertdatas) {
         if (e._id) {
             console.log('IF')
             id = e._id;
-            delete e._id;
             console.log(id)
         }
-
+        delete e._id;
+        console.log(id);
+        console.log(JSON.stringify(e));
         const result = await client.db(process.env.DB).collection("Enquiry").updateOne({ _id: ObjectId(id) }, { $set: e }, { upsert: true });
+        console.log(result);
         //for Upsert   
         if (result.matchedCount > 0) {
             totalRecord.push({ updatedCount: result.matchedCount });

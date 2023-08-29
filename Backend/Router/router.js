@@ -646,8 +646,8 @@ function getdatafromreact(fastify, options, done) {
     });
     fastify.post('/api/dataloaderFilePreview', { preHandler: filesUpload }, async (request, reply) => {
         console.log("Inside dataloaderFilePreview");
-        console.log(request.files);
-        console.log(request.files[0].filename);
+        // console.log(request.files);
+        // console.log(request.files[0].filename);
         try {
             const files = request.files[0].filename
             const csvfilepath = 'uploads/' + files
@@ -655,7 +655,7 @@ function getdatafromreact(fastify, options, done) {
             await csvtojson()
                 .fromFile(csvfilepath)
                 .then((jsonobj) => {
-                    console.log(jsonobj);
+                    console.log(jsonobj.length);
                     reply.send(jsonobj)
                 })
         }
