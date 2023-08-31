@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require("dotenv").config();
 const fastify = require('fastify')({
-  logger: true,
-  https: {
-    key: fs.readFileSync(path.join(__dirname, './certs/private.key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, './certs/domain.cert.pem'))
-  }
+  logger: false,
+  // https: {
+  //   key: fs.readFileSync(path.join(__dirname, './certs/private.key.pem')),
+  //   cert: fs.readFileSync(path.join(__dirname, './certs/domain.cert.pem'))
+  // }
 });
 
 fastify.register(require('@fastify/cookie'));
