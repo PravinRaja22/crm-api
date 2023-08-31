@@ -94,6 +94,7 @@ async function getSignUpPageUser(request) {
         await client.connect();
         console.log("inside get user ")
         console.log(request.body)
+        console.log("test")
         let data = await getSignUpPageUserlist(client, request)
         return data;
     } catch (e) {
