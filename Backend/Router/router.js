@@ -96,7 +96,7 @@ function getdatafromreact(fastify, options, done) {
     console.log("Auth route ");
     sp.create_login_request_url(idp, {}, function (err, login_url, request_id) {
       if (err != null) return reply.send(500);
-
+      console.log(login_url);
       console.log(request_id);
       reply.send(login_url);
     });
@@ -977,7 +977,7 @@ function getdatafromreact(fastify, options, done) {
   fastify.post("/api/UpsertJnOppInventory", async (request, reply) => {
     console.log(
       "upsert junction object opp inventory route called " +
-        JSON.stringify(request.body)
+      JSON.stringify(request.body)
     );
     try {
       console.log("upsert junction object try ");
@@ -1071,7 +1071,7 @@ function getdatafromreact(fastify, options, done) {
   fastify.get("/api/inventories/name", async (request, reply) => {
     console.log(
       " inside show accountsname look up " +
-        JSON.stringify(request.query.searchKey)
+      JSON.stringify(request.query.searchKey)
     );
     if (request.query.searchKey) {
       try {
