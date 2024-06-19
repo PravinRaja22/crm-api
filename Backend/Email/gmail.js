@@ -39,7 +39,6 @@ async function gmail(request) {
     //GMAIL SERVICE
     service: process.env.GMAIL,
     auth: {
-      // Gmail authentication
       user: process.env.FROMEMAILID,
       pass: process.env.PASSWORD,
     },

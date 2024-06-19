@@ -28,6 +28,7 @@ async function getAccountdata() {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
+        console.log("GET Account Function")
         await client.connect();
         let data = await getDatas(client)
         return data;
@@ -56,7 +57,6 @@ async function getDatas(client) {
     const cursor = await client.db(process.env.DB).collection("Account").aggregate(queryobj)
     const results = await cursor.toArray();
     if (results.length > 0) {
-         //console.log(results);
         return JSON.stringify(results)
     }
     else {

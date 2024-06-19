@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 
 async function getEachFiles(fileId) {
     const url =process.env.MONGODBURL;

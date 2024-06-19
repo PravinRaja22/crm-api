@@ -1,4 +1,3 @@
-
 const { MongoClient } = require('mongodb')
 async function insertFile(request) {
     const url = process.env.MONGODBURL;
@@ -16,23 +15,22 @@ async function insertFile(request) {
         console.log('inside for each');
         console.log("request protocol is ==>> ")
         console.log(request.protocol + '://' + request.headers.host + '/' + e.filename);
-        e.fileUrl = request.protocol + 's://' + request.headers.host + '/' + e.filename;     
-        e.createdDate = request.body.createdDate
-        e.modifiedDate=request.body.modifiedDate
-        e.createdBy = JSON.parse(createdBy)
-        e.modifiedBy = JSON.parse(modifideBy)
-        e.relatedTo=relatedTo
-        console.log(e)
+        e.fileUrl = request.protocol + 's://' + request.headers.host + '/' + e.filename;
+        e.createdDate = request.body.createdDate;
+        e.modifiedDate = request.body.modifiedDate;
+        e.createdBy = JSON.parse(createdBy);
+        e.modifiedBy = JSON.parse(modifideBy);
+        e.relatedTo = relatedTo;
+        console.log(e);
     })
-    var test = request.files
+    var test = request.files;
     console.log("test ", test);
     const client = new MongoClient(url);
     console.log(request.files);
     try {
-
         await client.connect();
-        let data = await insertFiledata(client, request.files)
-        return data
+        let data = await insertFiledata(client, request.files);
+        return data;
     } catch (e) {
         console.error(e);
     } finally {
@@ -44,13 +42,13 @@ async function insertFile(request) {
 async function insertFiledata(client, newFile) {
     const result = await client.db(process.env.DB).collection("Files").insertMany(newFile);
     console.log("inserted records " + JSON.stringify(result));
-    if(result.insertedCount > 0){
-        console.log("inserted done")
+    if (result.insertedCount > 0) {
+        console.log("inserted done");
         return "file Uploaded successfully";
 
     }
-    else{
-        return "File not uploaded "
+    else {
+        return "File not uploaded ";
     }
 }
 module.exports = { insertFile }

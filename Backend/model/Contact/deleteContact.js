@@ -20,7 +20,7 @@
 // module.exports = {deleteContact}
 
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deleteContact(dataid) {
     const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -37,12 +37,34 @@ async function deleteContact(dataid) {
 //deleteContact().catch(console.error);
 async function deleteDatas(client,deletecontactdata)
 {
-const results = await client.db(process.env.DB).collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
-    if(results){
-       return JSON.stringify(results)
-}  
-else{
-    console.log("no data found");
-}                                                                                                    
+
+    try {
+        const objectIdArray = deletecontactdata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Contact").deleteMany({ _id:{$in:objectIdArray }});
+        console.log(result)
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Contact`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
+    }
+    catch (e) {
+        console.log('Catch Block Delete Contact');
+        return e.message;
+
+    }
+
+
+
+// const results = await client.db(process.env.DB).collection("Contact").deleteOne({_id:ObjectId(deletecontactdata)})
+//     if(results){
+//        return JSON.stringify(results)
+// }  
+// else{
+//     console.log("no data found");
+// }                                                                                                    
 }
 module.exports= {deleteContact}

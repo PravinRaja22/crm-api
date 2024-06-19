@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deletePermissions(dataid) {
 
     //filter the data based on the bedrooms bathroom and beds
@@ -16,13 +16,31 @@ async function deletePermissions(dataid) {
     }
 }
 //deleteAccount().catch(console.error);
-async function deleteDatas(client, deleteaccountdata) {
-    const results = await client.db(process.env.DB).collection("Permissions").deleteOne({ _id: ObjectId(deleteaccountdata) })
-    if (results) {
-        return results
+async function deleteDatas(client, deletePermissiondata) {
+    try {
+        const objectIdArray = deletePermissiondata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Permissions").deleteMany({ _id:{$in:objectIdArray }});
+        console.log(result)
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Permission`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
     }
-    else {
-        return "no data found";
+    catch (e) {
+        console.log('Catch Block Delete Permission');
+        return e.message;
+
     }
+    // const results = await client.db(process.env.DB).collection("Permissions").deleteOne({ _id: ObjectId(deleteaccountdata) })
+    // if (results) {
+    //     return results
+    // }
+    // else {
+    //     return "no data found";
+    // }
 }
 module.exports = { deletePermissions }

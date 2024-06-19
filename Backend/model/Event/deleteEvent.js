@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deleteEvent(dataid) {
     const url =process.env.MONGODBURL;
     const client = new MongoClient(url);
@@ -15,12 +15,32 @@ async function deleteEvent(dataid) {
 }
 //deleteTask().catch(console.error);
 async function deleteDatas(client, deleteTaskdata) {
-    const results = await client.db(process.env.DB).collection("Event").deleteOne({ _id: ObjectId(deleteTaskdata) })
-    if (results) {
-        return JSON.stringify(results)
+    try {
+        const objectIdArray = deleteTaskdata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Event").deleteMany({ _id:{$in:objectIdArray }});
+        console.log(result)
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Event`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
     }
-    else {
-        console.log("no data found");
+    catch (e) {
+        console.log('Catch Block Delete Event');
+        return e.message;
+
     }
+
+
+    // const results = await client.db(process.env.DB).collection("Event").deleteOne({ _id: ObjectId(deleteTaskdata) })
+    // if (results) {
+    //     return JSON.stringify(results)
+    // }
+    // else {
+    //     console.log("no data found");
+    // }
 }
 module.exports = { deleteEvent }

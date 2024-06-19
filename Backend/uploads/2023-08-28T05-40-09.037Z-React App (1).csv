@@ -1,0 +1,7 @@
+Opportunity Name,Inventory Name,Type,Opp Amount,Stage,Actions
+Test Insert,,New Customer,1111,Needs Analysis,
+test-inventory,,,3455,Prospecting,
+test-lead,,New Customer,123,Needs Analysis,
+test no rlation,,,12,,
+Test Related Opp,,,12,Prospecting,
+test Opportunity,,,12,Prospecting,

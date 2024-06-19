@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deleteDashboard(dataid) {
-    const url =process.env.MONGODBURL;
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     console.log(dataid);
     try {
@@ -15,12 +15,23 @@ async function deleteDashboard(dataid) {
     }
 }
 async function deleteDatas(client, deletedashboarddata) {
-    const results = await client.db(process.env.DB).collection("Dashboard").deleteOne({ _id: ObjectId(deletedashboarddata) })
-    if (results) {
-        return results
+    try {
+        const objectIdArray = deletedashboarddata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Dashboard").deleteMany({ _id: { $in: objectIdArray } })
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Contact`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
     }
-    else {
-        return "no data found";
+    catch (e) {
+        console.log('Catch Block Delete Dashboard');
+        return e.message;
+
     }
+
 }
 module.exports = { deleteDashboard }

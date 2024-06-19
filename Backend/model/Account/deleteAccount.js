@@ -21,15 +21,15 @@
 
 
 const { MongoClient } = require('mongodb');
-var ObjectId = require('mongodb').ObjectId;
+let ObjectId = require('mongodb').ObjectId;
 async function deleteAccount(dataid) {
 
     //filter the data based on the bedrooms bathroom and beds
-    const url =process.env.MONGODBURL;
+    const url = process.env.MONGODBURL;
     const client = new MongoClient(url);
     try {
+        console.log('Delete Account Function')
         await client.connect();
-
         let data = await deleteDatas(client, dataid)
         return data;
     } catch (e) {
@@ -40,12 +40,35 @@ async function deleteAccount(dataid) {
 }
 //deleteAccount().catch(console.error);
 async function deleteDatas(client, deleteaccountdata) {
-    const results = await client.db(process.env.DB).collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
-    if (results) {
-        return results
+
+    try {
+        const objectIdArray = deleteaccountdata.map(id => ObjectId(id));
+        const result = await client.db(process.env.DB).collection("Account").deleteMany({ _id:{$in:objectIdArray }});
+        console.log(result)
+        if (result.deletedCount > 0) {
+            console.log(`${result.deletedCount} records deleted from Enquiry`);
+            return result.deletedCount;
+        }
+        else {
+            return null;
+        }
+
     }
-    else {
-        return "no data found";
+    catch (e) {
+        console.log('Catch Block Delete Account');
+        return e.message;
+
     }
+
+
+
+
+    // const results = await client.db(process.env.DB).collection("Account").deleteOne({ _id: ObjectId(deleteaccountdata) })
+    // if (results) {
+    //     return results
+    // }
+    // else {
+    //     return "No data Deleted";
+    // }
 }
 module.exports = { deleteAccount }
